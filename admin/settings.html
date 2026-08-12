@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings | Host with the Utmost Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="../images/logo-mark.jpg">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-page="settings">
+
+<div class="admin-shell">
+  <div id="shellSidebar"></div>
+  <div class="admin-main">
+    <div id="shellTopbar"></div>
+
+    <div class="admin-content admin-content-narrow">
+      <div style="margin-bottom:22px;">
+        <h1 style="font-size:1.6rem; margin-bottom:4px;">Site Settings</h1>
+        <p style="color:var(--espresso-45); margin:0;">One place to update contact details and social links — they update everywhere on the site.</p>
+      </div>
+
+      <form id="settingsForm">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Contact Details</h3><p>Shown in the header, footer, floating WhatsApp button and Contact page</p></div></div>
+          <div class="panel-body">
+            <div class="aform-grid">
+              <div class="afield">
+                <label for="sEmail">Contact Email</label>
+                <input type="email" id="sEmail" required>
+              </div>
+              <div class="afield">
+                <label for="sWhatsapp">WhatsApp Number <span class="hint">Include country code</span></label>
+                <input type="text" id="sWhatsapp" required placeholder="+27 73 442 6770">
+              </div>
+              <div class="afield">
+                <label for="sInstagram">Instagram Handle</label>
+                <input type="text" id="sInstagram" placeholder="@hostwiththeutmost">
+              </div>
+              <div class="afield">
+                <label for="sTiktok">TikTok Handle</label>
+                <input type="text" id="sTiktok" placeholder="@hostwiththeutmost">
+              </div>
+              <div class="afield full">
+                <label for="sAddress">Based In</label>
+                <input type="text" id="sAddress">
+              </div>
+              <div class="afield full">
+                <label for="sTagline">Brand Tagline</label>
+                <input type="text" id="sTagline">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Travel Concierge Pricing</h3><p>Shown on the Experiences page</p></div></div>
+          <div class="panel-body">
+            <div class="repeater" id="concierge-fees"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="form-actions-bar">
+            <span style="font-size:12.5px; color:var(--espresso-45);">Changes apply instantly across the admin demo data.</span>
+            <button type="submit" class="abtn abtn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+              Save Settings
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="js/admin.js"></script>
+<script>
+  let data = huLoad();
+  if (!data.settings.fees){
+    data.settings.fees = [
+      { service:'Visa Assistance', fee:400 },
+      { service:'Flight & Transfer Booking', fee:250 },
+      { service:'Hotel Bookings', fee:250 },
+      { service:'Custom Itineraries & Tours', fee:300 }
+    ];
+  }
+
+  document.getElementById('sEmail').value = data.settings.email;
+  document.getElementById('sWhatsapp').value = data.settings.whatsapp;
+  document.getElementById('sInstagram').value = data.settings.instagram;
+  document.getElementById('sTiktok').value = data.settings.tiktok;
+  document.getElementById('sAddress').value = data.settings.address;
+  document.getElementById('sTagline').value = data.settings.tagline;
+
+  function renderFees(){
+    document.getElementById('concierge-fees').innerHTML = data.settings.fees.map((f,i) => `
+      <div class="repeater-row">
+        <input type="text" value="${f.service}" data-fee-service="${i}" placeholder="Service name" style="flex:2;">
+        <div class="input-prefix" style="flex:1;"><span>R</span><input type="number" value="${f.fee}" data-fee-amount="${i}" style="padding-left:28px;"></div>
+        <button type="button" data-fee-remove="${i}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>`).join('') + `
+      <button type="button" class="repeater-add" id="addFeeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add service</button>`;
+
+    document.getElementById('addFeeBtn').addEventListener('click', () => {
+      data.settings.fees.push({ service:'', fee:0 });
+      renderFees();
+    });
+    document.querySelectorAll('[data-fee-remove]').forEach(btn => btn.addEventListener('click', () => {
+      data.settings.fees.splice(Number(btn.dataset.feeRemove), 1);
+      renderFees();
+    }));
+  }
+  renderFees();
+
+  document.getElementById('settingsForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    data.settings.email = document.getElementById('sEmail').value.trim();
+    data.settings.whatsapp = document.getElementById('sWhatsapp').value.trim();
+    data.settings.instagram = document.getElementById('sInstagram').value.trim();
+    data.settings.tiktok = document.getElementById('sTiktok').value.trim();
+    data.settings.address = document.getElementById('sAddress').value.trim();
+    data.settings.tagline = document.getElementById('sTagline').value.trim();
+    document.querySelectorAll('[data-fee-service]').forEach(inp => data.settings.fees[Number(inp.dataset.feeService)].service = inp.value.trim());
+    document.querySelectorAll('[data-fee-amount]').forEach(inp => data.settings.fees[Number(inp.dataset.feeAmount)].fee = Number(inp.value));
+    huSave(data);
+    huToast('Settings saved');
+  });
+
+  huRenderShell('settings', '<span class="cur">Settings</span>');
+</script>
+</body>
+</html>

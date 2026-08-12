@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery | Host with the Utmost Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="../images/logo-mark.jpg">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-page="gallery">
+
+<div class="admin-shell">
+  <div id="shellSidebar"></div>
+  <div class="admin-main">
+    <div id="shellTopbar"></div>
+
+    <div class="admin-content">
+      <div style="margin-bottom:22px;">
+        <h1 style="font-size:1.6rem; margin-bottom:4px;">Gallery</h1>
+        <p style="color:var(--espresso-45); margin:0;">Upload images, tag them by category, and drag to reorder each grid.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body">
+          <div class="upload-drop" id="uploadDrop">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+            <div><strong>Click to upload</strong> or drag images here</div>
+            <div style="font-size:12px; margin-top:4px;">JPG or PNG, up to 10 images at once</div>
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="toolbar" id="categoryTabs" style="flex-wrap:wrap;"></div>
+          <span style="font-size:13px; color:var(--espresso-45);"><span id="imgCount">0</span> images</span>
+        </div>
+        <div class="panel-body">
+          <div class="gallery-manager-grid" id="galleryGrid"></div>
+          <div class="empty-state" id="galleryEmpty" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5-11 11"/></svg>
+            <h4>No images in this category yet</h4>
+            <p>Upload above or switch categories.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/admin.js"></script>
+<script>
+  let data = huLoad();
+  const CATS = [
+    { key:'all', label:'All' },
+    { key:'destinations', label:'Destinations' },
+    { key:'trips', label:'Previous Trips' },
+    { key:'group', label:'Group Experiences' },
+    { key:'accommodation', label:'Accommodation' },
+    { key:'activities', label:'Activities' },
+    { key:'events', label:'Events' },
+    { key:'community', label:'Community Moments' }
+  ];
+  let activeCat = 'all';
+
+  function renderTabs(){
+    document.getElementById('categoryTabs').innerHTML = CATS.map(c => {
+      const n = c.key === 'all' ? data.gallery.length : data.gallery.filter(g=>g.category===c.key).length;
+      return `<button class="select-filter" data-cat="${c.key}" style="${activeCat===c.key?'background:var(--terracotta);color:#fff;border-color:var(--terracotta);':''} cursor:pointer;">${c.label} (${n})</button>`;
+    }).join('');
+    document.querySelectorAll('#categoryTabs button').forEach(b => b.addEventListener('click', () => { activeCat = b.dataset.cat; render(); }));
+  }
+
+  function render(){
+    renderTabs();
+    const items = [...data.gallery]
+      .filter(g => activeCat==='all' || g.category===activeCat)
+      .sort((a,b) => a.order - b.order);
+    document.getElementById('imgCount').textContent = data.gallery.length;
+    document.getElementById('galleryEmpty').style.display = items.length ? 'none' : 'block';
+    document.getElementById('galleryGrid').innerHTML = items.map(g => `
+      <div class="gm-card" draggable="true" data-id="${g.id}">
+        <span class="gm-drag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+        <button class="gm-del" data-id="${g.id}" title="Delete">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <img src="${g.src}" alt="">
+        <div class="gm-meta">
+          <select data-id="${g.id}">
+            ${CATS.filter(c=>c.key!=='all').map(c => `<option value="${c.key}" ${g.category===c.key?'selected':''}>${c.label}</option>`).join('')}
+          </select>
+        </div>
+      </div>`).join('');
+    bindGrid();
+  }
+
+  function bindGrid(){
+    document.querySelectorAll('.gm-del').forEach(btn => btn.addEventListener('click', () => {
+      if (!huConfirm('Remove this image from the gallery?')) return;
+      data.gallery = data.gallery.filter(g => g.id !== btn.dataset.id);
+      huSave(data); huToast('Image removed'); render();
+    }));
+    document.querySelectorAll('.gm-meta select').forEach(sel => sel.addEventListener('change', () => {
+      const g = data.gallery.find(g => g.id === sel.dataset.id);
+      g.category = sel.value;
+      huSave(data); render();
+    }));
+
+    let dragId = null;
+    document.querySelectorAll('.gm-card').forEach(card => {
+      card.addEventListener('dragstart', () => { dragId = card.dataset.id; card.classList.add('dragging'); });
+      card.addEventListener('dragend', () => card.classList.remove('dragging'));
+      card.addEventListener('dragover', (e) => e.preventDefault());
+      card.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const targetId = card.dataset.id;
+        if (targetId === dragId) return;
+        const sorted = [...data.gallery].sort((a,b)=>a.order-b.order);
+        const dragged = sorted.find(g=>g.id===dragId);
+        const from = sorted.indexOf(dragged);
+        const to = sorted.findIndex(g=>g.id===targetId);
+        sorted.splice(from,1); sorted.splice(to,0,dragged);
+        sorted.forEach((g,i)=>g.order=i+1);
+        huSave(data); render();
+      });
+    });
+  }
+
+  function handleFiles(files){
+    const maxOrder = Math.max(0, ...data.gallery.map(g=>g.order));
+    let i = 0;
+    [...files].slice(0,10).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+      i++;
+      const url = URL.createObjectURL(file);
+      data.gallery.push({ id: huUid('g'), src: url, category: activeCat==='all' ? 'destinations' : activeCat, order: maxOrder + i });
+    });
+    if (i){
+      huSave(data);
+      huToast(`${i} image${i>1?'s':''} added — note: uploads preview for this session only until a media backend is connected`);
+      render();
+    }
+  }
+
+  const dropZone = document.getElementById('uploadDrop');
+  dropZone.addEventListener('click', () => document.getElementById('fileInput').click());
+  document.getElementById('fileInput').addEventListener('change', (e) => handleFiles(e.target.files));
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+
+  huRenderShell('gallery', '<span class="cur">Gallery</span>');
+  render();
+</script>
+</body>
+</html>

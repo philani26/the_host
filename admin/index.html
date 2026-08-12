@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | Host with the Utmost Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="../images/logo-mark.jpg">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-page="login">
+
+<div class="login-shell">
+  <div class="login-visual">
+    <img src="../images/hero-home.jpg" alt="">
+    <div class="login-visual-content">
+      <span class="script">A soft place to land</span>
+      <h2 style="color:#fff; font-size:1.9rem; max-width:380px; margin-top:10px;">Manage trips, testimonials and galleries — all from one calm dashboard.</h2>
+    </div>
+  </div>
+
+  <div class="login-form-col">
+    <div class="login-card">
+      <span class="brand-mark"><img src="../images/logo-mark.jpg" alt="The Host with the Utmost logo"></span>
+      <h1>Welcome back</h1>
+      <p class="sub">Sign in to manage The Host with the Utmost website.</p>
+
+      <form id="loginForm">
+        <div class="afield" style="margin-bottom:16px;">
+          <label for="loginEmail">Email address</label>
+          <input type="email" id="loginEmail" value="promise@hostwiththeutmost.com" required>
+        </div>
+        <div class="afield" style="margin-bottom:8px;">
+          <label for="loginPass">Password</label>
+          <input type="password" id="loginPass" value="••••••••••" required>
+        </div>
+        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--espresso-70); margin:14px 0 22px;">
+          <input type="checkbox" checked style="width:15px;height:15px;"> Keep me signed in
+        </label>
+        <button type="submit" class="abtn abtn-primary" style="width:100%; justify-content:center; padding:13px;">
+          Sign In
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <div class="login-note">
+        <strong>Demo mode:</strong> this admin UI runs on sample data stored in your browser — no account or server is connected yet. Click Sign In to explore.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/admin.js"></script>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    sessionStorage.setItem('hu_admin_authed', '1');
+    location.href = 'dashboard.html';
+  });
+</script>
+</body>
+</html>
