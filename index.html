@@ -88,63 +88,8 @@
         <p>A handful of our upcoming curated group trips — each one thoughtfully planned, warmly hosted, and open for you to join.</p>
       </div>
 
-      <div class="grid-3" data-reveal>
-        <article class="trip-card">
-          <div class="trip-media">
-            <img src="images/13.jpeg" alt="Coastal getaway scenery representing the Zanzibar trip">
-            <span class="trip-tag">23–30 March 2027</span>
-            <span class="trip-price-tag">R23,000 pp</span>
-          </div>
-          <div class="trip-body">
-            <h3>Zanzibar</h3>
-            <div class="trip-dates">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-              23 – 30 March 2027 · Deposit R2,300
-            </div>
-            <div class="trip-foot">
-              <span class="pill rose">Island Escape</span>
-              <a href="trips.html#zanzibar" class="btn btn-outline btn-sm">Details</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="trip-card">
-          <div class="trip-media">
-            <img src="images/16.jpeg" alt="Luxury travel moment representing the Mauritius trip">
-            <span class="trip-tag">29 Apr–4 May 2027</span>
-            <span class="trip-price-tag">R27,000 pp</span>
-          </div>
-          <div class="trip-body">
-            <h3>Mauritius</h3>
-            <div class="trip-dates">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-              29 April – 4 May 2027
-            </div>
-            <div class="trip-foot">
-              <span class="pill rose">Beach & Bliss</span>
-              <a href="trips.html#mauritius" class="btn btn-outline btn-sm">Details</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="trip-card">
-          <div class="trip-media">
-            <img src="images/18.jpeg" alt="Safari and adventure moment representing the Kenya trip">
-            <span class="trip-tag">25–30 June 2027</span>
-            <span class="trip-price-tag">R24,000 pp</span>
-          </div>
-          <div class="trip-body">
-            <h3>Kenya</h3>
-            <div class="trip-dates">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-              25 – 30 June 2027
-            </div>
-            <div class="trip-foot">
-              <span class="pill rose">Safari & Soul</span>
-              <a href="trips.html#kenya" class="btn btn-outline btn-sm">Details</a>
-            </div>
-          </div>
-        </article>
+      <div class="grid-3" data-reveal id="featuredTripsGrid">
+        <p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">Loading trips…</p>
       </div>
 
       <div class="text-center" style="margin-top:44px;" data-reveal>
@@ -245,31 +190,8 @@
         <h2>Stories from our travellers</h2>
       </div>
       <div class="testi-wrap" data-reveal>
-        <div class="testi-track">
-          <div class="testi-card">
-            <div class="testi-stars">★★★★★</div>
-            <p>"From the moment I landed, I felt held. Every detail was thought of — I made friends I now travel with every year."</p>
-            <div class="testi-person">
-              <img src="images/17.jpeg" alt="">
-              <div><div class="name">Kayleen M.</div><div class="loc">Zanzibar, 2025</div></div>
-            </div>
-          </div>
-          <div class="testi-card">
-            <div class="testi-stars">★★★★★</div>
-            <p>"Travelling solo used to intimidate me. This community made it feel like I was simply going away with old friends."</p>
-            <div class="testi-person">
-              <img src="images/2.jpeg" alt="">
-              <div><div class="name">Naledi K.</div><div class="loc">Cape Winelands, 2025</div></div>
-            </div>
-          </div>
-          <div class="testi-card">
-            <div class="testi-stars">★★★★★</div>
-            <p>"Elegant, warm, and effortless. The Host with the Utmost thinks of everything — I just had to show up and enjoy."</p>
-            <div class="testi-person">
-              <img src="images/9.jpeg" alt="">
-              <div><div class="name">Rethabile S.</div><div class="loc">Franschhoek, 2025</div></div>
-            </div>
-          </div>
+        <div class="testi-track" id="homeTestiTrack">
+          <p style="color:var(--espresso-45);">Loading testimonials…</p>
         </div>
       </div>
     </div>
@@ -344,6 +266,64 @@
   <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-public.js"></script>
 <script src="js/main.js"></script>
+<script>
+  function tripCardHtml(t){
+    const slug = slugify(t.destination);
+    return `
+      <article class="trip-card">
+        <div class="trip-media">
+          <img src="${t.hero}" alt="${t.destination} trip destination">
+          <span class="trip-tag">${fmtDateRange(t.dateStart, t.dateEnd)}</span>
+          <span class="trip-price-tag">${fmtCurrency(t.price)} pp</span>
+        </div>
+        <div class="trip-body">
+          <h3>${t.destination}</h3>
+          <div class="trip-dates">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+            ${fmtDateRange(t.dateStart, t.dateEnd)} · Deposit ${fmtCurrency(t.deposit)}
+          </div>
+          <div class="trip-foot">
+            <span class="pill rose">${t.tagline || ''}</span>
+            <a href="trips.html#${slug}" class="btn btn-outline btn-sm">Details</a>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function testiCardHtml(t){
+    return `
+      <div class="testi-card">
+        <div class="testi-stars">${'★'.repeat(t.rating || 5)}</div>
+        <p>"${t.text}"</p>
+        <div class="testi-person">
+          <img src="${t.avatar || 'images/17.jpeg'}" alt="">
+          <div><div class="name">${t.name}</div><div class="loc">${t.location}</div></div>
+        </div>
+      </div>`;
+  }
+
+  (async () => {
+    try {
+      const trips = await fetchPublishedTrips();
+      const grid = document.getElementById('featuredTripsGrid');
+      grid.innerHTML = trips.length
+        ? trips.slice(0, 3).map(tripCardHtml).join('')
+        : '<p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">New trips coming soon — check back shortly.</p>';
+      HU.initReveal(grid);
+    } catch (err) { console.error('Failed to load featured trips:', err); }
+
+    try {
+      const testis = await fetchPublishedTestimonials();
+      const track = document.getElementById('homeTestiTrack');
+      track.innerHTML = testis.length
+        ? testis.map(testiCardHtml).join('')
+        : '<p style="color:var(--espresso-45);">Stories from our travellers are on their way.</p>';
+    } catch (err) { console.error('Failed to load testimonials:', err); }
+  })();
+</script>
 </body>
 </html>

@@ -1,4 +1,9 @@
 // The Host with the Utmost — shared site behavior
+// Interactive behaviors use event delegation so they keep working on
+// content rendered dynamically from Firestore after the initial page load.
+
+window.HU = window.HU || {};
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* Mobile nav toggle */
@@ -22,42 +27,43 @@ document.addEventListener('DOMContentLoaded', () => {
     navBackdrop && navBackdrop.addEventListener('click', closeNav);
   }
 
-  /* Accordions */
-  document.querySelectorAll('.accordion-trigger').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.accordion-item');
-      const panel = item.querySelector('.accordion-panel');
-      const isOpen = item.classList.contains('open');
-      // close siblings in same accordion
-      const parent = item.closest('.accordion');
-      if (parent) {
-        parent.querySelectorAll('.accordion-item.open').forEach(other => {
-          if (other !== item) {
-            other.classList.remove('open');
-            other.querySelector('.accordion-panel').style.maxHeight = null;
-          }
-        });
-      }
-      item.classList.toggle('open', !isOpen);
-      panel.style.maxHeight = !isOpen ? panel.scrollHeight + 'px' : null;
-    });
-  });
-
-  /* Reveal on scroll (single elements + staggered groups) */
-  const revealEls = document.querySelectorAll('[data-reveal], [data-reveal-group]');
-  if ('IntersectionObserver' in window && revealEls.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
+  /* Accordions — delegated, works on content added later */
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.accordion-trigger');
+    if (!btn) return;
+    const item = btn.closest('.accordion-item');
+    const panel = item.querySelector('.accordion-panel');
+    const isOpen = item.classList.contains('open');
+    const parent = item.closest('.accordion');
+    if (parent) {
+      parent.querySelectorAll('.accordion-item.open').forEach(other => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.accordion-panel').style.maxHeight = null;
         }
       });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
-  } else {
-    revealEls.forEach(el => el.classList.add('in'));
+    }
+    item.classList.toggle('open', !isOpen);
+    panel.style.maxHeight = !isOpen ? panel.scrollHeight + 'px' : null;
+  });
+
+  /* Reveal on scroll (single elements + staggered groups) — re-observable */
+  const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 }) : null;
+
+  function initReveal(root = document) {
+    const els = root.querySelectorAll('[data-reveal]:not(.in), [data-reveal-group]:not(.in)');
+    if (io) els.forEach(el => io.observe(el));
+    else els.forEach(el => el.classList.add('in'));
   }
+  window.HU.initReveal = initReveal;
+  initReveal();
 
   /* Subtle hero parallax (rAF-throttled, skipped for reduced-motion) */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -78,24 +84,21 @@ document.addEventListener('DOMContentLoaded', () => {
     updateParallax();
   }
 
-  /* Gallery category filters */
-  const filterBtns = document.querySelectorAll('.gallery-filter');
-  if (filterBtns.length) {
-    const items = document.querySelectorAll('.gallery-item');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.dataset.filter;
-        items.forEach(item => {
-          const show = cat === 'all' || item.dataset.category === cat;
-          item.classList.toggle('hide', !show);
-        });
-      });
+  /* Gallery category filters — delegated + re-scannable item list */
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.gallery-filter');
+    if (!btn) return;
+    const bar = btn.closest('.gallery-filters');
+    bar.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.filter;
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      const show = cat === 'all' || item.dataset.category === cat;
+      item.classList.toggle('hide', !show);
     });
-  }
+  });
 
-  /* Lightbox gallery */
+  /* Lightbox gallery — delegated, re-reads group membership at click time */
   const lightbox = document.getElementById('lightbox');
   if (lightbox) {
     const lbImg = lightbox.querySelector('img');
@@ -121,12 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
       lbImg.src = currentGroup[currentIndex];
     }
 
-    document.querySelectorAll('[data-lightbox-group]').forEach(groupEl => {
+    document.addEventListener('click', (e) => {
+      const item = e.target.closest('[data-full]');
+      if (!item) return;
+      const groupEl = item.closest('[data-lightbox-group]');
+      if (!groupEl) return;
       const items = Array.from(groupEl.querySelectorAll('[data-full]'));
       const urls = items.map(i => i.dataset.full);
-      items.forEach((item, idx) => {
-        item.addEventListener('click', () => openLightbox(urls, idx));
-      });
+      openLightbox(urls, items.indexOf(item));
     });
 
     closeBtn && closeBtn.addEventListener('click', closeLightbox);
@@ -141,56 +146,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* Enquiry forms — client-side only (no backend wired up) */
-  document.querySelectorAll('form[data-enquiry-form]').forEach(form => {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const errorEl = form.querySelector('.form-error');
-      if (errorEl) errorEl.style.display = 'none';
+  /* Enquiry forms — submit straight to Firestore (see js/firebase-public.js) */
+  document.addEventListener('submit', async (e) => {
+    const form = e.target.closest('form[data-enquiry-form]');
+    if (!form) return;
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const errorEl = form.querySelector('.form-error');
+    if (errorEl) errorEl.style.display = 'none';
 
-      const field = (name) => form.querySelector(`[name="${name}"]`)?.value.trim() || '';
-      const payload = {
-        name: field('name'),
-        email: field('email'),
-        whatsapp: field('whatsapp'),
-        trip: field('trip'),
-        travellers: field('travellers') ? Number(field('travellers')) : null,
-        dates: field('dates'),
-        message: field('message')
-      };
+    const field = (name) => form.querySelector(`[name="${name}"]`)?.value.trim() || '';
+    const payload = {
+      name: field('name'),
+      email: field('email'),
+      whatsapp: field('whatsapp'),
+      trip: field('trip'),
+      travellers: field('travellers') ? Number(field('travellers')) : null,
+      dates: field('dates'),
+      message: field('message')
+    };
 
-      if (typeof submitEnquiry !== 'function') {
-        console.error('Firebase not loaded on this page — cannot submit enquiry.');
-        return;
+    if (typeof submitEnquiry !== 'function') {
+      console.error('Firebase not loaded on this page — cannot submit enquiry.');
+      return;
+    }
+
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      await submitEnquiry(payload);
+      const success = form.parentElement.querySelector('.form-success');
+      form.style.display = 'none';
+      if (success) success.classList.add('show');
+    } catch (err) {
+      console.error('Enquiry submission failed:', err);
+      if (errorEl) {
+        errorEl.textContent = "Something went wrong sending your enquiry — please try WhatsApp instead, or try again in a moment.";
+        errorEl.style.display = 'block';
       }
-
-      if (submitBtn) submitBtn.disabled = true;
-      try {
-        await submitEnquiry(payload);
-        const success = form.parentElement.querySelector('.form-success');
-        form.style.display = 'none';
-        if (success) success.classList.add('show');
-      } catch (err) {
-        console.error('Enquiry submission failed:', err);
-        if (errorEl) {
-          errorEl.textContent = "Something went wrong sending your enquiry — please try WhatsApp instead, or try again in a moment.";
-          errorEl.style.display = 'block';
-        }
-        if (submitBtn) submitBtn.disabled = false;
-      }
-    });
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 
-  /* Pre-fill trip name on enquiry when "Enquire" clicked on a card */
-  document.querySelectorAll('[data-enquire-trip]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tripSelect = document.querySelector('#enquire-trip');
-      if (tripSelect) {
-        tripSelect.value = btn.dataset.enquireTrip;
-        document.querySelector('#enquire')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
+  /* Pre-fill trip name on enquiry when "Enquire" clicked on a card — delegated */
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-enquire-trip]');
+    if (!btn) return;
+    const tripSelect = document.querySelector('#enquire-trip');
+    if (tripSelect) {
+      tripSelect.value = btn.dataset.enquireTrip;
+      document.querySelector('#enquire')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
 
   /* Set active nav link */

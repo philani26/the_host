@@ -117,22 +117,8 @@
         <h2>Trusted by women who travel with intention</h2>
       </div>
 
-      <div class="grid-3" data-reveal>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"I booked solo and left with five new best friends. The Host with the Utmost thinks of everything."</p>
-          <div class="testi-person"><img src="images/17.jpeg" alt=""><div><div class="name">Kayleen M.</div><div class="loc">Zanzibar Trip, 2025</div></div></div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"From the welcome gift to the last dinner, every detail felt personal. This is travel done right."</p>
-          <div class="testi-person"><img src="images/2.jpeg" alt=""><div><div class="name">Naledi K.</div><div class="loc">Cape Winelands, 2025</div></div></div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Elegant, warm and effortless — exactly the soft landing I needed after a hard year."</p>
-          <div class="testi-person"><img src="images/9.jpeg" alt=""><div><div class="name">Rethabile S.</div><div class="loc">Franschhoek, 2025</div></div></div>
-        </div>
+      <div class="grid-3" data-reveal id="aboutTestiGrid">
+        <p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">Loading testimonials…</p>
       </div>
 
       <div class="masonry" style="margin-top:56px;" data-reveal data-lightbox-group>
@@ -215,6 +201,24 @@
   <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-public.js"></script>
 <script src="js/main.js"></script>
+<script>
+  (async () => {
+    try {
+      const testis = await fetchPublishedTestimonials();
+      const grid = document.getElementById('aboutTestiGrid');
+      grid.innerHTML = testis.length ? testis.map(t => `
+        <div class="testi-card">
+          <div class="testi-stars">${'★'.repeat(t.rating || 5)}</div>
+          <p>"${t.text}"</p>
+          <div class="testi-person"><img src="${t.avatar || 'images/17.jpeg'}" alt=""><div><div class="name">${t.name}</div><div class="loc">${t.location}</div></div></div>
+        </div>`).join('') : '<p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">Stories from our travellers are on their way.</p>';
+      HU.initReveal(grid);
+    } catch (err) { console.error('Failed to load testimonials:', err); }
+  })();
+</script>
 </body>
 </html>

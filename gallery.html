@@ -61,39 +61,8 @@
         <button class="gallery-filter" data-filter="community">Community Moments</button>
       </div>
 
-      <div class="masonry" data-reveal data-lightbox-group>
-        <div class="gallery-item m-item" data-category="destinations" data-full="images/13.jpeg"><img src="images/13.jpeg" loading="lazy" alt="Cape Winelands destination scenery"><span class="m-cat">Destinations</span></div>
-        <div class="gallery-item m-item" data-category="destinations" data-full="images/18.jpeg"><img src="images/18.jpeg" loading="lazy" alt="Destination scenery from a Host with the Utmost trip"><span class="m-cat">Destinations</span></div>
-        <div class="gallery-item m-item" data-category="destinations" data-full="images/9.jpeg"><img src="images/9.jpeg" loading="lazy" alt="Welcome archway at a Cape Winelands destination"><span class="m-cat">Destinations</span></div>
-
-        <div class="gallery-item m-item" data-category="trips" data-full="images/16.jpeg"><img src="images/16.jpeg" loading="lazy" alt="Moment from a previous Host with the Utmost trip"><span class="m-cat">Previous Trips</span></div>
-        <div class="gallery-item m-item" data-category="trips" data-full="images/4.jpeg"><img src="images/4.jpeg" loading="lazy" alt="Moment from a previous Host with the Utmost trip"><span class="m-cat">Previous Trips</span></div>
-
-        <div class="gallery-item m-item" data-category="group" data-full="images/2.jpeg"><img src="images/2.jpeg" loading="lazy" alt="Guest celebrating on a group getaway"><span class="m-cat">Group Experiences</span></div>
-        <div class="gallery-item m-item" data-category="group" data-full="images/17.jpeg"><img src="images/17.jpeg" loading="lazy" alt="Guests sharing a group experience"><span class="m-cat">Group Experiences</span></div>
-        <div class="gallery-item m-item" data-category="group" data-full="images/15.jpeg"><img src="images/15.jpeg" loading="lazy" alt="Group of women on a Host with the Utmost getaway"><span class="m-cat">Group Experiences</span></div>
-
-        <div class="gallery-item m-item" data-category="accommodation" data-full="images/6.jpeg"><img src="images/6.jpeg" loading="lazy" alt="Accommodation detail from a Host with the Utmost trip"><span class="m-cat">Accommodation</span></div>
-        <div class="gallery-item m-item" data-category="accommodation" data-full="images/7.jpeg"><img src="images/7.jpeg" loading="lazy" alt="Accommodation detail from a Host with the Utmost trip"><span class="m-cat">Accommodation</span></div>
-
-        <div class="gallery-item m-item" data-category="activities" data-full="images/11.jpeg"><img src="images/11.jpeg" loading="lazy" alt="Breakfast activity during a Host with the Utmost outing"><span class="m-cat">Activities</span></div>
-        <div class="gallery-item m-item" data-category="activities" data-full="images/8.jpeg"><img src="images/8.jpeg" loading="lazy" alt="Activity moment from a Host with the Utmost trip"><span class="m-cat">Activities</span></div>
-        <div class="gallery-item m-item" data-category="activities" data-full="images/10.jpeg"><img src="images/10.jpeg" loading="lazy" alt="Activity moment from a Host with the Utmost trip"><span class="m-cat">Activities</span></div>
-
-        <div class="gallery-item m-item" data-category="events" data-full="images/1.jpeg"><img src="images/1.jpeg" loading="lazy" alt="Welcome gift and champagne at an event"><span class="m-cat">Events</span></div>
-        <div class="gallery-item m-item" data-category="events" data-full="images/3.jpeg"><img src="images/3.jpeg" loading="lazy" alt="Tasting event table set for guests"><span class="m-cat">Events</span></div>
-
-        <div class="gallery-item m-item" data-category="community" data-full="images/5.jpeg"><img src="images/5.jpeg" loading="lazy" alt="Community moment from a Host with the Utmost trip"><span class="m-cat">Community Moments</span></div>
-        <div class="gallery-item m-item" data-category="community" data-full="images/22.jpeg"><img src="images/22.jpeg" loading="lazy" alt="Nine Host with the Utmost women together at Valley of Waves"><span class="m-cat">Community Moments</span></div>
-
-        <div class="gallery-item m-item" data-category="group" data-full="images/23.jpeg"><img src="images/23.jpeg" loading="lazy" alt="Friends laughing together on a getaway"><span class="m-cat">Group Experiences</span></div>
-
-        <div class="gallery-item m-item" data-category="destinations" data-full="images/21.jpeg"><img src="images/21.jpeg" loading="lazy" alt="The Bridge of Time entrance, elephant statues and rock archway"><span class="m-cat">Destinations</span></div>
-        <div class="gallery-item m-item" data-category="destinations" data-full="images/19.jpeg"><img src="images/19.jpeg" loading="lazy" alt="Ornate temple architecture and elephant statues"><span class="m-cat">Destinations</span></div>
-
-        <div class="gallery-item m-item" data-category="activities" data-full="images/20.jpeg"><img src="images/20.jpeg" loading="lazy" alt="City views during a sightseeing outing"><span class="m-cat">Activities</span></div>
-
-        <div class="gallery-item m-item" data-category="accommodation" data-full="images/24.jpeg"><img src="images/24.jpeg" loading="lazy" alt="Guests relaxing poolside at their accommodation"><span class="m-cat">Accommodation</span></div>
+      <div class="masonry" data-reveal data-lightbox-group id="galleryMasonry">
+        <p style="color:var(--espresso-45);">Loading gallery…</p>
       </div>
     </div>
   </section>
@@ -166,6 +135,28 @@
   <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-public.js"></script>
 <script src="js/main.js"></script>
+<script>
+  const GALLERY_CAT_LABELS = {
+    destinations: 'Destinations', trips: 'Previous Trips', group: 'Group Experiences',
+    accommodation: 'Accommodation', activities: 'Activities', events: 'Events', community: 'Community Moments'
+  };
+
+  (async () => {
+    try {
+      const images = await fetchGalleryImages();
+      const grid = document.getElementById('galleryMasonry');
+      grid.innerHTML = images.length ? images.map(g => `
+        <div class="gallery-item m-item" data-category="${g.category}" data-full="${g.src}">
+          <img src="${g.src}" loading="lazy" alt="${GALLERY_CAT_LABELS[g.category] || ''} — Host with the Utmost">
+          <span class="m-cat">${GALLERY_CAT_LABELS[g.category] || g.category}</span>
+        </div>`).join('') : '<p style="color:var(--espresso-45);">New photos are on their way.</p>';
+      HU.initReveal(grid);
+    } catch (err) { console.error('Failed to load gallery:', err); }
+  })();
+</script>
 </body>
 </html>

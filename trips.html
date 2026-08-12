@@ -55,370 +55,20 @@
   <!-- Quick jump strip -->
   <section style="padding:0 0 40px;">
     <div class="container">
-      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;" data-reveal>
-        <a href="#zanzibar" class="pill rose" style="cursor:pointer;">Zanzibar · Mar 2027</a>
-        <a href="#mauritius" class="pill rose" style="cursor:pointer;">Mauritius · Apr–May 2027</a>
-        <a href="#kenya" class="pill rose" style="cursor:pointer;">Kenya · Jun 2027</a>
-        <a href="#turkey" class="pill rose" style="cursor:pointer;">Turkey · Oct 2027</a>
-        <a href="#bali" class="pill rose" style="cursor:pointer;">Bali · Nov 2027</a>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;" data-reveal id="tripJumpStrip">
+        <!-- populated from Firestore -->
       </div>
     </div>
   </section>
 
-  <!-- ================= TRIP: ZANZIBAR ================= -->
-  <section id="zanzibar" style="padding-top:20px;">
-    <div class="container">
-      <div class="trip-detail" data-reveal>
-        <div class="trip-detail-top">
-          <div class="trip-detail-media"><img src="images/13.jpeg" alt="Zanzibar trip destination"></div>
-          <div class="trip-detail-info">
-            <span class="eyebrow">Island Escape</span>
-            <h2>Zanzibar</h2>
-            <p style="color:var(--espresso-70);">Turquoise water, spice-scented markets and sunset dhow cruises — a week designed for both adventure and total stillness.</p>
-            <div class="trip-meta-row">
-              <div class="trip-meta"><span class="label">Dates</span><span class="value">23–30 Mar 2027</span></div>
-              <div class="trip-meta"><span class="label">Price pp</span><span class="value">R23,000</span></div>
-              <div class="trip-meta"><span class="label">Deposit</span><span class="value">R2,300</span></div>
-            </div>
-            <div class="trip-detail-actions">
-              <a href="#enquire" class="btn btn-primary" data-enquire-trip="Zanzibar (23–30 March 2027)">Enquire / Join This Trip</a>
-              <a href="https://wa.me/27734426770?text=Hi!%20I'd%20love%20to%20join%20the%20Zanzibar%20trip%20(23%E2%80%9330%20March%202027)." class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Included</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>7 nights beachfront accommodation, shared occupancy</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Daily breakfast &amp; 3 group dinners</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Sunset dhow cruise &amp; Stone Town tour</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Airport transfers &amp; on-ground host</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Welcome gift &amp; community WhatsApp group</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Excluded</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>International flights</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Travel insurance &amp; visa fees</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Optional excursions &amp; spa treatments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Personal spending &amp; gratuities</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Payment Plan</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>R2,300 deposit to secure your spot</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Balance split into monthly instalments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Final payment due 30 days before departure</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Gallery</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <div class="gallery-mini" data-lightbox-group>
-                <img data-full="images/13.jpeg" src="images/13.jpeg" loading="lazy" alt="Zanzibar gallery image">
-                <img data-full="images/16.jpeg" src="images/16.jpeg" loading="lazy" alt="Zanzibar gallery image">
-                <img data-full="images/4.jpeg" src="images/4.jpeg" loading="lazy" alt="Zanzibar gallery image">
-                <img data-full="images/6.jpeg" src="images/6.jpeg" loading="lazy" alt="Zanzibar gallery image">
-              </div>
-            </div>
-          </div>
-        </div>
+  <!-- TRIPS (rendered from Firestore) -->
+  <div id="tripsContainer">
+    <section style="padding-top:20px;">
+      <div class="container">
+        <p style="text-align:center; color:var(--espresso-45);">Loading trips…</p>
       </div>
-    </div>
-  </section>
-
-  <!-- ================= TRIP: MAURITIUS ================= -->
-  <section id="mauritius" style="padding-top:0;">
-    <div class="container">
-      <div class="trip-detail" data-reveal>
-        <div class="trip-detail-top">
-          <div class="trip-detail-media"><img src="images/16.jpeg" alt="Mauritius trip destination"></div>
-          <div class="trip-detail-info">
-            <span class="eyebrow">Beach &amp; Bliss</span>
-            <h2>Mauritius</h2>
-            <p style="color:var(--espresso-70);">Powder-white beaches, calm lagoons and five-star ease — a trip built for slowing all the way down.</p>
-            <div class="trip-meta-row">
-              <div class="trip-meta"><span class="label">Dates</span><span class="value">29 Apr–4 May 2027</span></div>
-              <div class="trip-meta"><span class="label">Price pp</span><span class="value">R27,000</span></div>
-              <div class="trip-meta"><span class="label">Deposit</span><span class="value">R2,700</span></div>
-            </div>
-            <div class="trip-detail-actions">
-              <a href="#enquire" class="btn btn-primary" data-enquire-trip="Mauritius (29 April–4 May 2027)">Enquire / Join This Trip</a>
-              <a href="https://wa.me/27734426770?text=Hi!%20I'd%20love%20to%20join%20the%20Mauritius%20trip%20(29%20April%E2%80%934%20May%202027)." class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Included</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>5 nights beachfront resort, shared occupancy</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Daily breakfast &amp; 2 group dinners</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Catamaran cruise with lunch</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Airport transfers &amp; on-ground host</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Welcome gift &amp; community WhatsApp group</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Excluded</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>International flights</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Travel insurance &amp; visa fees</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Spa treatments &amp; optional water sports</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Personal spending &amp; gratuities</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Payment Plan</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>R2,700 deposit to secure your spot</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Balance split into monthly instalments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Final payment due 30 days before departure</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Gallery</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <div class="gallery-mini" data-lightbox-group>
-                <img data-full="images/16.jpeg" src="images/16.jpeg" loading="lazy" alt="Mauritius gallery image">
-                <img data-full="images/5.jpeg" src="images/5.jpeg" loading="lazy" alt="Mauritius gallery image">
-                <img data-full="images/7.jpeg" src="images/7.jpeg" loading="lazy" alt="Mauritius gallery image">
-                <img data-full="images/8.jpeg" src="images/8.jpeg" loading="lazy" alt="Mauritius gallery image">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TRIP: KENYA ================= -->
-  <section id="kenya" style="padding-top:0;">
-    <div class="container">
-      <div class="trip-detail" data-reveal>
-        <div class="trip-detail-top">
-          <div class="trip-detail-media"><img src="images/18.jpeg" alt="Kenya trip destination"></div>
-          <div class="trip-detail-info">
-            <span class="eyebrow">Safari &amp; Soul</span>
-            <h2>Kenya</h2>
-            <p style="color:var(--espresso-70);">Golden savannahs, unforgettable game drives and evenings under an open sky — a trip that stays with you long after.</p>
-            <div class="trip-meta-row">
-              <div class="trip-meta"><span class="label">Dates</span><span class="value">25–30 Jun 2027</span></div>
-              <div class="trip-meta"><span class="label">Price pp</span><span class="value">R24,000</span></div>
-              <div class="trip-meta"><span class="label">Deposit</span><span class="value">R2,400</span></div>
-            </div>
-            <div class="trip-detail-actions">
-              <a href="#enquire" class="btn btn-primary" data-enquire-trip="Kenya (25–30 June 2027)">Enquire / Join This Trip</a>
-              <a href="https://wa.me/27734426770?text=Hi!%20I'd%20love%20to%20join%20the%20Kenya%20trip%20(25%E2%80%9330%20June%202027)." class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Included</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>5 nights safari lodge, shared occupancy</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>All meals &amp; 2 game drives daily</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Maasai village cultural visit</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Airport transfers &amp; on-ground host</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Welcome gift &amp; community WhatsApp group</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Excluded</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>International flights</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Travel insurance, visa &amp; park fees</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Hot air balloon safari (optional add-on)</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Personal spending &amp; gratuities</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Payment Plan</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>R2,400 deposit to secure your spot</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Balance split into monthly instalments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Final payment due 30 days before departure</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Gallery</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <div class="gallery-mini" data-lightbox-group>
-                <img data-full="images/18.jpeg" src="images/18.jpeg" loading="lazy" alt="Kenya gallery image">
-                <img data-full="images/10.jpeg" src="images/10.jpeg" loading="lazy" alt="Kenya gallery image">
-                <img data-full="images/9.jpeg" src="images/9.jpeg" loading="lazy" alt="Kenya gallery image">
-                <img data-full="images/17.jpeg" src="images/17.jpeg" loading="lazy" alt="Kenya gallery image">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TRIP: TURKEY ================= -->
-  <section id="turkey" style="padding-top:0;">
-    <div class="container">
-      <div class="trip-detail" data-reveal>
-        <div class="trip-detail-top">
-          <div class="trip-detail-media"><img src="images/3.jpeg" alt="Turkey trip destination"></div>
-          <div class="trip-detail-info">
-            <span class="eyebrow">History &amp; Hammams</span>
-            <h2>Turkey</h2>
-            <p style="color:var(--espresso-70);">Istanbul's bazaars, Cappadocia's hot air balloons and centuries of history — an unforgettable week of wonder.</p>
-            <div class="trip-meta-row">
-              <div class="trip-meta"><span class="label">Dates</span><span class="value">15–21 Oct 2027</span></div>
-              <div class="trip-meta"><span class="label">Price pp</span><span class="value">R33,000</span></div>
-              <div class="trip-meta"><span class="label">Deposit</span><span class="value">R3,300</span></div>
-            </div>
-            <div class="trip-detail-actions">
-              <a href="#enquire" class="btn btn-primary" data-enquire-trip="Turkey (15–21 October 2027)">Enquire / Join This Trip</a>
-              <a href="https://wa.me/27734426770?text=Hi!%20I'd%20love%20to%20join%20the%20Turkey%20trip%20(15%E2%80%9321%20October%202027)." class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Included</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>6 nights across Istanbul &amp; Cappadocia, shared occupancy</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Daily breakfast &amp; 3 group dinners</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Hot air balloon ride &amp; guided old-city tour</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Domestic flight &amp; all transfers</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Welcome gift &amp; community WhatsApp group</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Excluded</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>International flights</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Travel insurance &amp; visa fees</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Turkish hammam spa experience (optional add-on)</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Personal spending &amp; gratuities</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Payment Plan</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>R3,300 deposit to secure your spot</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Balance split into monthly instalments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Final payment due 30 days before departure</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Gallery</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <div class="gallery-mini" data-lightbox-group>
-                <img data-full="images/3.jpeg" src="images/3.jpeg" loading="lazy" alt="Turkey gallery image">
-                <img data-full="images/1.jpeg" src="images/1.jpeg" loading="lazy" alt="Turkey gallery image">
-                <img data-full="images/6.jpeg" src="images/6.jpeg" loading="lazy" alt="Turkey gallery image">
-                <img data-full="images/11.jpeg" src="images/11.jpeg" loading="lazy" alt="Turkey gallery image">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TRIP: BALI ================= -->
-  <section id="bali" style="padding-top:0;">
-    <div class="container">
-      <div class="trip-detail" data-reveal>
-        <div class="trip-detail-top">
-          <div class="trip-detail-media"><img src="images/4.jpeg" alt="Bali trip destination"></div>
-          <div class="trip-detail-info">
-            <span class="eyebrow">Wellness &amp; Wonder</span>
-            <h2>Bali</h2>
-            <p style="color:var(--espresso-70);">Rice terraces, temple sunrises and spa days — closing out the year with rest, ritual and reconnection.</p>
-            <div class="trip-meta-row">
-              <div class="trip-meta"><span class="label">Dates</span><span class="value">12–18 Nov 2027</span></div>
-              <div class="trip-meta"><span class="label">Price pp</span><span class="value">R35,000</span></div>
-              <div class="trip-meta"><span class="label">Deposit</span><span class="value">R3,500</span></div>
-            </div>
-            <div class="trip-detail-actions">
-              <a href="#enquire" class="btn btn-primary" data-enquire-trip="Bali (12–18 November 2027)">Enquire / Join This Trip</a>
-              <a href="https://wa.me/27734426770?text=Hi!%20I'd%20love%20to%20join%20the%20Bali%20trip%20(12%E2%80%9318%20November%202027)." class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
-            </div>
-          </div>
-        </div>
-        <div class="accordion">
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Included</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>6 nights boutique villa, shared occupancy</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Daily breakfast &amp; 3 group dinners</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Sunrise temple tour &amp; rice terrace hike</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>One spa &amp; wellness session</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Airport transfers, welcome gift &amp; community group</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>What's Excluded</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>International flights</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Travel insurance &amp; visa fees</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Additional spa treatments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Personal spending &amp; gratuities</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Payment Plan</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>R3,500 deposit to secure your spot</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Balance split into monthly instalments</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Final payment due 30 days before departure</li>
-              </ul>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger"><span>Gallery</span><span class="plus"></span></button>
-            <div class="accordion-panel">
-              <div class="gallery-mini" data-lightbox-group>
-                <img data-full="images/4.jpeg" src="images/4.jpeg" loading="lazy" alt="Bali gallery image">
-                <img data-full="images/5.jpeg" src="images/5.jpeg" loading="lazy" alt="Bali gallery image">
-                <img data-full="images/7.jpeg" src="images/7.jpeg" loading="lazy" alt="Bali gallery image">
-                <img data-full="images/2.jpeg" src="images/2.jpeg" loading="lazy" alt="Bali gallery image">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- ENQUIRY FORM -->
   <section id="enquire" style="background:var(--cream);">
@@ -448,11 +98,7 @@
               <label for="enquire-trip">Destination / Trip Interested In</label>
               <select id="enquire-trip" name="trip">
                 <option value="">Select an option</option>
-                <option>Zanzibar (23–30 March 2027)</option>
-                <option>Mauritius (29 April–4 May 2027)</option>
-                <option>Kenya (25–30 June 2027)</option>
-                <option>Turkey (15–21 October 2027)</option>
-                <option>Bali (12–18 November 2027)</option>
+                <optgroup label="Upcoming Trips" id="enquireTripOptions"></optgroup>
                 <option>Local Escape / Staycation</option>
                 <option>Travel Concierge Service</option>
                 <option>Not sure yet — help me choose</option>
@@ -550,5 +196,90 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="js/firebase-public.js"></script>
 <script src="js/main.js"></script>
+<script>
+  const checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+  const xIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+
+  function tripDetailHtml(t){
+    const slug = slugify(t.destination);
+    const included = t.included || [];
+    const excluded = t.excluded || [];
+    const paymentPlan = t.paymentPlan || [];
+    const gallery = (t.gallery && t.gallery.length) ? t.gallery : [t.hero];
+    const enquireLabel = `${t.destination} (${fmtLongDateRange(t.dateStart, t.dateEnd)})`;
+    const waText = encodeURIComponent(`Hi! I'd love to join the ${t.destination} trip (${fmtLongDateRange(t.dateStart, t.dateEnd)}).`);
+
+    return `
+    <section id="${slug}" style="padding-top:20px;">
+      <div class="container">
+        <div class="trip-detail" data-reveal>
+          <div class="trip-detail-top">
+            <div class="trip-detail-media"><img src="${t.hero}" alt="${t.destination} trip destination"></div>
+            <div class="trip-detail-info">
+              <span class="eyebrow">${t.tagline || ''}</span>
+              <h2>${t.destination}</h2>
+              <p style="color:var(--espresso-70);">An unforgettable ${t.tagline || 'getaway'} — thoughtfully planned, warmly hosted, and open for you to join.</p>
+              <div class="trip-meta-row">
+                <div class="trip-meta"><span class="label">Dates</span><span class="value">${fmtDateRange(t.dateStart, t.dateEnd)}</span></div>
+                <div class="trip-meta"><span class="label">Price pp</span><span class="value">${fmtCurrency(t.price)}</span></div>
+                <div class="trip-meta"><span class="label">Deposit</span><span class="value">${fmtCurrency(t.deposit)}</span></div>
+              </div>
+              <div class="trip-detail-actions">
+                <a href="#enquire" class="btn btn-primary" data-enquire-trip="${enquireLabel}">Enquire / Join This Trip</a>
+                <a href="https://wa.me/27734426770?text=${waText}" class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
+              </div>
+            </div>
+          </div>
+          <div class="accordion">
+            <div class="accordion-item">
+              <button class="accordion-trigger"><span>What's Included</span><span class="plus"></span></button>
+              <div class="accordion-panel"><ul>${included.map(i => `<li>${checkIcon}${i}</li>`).join('')}</ul></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger"><span>What's Excluded</span><span class="plus"></span></button>
+              <div class="accordion-panel"><ul>${excluded.map(i => `<li>${xIcon}${i}</li>`).join('')}</ul></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger"><span>Payment Plan</span><span class="plus"></span></button>
+              <div class="accordion-panel"><ul>${paymentPlan.map(i => `<li>${checkIcon}${i}</li>`).join('')}</ul></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger"><span>Gallery</span><span class="plus"></span></button>
+              <div class="accordion-panel">
+                <div class="gallery-mini" data-lightbox-group>
+                  ${gallery.map(src => `<img data-full="${src}" src="${src}" loading="lazy" alt="${t.destination} gallery image">`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  (async () => {
+    let trips = [];
+    try {
+      trips = await fetchPublishedTrips();
+    } catch (err) {
+      console.error('Failed to load trips from Firestore:', err);
+    }
+
+    const container = document.getElementById('tripsContainer');
+    const jumpStrip = document.getElementById('tripJumpStrip');
+    const tripOptions = document.getElementById('enquireTripOptions');
+
+    if (!trips.length){
+      container.innerHTML = "<section><div class=\"container\"><p style=\"text-align:center; color:var(--espresso-45);\">No trips are open for booking right now — check back soon, or send us an enquiry and we'll let you know what's coming up.</p></div></section>";
+      return;
+    }
+
+    container.innerHTML = trips.map(tripDetailHtml).join('');
+    jumpStrip.innerHTML = trips.map(t => `<a href="#${slugify(t.destination)}" class="pill rose" style="cursor:pointer;">${t.destination} · ${fmtDateRange(t.dateStart, t.dateEnd)}</a>`).join('');
+    tripOptions.innerHTML = trips.map(t => `<option>${t.destination} (${fmtLongDateRange(t.dateStart, t.dateEnd)})</option>`).join('');
+
+    HU.initReveal(container);
+  })();
+</script>
 </body>
 </html>
