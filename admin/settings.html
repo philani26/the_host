@@ -103,12 +103,13 @@
 
   function renderFees(){
     document.getElementById('concierge-fees').innerHTML = data.settings.fees.map((f,i) => `
-      <div class="repeater-row">
+      <div class="repeater-row" style="--ri:${i};">
+        <span class="ri-index">${i + 1}</span>
         <input type="text" value="${f.service}" data-fee-service="${i}" placeholder="Service name" style="flex:2;">
         <div class="input-prefix" style="flex:1;"><span>R</span><input type="number" value="${f.fee}" data-fee-amount="${i}" style="padding-left:28px;"></div>
         <button type="button" data-fee-remove="${i}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
       </div>`).join('') + `
-      <button type="button" class="repeater-add" id="addFeeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add service</button>`;
+      <button type="button" class="repeater-add" id="addFeeBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add service</button>`;
 
     document.getElementById('addFeeBtn').addEventListener('click', () => {
       data.settings.fees.push({ service:'', fee:0 });

@@ -63,7 +63,7 @@
               <label>Trip Gallery <span class="hint">Shown in the expandable "Gallery" section</span></label>
               <div class="gallery-manager-grid" id="galleryPicks" style="margin-top:8px;"></div>
               <button type="button" class="repeater-add" id="pickGalleryBtn" style="margin-top:12px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>
                 Add Images From Library
               </button>
             </div>
@@ -73,21 +73,21 @@
         <div class="panel">
           <div class="panel-head"><div><h3>What's Included</h3></div></div>
           <div class="panel-body"><div class="repeater" id="includedList"></div>
-            <button type="button" class="repeater-add" data-add="includedList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
+            <button type="button" class="repeater-add" data-add="includedList"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add item</button>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-head"><div><h3>What's Excluded</h3></div></div>
           <div class="panel-body"><div class="repeater" id="excludedList"></div>
-            <button type="button" class="repeater-add" data-add="excludedList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
+            <button type="button" class="repeater-add" data-add="excludedList"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add item</button>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-head"><div><h3>Payment Plan</h3></div></div>
           <div class="panel-body"><div class="repeater" id="paymentList"></div>
-            <button type="button" class="repeater-add" data-add="paymentList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Add item</button>
+            <button type="button" class="repeater-add" data-add="paymentList"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add item</button>
           </div>
         </div>
 
@@ -164,7 +164,8 @@
     const el = document.getElementById(listId);
     if (!items.length) items = [''];
     el.innerHTML = items.map((val, i) => `
-      <div class="repeater-row" data-i="${i}">
+      <div class="repeater-row" data-i="${i}" style="--ri:${i};">
+        <span class="ri-index">${i + 1}</span>
         <input type="text" value="${val.replace(/"/g,'&quot;')}" placeholder="Add a line item…">
         <button type="button" title="Remove" data-remove="${listId}" data-i="${i}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg>
