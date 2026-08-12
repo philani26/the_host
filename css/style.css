@@ -6,26 +6,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
 
 :root{
-  /* --- Color: warm, earthy, feminine --- */
-  --ivory:      #FBF5EE;
-  --cream:      #F4E9DC;
-  --paper:      #FFFCF8;
-  --espresso:   #3B2A21;
-  --espresso-70:#5C4839;
-  --espresso-45:#8A7566;
-  --terracotta: #B5603F;
-  --terracotta-dark:#96492C;
-  --rose:       #D9A08C;
-  --rose-soft:  #F1DCD1;
-  --rose-deep:  #C17B63;
-  --gold:       #B8923F;
-  --sage:       #889877;
-  --sage-soft:  #E4E9DB;
-  --border:     #E7DACB;
-  --border-soft:#F0E6D8;
+  /* --- Color: warm cream + charcoal, accented with the H+U logo's
+     pink-to-purple gradient family (sampled directly from the logo) --- */
+  --ivory:      #FBF7F2;   /* warm white / cream base */
+  --cream:      #F7EEF1;   /* secondary section bg — cream with a whisper of the logo pink */
+  --paper:      #FFFDFB;   /* card / surface white */
+  --espresso:   #241F22;   /* charcoal text (was warm brown) */
+  --espresso-70:#55474E;
+  --espresso-45:#8B7A82;
+  --terracotta: #C81C77;   /* standout brand accent — logo's hot pink/magenta (buttons, links, highlights) */
+  --terracotta-dark:#A8135F;
+  --rose:       #D5489B;   /* mid pink from the logo gradient */
+  --rose-soft:  #F8DCEF;   /* pale pink from the logo (badges, soft fills) */
+  --rose-deep:  #B23D9D;
+  --gold:       #B8923F;   /* rating stars only — not a brand color */
+  --sage:       #6B1D85;   /* secondary brand accent — logo's deep purple */
+  --sage-soft:  #F1E4F2;
+  --border:     #EDE0E4;
+  --border-soft:#F4EAEE;
   --white:      #FFFFFF;
-  --shadow-soft: 0 20px 50px -20px rgba(59,42,33,0.25);
-  --shadow-card: 0 12px 30px -14px rgba(59,42,33,0.22);
+  --shadow-soft: 0 20px 50px -20px rgba(36,31,34,0.25);
+  --shadow-card: 0 12px 30px -14px rgba(36,31,34,0.22);
 
   /* --- Type --- */
   --font-display: 'Playfair Display', Georgia, serif;
@@ -116,8 +117,8 @@ section{ padding:96px 0; }
   transition:all .28s ease;
   white-space:nowrap;
 }
-.btn-primary{ background:var(--terracotta); color:#fff; box-shadow:0 10px 24px -10px rgba(150,73,44,.55); }
-.btn-primary:hover{ background:var(--terracotta-dark); transform:translateY(-2px); box-shadow:0 16px 30px -12px rgba(150,73,44,.6); }
+.btn-primary{ background:var(--terracotta); color:#fff; box-shadow:0 10px 24px -10px rgba(200,28,119,.45); }
+.btn-primary:hover{ background:var(--terracotta-dark); transform:translateY(-2px); box-shadow:0 16px 30px -12px rgba(200,28,119,.5); }
 .btn-outline{ background:transparent; border-color:var(--espresso); color:var(--espresso); }
 .btn-outline:hover{ background:var(--espresso); color:#fff; transform:translateY(-2px); }
 .btn-light{ background:#fff; color:var(--espresso); }
@@ -128,7 +129,7 @@ section{ padding:96px 0; }
 /* ================= NAV ================= */
 .site-header{
   position:sticky; top:0; z-index:200;
-  background:rgba(251,245,238,.9);
+  background:rgba(251,247,242,.9);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border-soft);
 }
@@ -147,7 +148,7 @@ section{ padding:96px 0; }
 }
 .brand-mark{
   flex:none; height:42px; width:61px; border-radius:11px; overflow:hidden;
-  box-shadow:0 4px 14px -5px rgba(59,42,33,.4);
+  box-shadow:0 4px 14px -5px rgba(36,31,34,.35);
 }
 .brand-mark img{ width:100%; height:100%; object-fit:cover; display:block; }
 .site-footer .brand-mark{ height:50px; width:73px; }
@@ -171,7 +172,7 @@ section{ padding:96px 0; }
 
 .nav-backdrop{
   display:none; position:fixed; inset:0; z-index:199;
-  background:rgba(43,29,21,.45); backdrop-filter:blur(2px);
+  background:rgba(36,31,34,.45); backdrop-filter:blur(2px);
   opacity:0; transition:opacity .35s ease;
 }
 .nav-backdrop.open{ display:block; opacity:1; }
@@ -204,7 +205,7 @@ section{ padding:96px 0; }
 .hero-media img{ width:100%; height:100%; object-fit:cover; object-position:center 30%; }
 .hero-media::after{
   content:''; position:absolute; inset:0;
-  background:linear-gradient(180deg, rgba(43,29,21,.35) 0%, rgba(43,29,21,.35) 40%, rgba(30,20,15,.78) 100%);
+  background:linear-gradient(180deg, rgba(36,31,34,.35) 0%, rgba(36,31,34,.35) 40%, rgba(22,18,20,.78) 100%);
 }
 @keyframes heroKenBurns{ from{ transform:scale(1); } to{ transform:scale(1.09); } }
 
@@ -254,7 +255,7 @@ section{ padding:96px 0; }
 .page-hero .eyebrow{ color:var(--rose-soft); text-shadow:0 1px 6px rgba(0,0,0,.4); }
 .page-hero .eyebrow::before{ background:var(--rose-soft); }
 .page-hero .hero-media::after{
-  background:linear-gradient(180deg, rgba(30,20,15,.35) 0%, rgba(30,20,15,.4) 30%, rgba(20,13,9,.92) 100%);
+  background:linear-gradient(180deg, rgba(24,20,22,.35) 0%, rgba(24,20,22,.4) 30%, rgba(18,15,17,.92) 100%);
 }
 
 /* ================= CARDS: Featured trips ================= */
@@ -400,7 +401,7 @@ section{ padding:96px 0; }
 }
 .cta-band .bg{ position:absolute; inset:0; z-index:0; }
 .cta-band .bg img{ width:100%; height:100%; object-fit:cover; }
-.cta-band .bg::after{ content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(150,73,44,.88), rgba(59,42,33,.88)); }
+.cta-band .bg::after{ content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(168,19,95,.88), rgba(36,31,34,.88)); }
 .cta-band > *{ position:relative; z-index:1; }
 .cta-band h2{ color:#fff; font-size:clamp(1.9rem,3.6vw,2.8rem); max-width:640px; margin:0 auto 16px; }
 .cta-band p{ color:rgba(255,255,255,.85); max-width:520px; margin:0 auto 32px; }
@@ -418,7 +419,7 @@ section{ padding:96px 0; }
   transition:border-color .2s ease, box-shadow .2s ease;
 }
 .field input:focus, .field select:focus, .field textarea:focus{
-  outline:none; border-color:var(--terracotta); box-shadow:0 0 0 4px rgba(181,96,63,.14);
+  outline:none; border-color:var(--terracotta); box-shadow:0 0 0 4px rgba(200,28,119,.14);
 }
 .field textarea{ resize:vertical; min-height:120px; }
 .form-note{ font-size:12.5px; color:var(--espresso-45); margin-top:14px; }
@@ -474,7 +475,7 @@ section{ padding:96px 0; }
 
 /* Lightbox */
 .lightbox{
-  position:fixed; inset:0; background:rgba(30,20,15,.92); z-index:999;
+  position:fixed; inset:0; background:rgba(24,20,22,.92); z-index:999;
   display:none; align-items:center; justify-content:center; padding:30px;
 }
 .lightbox.open{ display:flex; }
