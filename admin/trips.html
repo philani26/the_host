@@ -76,9 +76,13 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
-  let data = huLoad();
+  let data = { trips: [] };
   let selected = new Set();
 
   function statusActions(t){
@@ -102,7 +106,7 @@
         <td class="cell-checkbox"><input type="checkbox" class="rowCheck" data-id="${t.id}" ${selected.has(t.id)?'checked':''}></td>
         <td>
           <div class="row-title-cell">
-            <img class="row-thumb" src="${t.hero}" alt="">
+            <img class="row-thumb" src="${huImg(t.hero)}" alt="">
             <div><div class="row-title-main">${t.destination}</div><div class="row-title-sub">${t.tagline}</div></div>
           </div>
         </td>
@@ -153,7 +157,7 @@
     }
   });
 
-  document.getElementById('tripsTbody').addEventListener('click', (e) => {
+  document.getElementById('tripsTbody').addEventListener('click', async (e) => {
     const btn = e.target.closest('button');
     if (!btn) return;
     const id = btn.dataset.id;
@@ -161,35 +165,44 @@
     if (action === 'edit'){ location.href = `trip-form.html?id=${id}`; return; }
     if (action === 'delete'){
       if (!huConfirm('Delete this trip permanently? This cannot be undone.')) return;
+      await huDeleteTrip(id);
       data.trips = data.trips.filter(t => t.id !== id);
-      huSave(data); huToast('Trip deleted'); render();
+      huToast('Trip deleted'); render();
       return;
     }
     if (action === 'status'){
       const t = data.trips.find(t => t.id === id);
+      await huSetTripStatus(id, btn.dataset.status);
       t.status = btn.dataset.status;
-      huSave(data);
       huToast(`${t.destination} marked as ${t.status}`);
       render();
     }
   });
 
-  document.getElementById('bulkPublish').addEventListener('click', () => {
+  document.getElementById('bulkPublish').addEventListener('click', async () => {
+    await Promise.all([...selected].map(id => huSetTripStatus(id, 'published')));
     data.trips.forEach(t => { if (selected.has(t.id)) t.status = 'published'; });
-    huSave(data); huToast('Selected trips published'); selected.clear(); render();
+    huToast('Selected trips published'); selected.clear(); render();
   });
-  document.getElementById('bulkArchive').addEventListener('click', () => {
+  document.getElementById('bulkArchive').addEventListener('click', async () => {
+    await Promise.all([...selected].map(id => huSetTripStatus(id, 'archived')));
     data.trips.forEach(t => { if (selected.has(t.id)) t.status = 'archived'; });
-    huSave(data); huToast('Selected trips archived'); selected.clear(); render();
+    huToast('Selected trips archived'); selected.clear(); render();
   });
-  document.getElementById('bulkDelete').addEventListener('click', () => {
+  document.getElementById('bulkDelete').addEventListener('click', async () => {
     if (!huConfirm(`Delete ${selected.size} trip(s) permanently?`)) return;
+    await Promise.all([...selected].map(id => huDeleteTrip(id)));
     data.trips = data.trips.filter(t => !selected.has(t.id));
-    huSave(data); huToast('Selected trips deleted'); selected.clear(); render();
+    huToast('Selected trips deleted'); selected.clear(); render();
   });
 
-  huRenderShell('trips', '<span class="cur">Trips</span>');
-  render();
+  (async () => {
+    await huRequireAuth();
+    huRenderShell('trips', '<span class="cur">Trips</span>');
+    data = await huFetchAll();
+    huUpdateNavCounts(data);
+    render();
+  })();
 </script>
 </body>
 </html>

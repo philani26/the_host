@@ -143,11 +143,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Enquiry forms — client-side only (no backend wired up) */
   document.querySelectorAll('form[data-enquiry-form]').forEach(form => {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const success = form.parentElement.querySelector('.form-success');
-      form.style.display = 'none';
-      if (success) success.classList.add('show');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const errorEl = form.querySelector('.form-error');
+      if (errorEl) errorEl.style.display = 'none';
+
+      const field = (name) => form.querySelector(`[name="${name}"]`)?.value.trim() || '';
+      const payload = {
+        name: field('name'),
+        email: field('email'),
+        whatsapp: field('whatsapp'),
+        trip: field('trip'),
+        travellers: field('travellers') ? Number(field('travellers')) : null,
+        dates: field('dates'),
+        message: field('message')
+      };
+
+      if (typeof submitEnquiry !== 'function') {
+        console.error('Firebase not loaded on this page — cannot submit enquiry.');
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+      try {
+        await submitEnquiry(payload);
+        const success = form.parentElement.querySelector('.form-success');
+        form.style.display = 'none';
+        if (success) success.classList.add('show');
+      } catch (err) {
+        console.error('Enquiry submission failed:', err);
+        if (errorEl) {
+          errorEl.textContent = "Something went wrong sending your enquiry — please try WhatsApp instead, or try again in a moment.";
+          errorEl.style.display = 'block';
+        }
+        if (submitBtn) submitBtn.disabled = false;
+      }
     });
   });
 

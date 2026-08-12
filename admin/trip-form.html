@@ -125,16 +125,20 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
   const MEDIA_LIBRARY = [1,2,3,4,5,6,7,8,9,10,11,13,15,16,17,18,19,20,21,22,23,24].map(n => `../images/${n}.jpeg`);
 
-  let data = huLoad();
+  let data = { trips: [] };
   const params = new URLSearchParams(location.search);
   const editId = params.get('id');
-  let editingTrip = editId ? data.trips.find(t => t.id === editId) : null;
+  let editingTrip = null;
 
-  let state = editingTrip ? structuredClone(editingTrip) : {
+  let state = {
     id: null, destination:'', tagline:'', dateStart:'', dateEnd:'', price:'', deposit:'', status:'published',
     hero:'', gallery:[], included:[''], excluded:[''], paymentPlan:['']
   };
@@ -148,7 +152,7 @@
     document.getElementById('fPrice').value = state.price;
     document.getElementById('fDeposit').value = state.deposit;
     document.getElementById(state.status === 'draft' ? 'stDraft' : state.status === 'archived' ? 'stArchived' : 'stPublished').checked = true;
-    document.getElementById('heroPreview').src = state.hero || '../images/1.jpeg';
+    document.getElementById('heroPreview').src = state.hero ? huImg(state.hero) : '../images/1.jpeg';
     renderGalleryPicks();
     renderRepeater('includedList', state.included);
     renderRepeater('excludedList', state.excluded);
@@ -200,7 +204,7 @@
     }
     grid.innerHTML = state.gallery.map((src, i) => `
       <div class="gm-card">
-        <img src="${src}" alt="">
+        <img src="${huImg(src)}" alt="">
         <button type="button" class="gm-del" data-i="${i}" title="Remove">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -216,7 +220,8 @@
 
   function openMediaModal(mode){
     mediaMode = mode;
-    mediaSelected = new Set(mode === 'gallery' ? state.gallery : (state.hero ? [state.hero] : []));
+    const current = (mode === 'gallery' ? state.gallery : (state.hero ? [state.hero] : [])).map(huImg);
+    mediaSelected = new Set(current);
     document.getElementById('mediaModalTitle').textContent = mode === 'hero' ? 'Choose Hero Image' : 'Add Images to Gallery';
     const grid = document.getElementById('mediaLibraryGrid');
     grid.innerHTML = MEDIA_LIBRARY.map(src => `
@@ -244,17 +249,20 @@
   document.getElementById('pickGalleryBtn').addEventListener('click', () => openMediaModal('gallery'));
   document.getElementById('mediaConfirmBtn').addEventListener('click', () => {
     if (mediaMode === 'hero'){
-      state.hero = [...mediaSelected][0] || state.hero;
-      document.getElementById('heroPreview').src = state.hero;
+      const picked = [...mediaSelected][0];
+      if (picked) state.hero = huStripImg(picked);
+      document.getElementById('heroPreview').src = huImg(state.hero);
     } else {
-      state.gallery = [...mediaSelected];
+      state.gallery = [...mediaSelected].map(huStripImg);
       renderGalleryPicks();
     }
     huCloseModal('mediaModal');
   });
 
-  document.getElementById('tripForm').addEventListener('submit', (e) => {
+  document.getElementById('tripForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
     state.destination = document.getElementById('fDest').value.trim();
     state.tagline = document.getElementById('fTagline').value.trim();
     state.dateStart = document.getElementById('fStart').value;
@@ -265,29 +273,32 @@
     state.included = readRepeater('includedList').filter(v => v.trim());
     state.excluded = readRepeater('excludedList').filter(v => v.trim());
     state.paymentPlan = readRepeater('paymentList').filter(v => v.trim());
-    if (!state.hero) state.hero = state.gallery[0] || '../images/1.jpeg';
+    if (!state.hero) state.hero = state.gallery[0] || 'images/1.jpeg';
 
-    if (editingTrip){
-      Object.assign(editingTrip, state);
-    } else {
-      state.id = huUid('t');
-      data.trips.push(state);
-    }
-    huSave(data);
+    const payload = { ...state };
+    delete payload.id;
+    await huSaveTrip(editId, payload);
+
     sessionStorage.setItem('hu_toast', editingTrip ? 'Trip updated' : 'New trip added');
     location.href = 'trips.html';
   });
 
-  document.getElementById('deleteBtn').addEventListener('click', () => {
+  document.getElementById('deleteBtn').addEventListener('click', async () => {
     if (!huConfirm('Delete this trip permanently?')) return;
-    data.trips = data.trips.filter(t => t.id !== editingTrip.id);
-    huSave(data);
+    await huDeleteTrip(editingTrip.id);
     sessionStorage.setItem('hu_toast', 'Trip deleted');
     location.href = 'trips.html';
   });
 
-  huRenderShell('trips', `<a href="trips.html">Trips</a><span style="color:var(--espresso-45);">/</span><span class="cur">${editingTrip ? 'Edit' : 'Add New'}</span>`);
-  fillForm();
+  (async () => {
+    await huRequireAuth();
+    data = await huFetchAll();
+    editingTrip = editId ? data.trips.find(t => t.id === editId) : null;
+    if (editingTrip) state = structuredClone(editingTrip);
+    huRenderShell('trips', `<a href="trips.html">Trips</a><span style="color:var(--espresso-45);">/</span><span class="cur">${editingTrip ? 'Edit' : 'Add New'}</span>`);
+    huUpdateNavCounts(data);
+    fillForm();
+  })();
 </script>
 </body>
 </html>

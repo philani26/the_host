@@ -67,9 +67,13 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
-  let data = huLoad();
+  let data = { enquiries: [] };
   let currentEnqId = null;
 
   function render(){
@@ -100,12 +104,13 @@
   document.getElementById('enqSearch').addEventListener('input', render);
   document.getElementById('enqStatusFilter').addEventListener('change', render);
 
-  document.getElementById('enqTbody').addEventListener('click', (e) => {
+  document.getElementById('enqTbody').addEventListener('click', async (e) => {
     const delBtn = e.target.closest('[data-action="delete"]');
     if (delBtn){
       if (!huConfirm('Delete this enquiry?')) return;
+      await huDeleteEnquiry(delBtn.dataset.id);
       data.enquiries = data.enquiries.filter(x => x.id !== delBtn.dataset.id);
-      huSave(data); huToast('Enquiry deleted'); render();
+      huToast('Enquiry deleted'); render();
       return;
     }
     const row = e.target.closest('tr[data-id]');
@@ -135,16 +140,22 @@
       </div>
       ${en.message ? `<div><div style="font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--espresso-45); margin-bottom:4px;">Message</div><p style="margin:0; color:var(--espresso-70);">${en.message}</p></div>` : ''}
     `;
-    document.getElementById('enqStatusSelect').addEventListener('change', (e) => {
-      en.status = e.target.value; huSave(data); render();
+    document.getElementById('enqStatusSelect').addEventListener('change', async (e) => {
+      await huSetEnquiryStatus(en.id, e.target.value);
+      en.status = e.target.value; render();
     });
     document.getElementById('enqWaLink').href = `https://wa.me/${(en.whatsapp||'').replace(/[^0-9]/g,'')}`;
     document.getElementById('enqEmailLink').href = `mailto:${en.email}`;
     huOpenModal('enqModal');
   }
 
-  huRenderShell('enquiries', '<span class="cur">Enquiries</span>');
-  render();
+  (async () => {
+    await huRequireAuth();
+    huRenderShell('enquiries', '<span class="cur">Enquiries</span>');
+    data = await huFetchAll();
+    huUpdateNavCounts(data);
+    render();
+  })();
 </script>
 </body>
 </html>

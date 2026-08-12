@@ -32,30 +32,49 @@
         </div>
         <div class="afield" style="margin-bottom:8px;">
           <label for="loginPass">Password</label>
-          <input type="password" id="loginPass" value="••••••••••" required>
+          <input type="password" id="loginPass" placeholder="Enter your password" required>
         </div>
         <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--espresso-70); margin:14px 0 22px;">
           <input type="checkbox" checked style="width:15px;height:15px;"> Keep me signed in
         </label>
-        <button type="submit" class="abtn abtn-primary" style="width:100%; justify-content:center; padding:13px;">
+        <div id="loginError" style="display:none; background:#FBEAE7; color:#B4382C; padding:12px 14px; border-radius:10px; font-size:13px; margin-bottom:16px;"></div>
+        <button type="submit" class="abtn abtn-primary" id="loginSubmit" style="width:100%; justify-content:center; padding:13px;">
           Sign In
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </form>
 
       <div class="login-note">
-        <strong>Demo mode:</strong> this admin UI runs on sample data stored in your browser — no account or server is connected yet. Click Sign In to explore.
+        Signed in as the site admin. Contact the site owner if you need your password reset.
       </div>
     </div>
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
+  auth.onAuthStateChanged(user => { if (user) location.href = 'dashboard.html'; });
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    sessionStorage.setItem('hu_admin_authed', '1');
-    location.href = 'dashboard.html';
+    const btn = document.getElementById('loginSubmit');
+    const errEl = document.getElementById('loginError');
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPass').value;
+    const result = await huLogin(email, password);
+    if (result.ok){
+      location.href = 'dashboard.html';
+    } else {
+      errEl.textContent = result.error || 'Could not sign in. Check your email and password.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+    }
   });
 </script>
 </body>

@@ -74,9 +74,13 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
-  let data = huLoad();
+  let data = { testimonials: [] };
 
   function stars(n){ return '★'.repeat(n) + '☆'.repeat(5-n); }
 
@@ -86,7 +90,7 @@
     document.getElementById('testiList').innerHTML = list.map(t => `
       <div class="testi-manage-card" draggable="true" data-id="${t.id}">
         <span class="drag-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
-        <img src="${t.avatar}" alt="" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;">
+        <img src="${huImg(t.avatar)}" alt="" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none;">
         <div class="tm-body">
           <div class="tm-stars">${stars(t.rating)}</div>
           <p class="tm-text">"${t.text}"</p>
@@ -100,14 +104,15 @@
     bindDrag();
   }
 
-  document.getElementById('testiList').addEventListener('click', (e) => {
+  document.getElementById('testiList').addEventListener('click', async (e) => {
     const btn = e.target.closest('button');
     if (!btn) return;
     const id = btn.dataset.id;
     if (btn.dataset.action === 'delete'){
       if (!huConfirm('Delete this testimonial?')) return;
+      await huDeleteTestimonial(id);
       data.testimonials = data.testimonials.filter(t => t.id !== id);
-      huSave(data); huToast('Testimonial deleted'); render();
+      huToast('Testimonial deleted'); render();
       return;
     }
     if (btn.dataset.action === 'edit') openModal(data.testimonials.find(t => t.id === id));
@@ -126,7 +131,7 @@
 
   document.getElementById('addTestiBtn').addEventListener('click', () => openModal(null));
 
-  document.getElementById('testiSaveBtn').addEventListener('click', () => {
+  document.getElementById('testiSaveBtn').addEventListener('click', async () => {
     if (!document.getElementById('testiForm').reportValidity()) return;
     const id = document.getElementById('tId').value;
     const payload = {
@@ -137,14 +142,16 @@
       status: document.getElementById('tStatus').value
     };
     if (id){
+      await huSaveTestimonial(id, payload);
       Object.assign(data.testimonials.find(t => t.id === id), payload);
       huToast('Testimonial updated');
     } else {
       const maxOrder = Math.max(0, ...data.testimonials.map(t=>t.order));
-      data.testimonials.push({ id: huUid('r'), order: maxOrder+1, avatar:'../images/17.jpeg', ...payload });
+      const newDoc = { order: maxOrder+1, avatar:'images/17.jpeg', ...payload };
+      const newId = await huSaveTestimonial(null, newDoc);
+      data.testimonials.push({ id: newId, ...newDoc });
       huToast('Testimonial added');
     }
-    huSave(data);
     huCloseModal('testiModal');
     render();
   });
@@ -157,7 +164,7 @@
       card.addEventListener('dragstart', () => { dragId = card.dataset.id; card.classList.add('dragging'); });
       card.addEventListener('dragend', () => { card.classList.remove('dragging'); });
       card.addEventListener('dragover', (e) => e.preventDefault());
-      card.addEventListener('drop', (e) => {
+      card.addEventListener('drop', async (e) => {
         e.preventDefault();
         const targetId = card.dataset.id;
         if (targetId === dragId) return;
@@ -167,13 +174,19 @@
         const to = list.findIndex(t=>t.id===targetId);
         list.splice(from,1); list.splice(to,0,dragged);
         list.forEach((t,i)=>t.order=i+1);
-        huSave(data); render();
+        await huReorderTestimonials(list.map(t => t.id));
+        render();
       });
     });
   }
 
-  huRenderShell('testimonials', '<span class="cur">Testimonials</span>');
-  render();
+  (async () => {
+    await huRequireAuth();
+    huRenderShell('testimonials', '<span class="cur">Testimonials</span>');
+    data = await huFetchAll();
+    huUpdateNavCounts(data);
+    render();
+  })();
 </script>
 </body>
 </html>

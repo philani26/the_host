@@ -11,70 +11,13 @@
 <body class="admin-body" data-page="dashboard">
 
 <div class="admin-shell">
-  <div class="sidebar-scrim"></div>
-  <aside class="admin-sidebar">
-    <div class="brand-lockup">
-      <span class="brand-mark"><img src="../images/logo-mark.jpg" alt="Logo"></span>
-      <span class="name">Host w/ Utmost<small>Admin</small></span>
-    </div>
-    <nav class="admin-nav">
-      <div class="nav-label">Overview</div>
-      <a href="dashboard.html" class="active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="12" width="8" height="9" rx="1.5"/><rect x="3" y="15" width="8" height="6" rx="1.5"/></svg>
-        Dashboard
-      </a>
-      <div class="nav-label">Content</div>
-      <a href="trips.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l18-7-7 18-2-8-8-2z"/></svg>
-        Trips <span class="count" id="navCountTrips">–</span>
-      </a>
-      <a href="testimonials.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg>
-        Testimonials <span class="count" id="navCountTesti">–</span>
-      </a>
-      <a href="gallery.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5-11 11"/></svg>
-        Gallery <span class="count" id="navCountGallery">–</span>
-      </a>
-      <div class="nav-label">Business</div>
-      <a href="enquiries.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-        Enquiries <span class="count" id="navCountEnq">–</span>
-      </a>
-      <a href="settings.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.6 1H21a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"/></svg>
-        Settings
-      </a>
-    </nav>
-    <div class="admin-sidebar-foot">
-      <div class="admin-user">
-        <div class="avatar">P</div>
-        <div class="who"><div class="n">Promise Thom</div><div class="r">Founder / Admin</div></div>
-      </div>
-      <button class="admin-signout" data-signout>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-        Sign Out
-      </button>
-    </div>
-  </aside>
-
+  <div id="shellSidebar"></div>
   <div class="admin-main">
-    <div class="admin-topbar">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <button class="sidebar-toggle" aria-label="Toggle menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-        <div class="crumbs"><span class="cur">Dashboard</span></div>
-      </div>
-      <div class="admin-topbar-actions">
-        <a href="../index.html" target="_blank" class="abtn abtn-outline">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>
-          View Live Site
-        </a>
-      </div>
-    </div>
+    <div id="shellTopbar"></div>
 
     <div class="admin-content">
       <div style="margin-bottom:24px;">
-        <h1 style="font-size:1.6rem; margin-bottom:4px;">Welcome back, Promise 👋</h1>
+        <h1 style="font-size:1.6rem; margin-bottom:4px;">Welcome back 👋</h1>
         <p style="color:var(--espresso-45); margin:0;">Here's what's happening across your trips and enquiries.</p>
       </div>
 
@@ -127,16 +70,12 @@
             </a>
             <a href="gallery.html" class="abtn abtn-outline" style="justify-content:flex-start;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5-11 11"/></svg>
-              Upload to Gallery
+              Manage Gallery
             </a>
             <a href="settings.html" class="abtn abtn-outline" style="justify-content:flex-start;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 11.5a8.5 8.5 0 1 1-15.7-4.5L4 20l6-1.3a8.5 8.5 0 0 0 10.5-7.2z"/></svg>
               Update WhatsApp / Contact Info
             </a>
-            <button class="abtn abtn-ghost" style="justify-content:flex-start;" data-reset-demo>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
-              Reset Demo Data
-            </button>
           </div>
         </div>
       </div>
@@ -144,24 +83,27 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
-  const data = huLoad();
-  const trips = data.trips, testis = data.testimonials, gallery = data.gallery, enquiries = data.enquiries;
+(async () => {
+  await huRequireAuth();
+  huRenderShell('dashboard', '<span class="cur">Dashboard</span>');
 
-  document.getElementById('navCountTrips').textContent = trips.length;
-  document.getElementById('navCountTesti').textContent = testis.length;
-  document.getElementById('navCountGallery').textContent = gallery.length;
-  document.getElementById('navCountEnq').textContent = enquiries.filter(e => e.status === 'new').length;
+  const data = await huFetchAll();
+  huUpdateNavCounts(data);
+  const { trips, testimonials: testis, gallery, enquiries } = data;
 
   const published = trips.filter(t => t.status === 'published').length;
-  const draft = trips.filter(t => t.status === 'draft').length;
   const newEnq = enquiries.filter(e => e.status === 'new').length;
 
   const kpis = [
-    { label:'Published Trips', value: published, icon:'<path d="M3 11l18-7-7 18-2-8-8-2z"/>', trend:'+2 this month', up:true },
+    { label:'Published Trips', value: published, icon:'<path d="M3 11l18-7-7 18-2-8-8-2z"/>', trend:`${trips.length} total`, up:true },
     { label:'New Enquiries', value: newEnq, icon:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', trend: newEnq + ' awaiting reply', up:newEnq>0 },
-    { label:'Testimonials', value: testis.length, icon:'<path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/>', trend:'+1 pending review', up:true },
+    { label:'Testimonials', value: testis.length, icon:'<path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/>', trend:`${testis.filter(t=>t.status==='published').length} published`, up:true },
     { label:'Gallery Images', value: gallery.length, icon:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5-11 11"/>', trend:'7 categories', up:true },
   ];
   document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
@@ -187,11 +129,12 @@
   const upcoming = trips.filter(t => t.status === 'published').sort((a,b)=> new Date(a.dateStart)-new Date(b.dateStart));
   document.querySelector('#upcomingTripsTable tbody').innerHTML = upcoming.map(t => `
     <tr>
-      <td><div class="row-title-cell"><img class="row-thumb" src="${t.hero}" alt=""><div><div class="row-title-main">${t.destination}</div><div class="row-title-sub">${t.tagline}</div></div></div></td>
+      <td><div class="row-title-cell"><img class="row-thumb" src="${huImg(t.hero)}" alt=""><div><div class="row-title-main">${t.destination}</div><div class="row-title-sub">${t.tagline}</div></div></div></td>
       <td>${huFmtDateRange(t.dateStart, t.dateEnd)}</td>
       <td>${huFmtCurrency(t.price)}</td>
       <td><span class="status-pill ${t.status}">${t.status}</span></td>
     </tr>`).join('');
+})();
 </script>
 </body>
 </html>

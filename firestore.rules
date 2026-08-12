@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Trips: anyone can read published trips; only signed-in admin can write,
+    // and admins can also read drafts/archived trips for the CMS.
+    match /trips/{tripId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Testimonials: same pattern — published ones are public, admin manages all.
+    match /testimonials/{testimonialId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Gallery images: public site gallery is fully public read; admin manages.
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Site settings (contact info, social links, concierge pricing): public read, admin write.
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Enquiries: anyone can submit a new enquiry (the public forms), but only
+    // the admin can read, update (status) or delete them.
+    match /enquiries/{enquiryId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
