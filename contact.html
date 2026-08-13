@@ -86,7 +86,7 @@
               <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
               <div>
                 <h4>Based In</h4>
-                <p style="margin:0;">South Africa — hosting trips across Africa and beyond</p>
+                <p style="margin:0;" data-settings-address>South Africa — hosting trips across Africa and beyond</p>
               </div>
             </div>
           </div>
@@ -106,6 +106,10 @@
             <span class="eyebrow">Send an Enquiry</span>
             <h3 style="font-size:1.5rem; margin-bottom:20px;">Join a trip, request a local escape, or ask about concierge support.</h3>
             <form data-enquiry-form>
+              <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+                <label for="c-company">Leave this field empty</label>
+                <input type="text" id="c-company" name="company" tabindex="-1" autocomplete="off">
+              </div>
               <div class="form-grid">
                 <div class="field">
                   <label for="c-name">Full Name</label>
@@ -194,9 +198,9 @@
       </nav>
       <div class="footer-col">
         <h5>Get in Touch</h5>
-        <p>hello@hostwiththeutmost.com</p>
-        <p>WhatsApp: +27 73 442 6770</p>
-        <p>@hostwiththeutmost on Instagram &amp; TikTok</p>
+        <p data-settings-email>hello@hostwiththeutmost.com</p>
+        <p data-settings-whatsapp-text>WhatsApp: +27 73 442 6770</p>
+        <p data-settings-social-text>@hostwiththeutmost on Instagram &amp; TikTok</p>
       </div>
     </div>
     <div class="footer-bottom">

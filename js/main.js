@@ -151,6 +151,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = e.target.closest('form[data-enquiry-form]');
     if (!form) return;
     e.preventDefault();
+
+    /* Honeypot spam check — a hidden field real users never see or fill.
+       If it's filled, silently pretend success without touching Firestore. */
+    const honeypot = form.querySelector('[name="company"]');
+    if (honeypot && honeypot.value.trim()) {
+      const success = form.parentElement.querySelector('.form-success');
+      form.style.display = 'none';
+      if (success) success.classList.add('show');
+      return;
+    }
+
     const submitBtn = form.querySelector('button[type="submit"]');
     const errorEl = form.querySelector('.form-error');
     if (errorEl) errorEl.style.display = 'none';
@@ -204,4 +215,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const href = a.getAttribute('href');
     if (href === path || (path === '' && href === 'index.html')) a.classList.add('active');
   });
+
+  /* Site-wide contact/social settings — single source of truth is the CMS
+     Settings page (Firestore settings/site). Pulls the live values into
+     every WhatsApp link, mailto link, social link and footer line. */
+  if (typeof fetchSiteSettings === 'function') {
+    fetchSiteSettings().then(applySiteSettings).catch(err => console.error('Failed to load site settings:', err));
+  }
 });
+
+function applySiteSettings(settings){
+  if (!settings) return;
+  const waDigits = (settings.whatsapp || '').replace(/[^0-9]/g, '');
+  const email = (settings.email || '').trim();
+  const igHandle = (settings.instagram || '').replace(/^@/, '').trim();
+  const ttHandle = (settings.tiktok || '').replace(/^@/, '').trim();
+
+  if (waDigits) {
+    document.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
+      a.setAttribute('href', a.getAttribute('href').replace(/wa\.me\/\d+/, `wa.me/${waDigits}`));
+      if (/^\+?[\d\s]+$/.test(a.textContent.trim())) a.textContent = settings.whatsapp;
+    });
+  }
+  if (email) {
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.setAttribute('href', `mailto:${email}`);
+      if (a.textContent.trim().includes('@')) a.textContent = email;
+    });
+  }
+  if (igHandle) {
+    document.querySelectorAll('a[href*="instagram.com/"]').forEach(a => {
+      a.setAttribute('href', `https://instagram.com/${igHandle}`);
+      if (a.textContent.trim().startsWith('@')) a.textContent = '@' + igHandle;
+    });
+  }
+  if (ttHandle) {
+    document.querySelectorAll('a[href*="tiktok.com/"]').forEach(a => {
+      a.setAttribute('href', `https://tiktok.com/@${ttHandle}`);
+      if (a.textContent.trim().startsWith('@')) a.textContent = '@' + ttHandle;
+    });
+  }
+
+  document.querySelectorAll('[data-settings-email]').forEach(el => { if (email) el.textContent = email; });
+  document.querySelectorAll('[data-settings-whatsapp-text]').forEach(el => { if (settings.whatsapp) el.textContent = `WhatsApp: ${settings.whatsapp}`; });
+  document.querySelectorAll('[data-settings-social-text]').forEach(el => { if (igHandle) el.innerHTML = `@${igHandle} on Instagram &amp; TikTok`; });
+  document.querySelectorAll('[data-settings-address]').forEach(el => { if (settings.address) el.textContent = settings.address; });
+}

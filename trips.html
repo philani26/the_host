@@ -81,6 +81,10 @@
 
       <div style="background:var(--paper); border:1px solid var(--border-soft); border-radius:var(--radius-lg); padding:44px; box-shadow:var(--shadow-card);" data-reveal>
         <form data-enquiry-form>
+          <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+            <label for="enquire-company">Leave this field empty</label>
+            <input type="text" id="enquire-company" name="company" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form-grid">
             <div class="field">
               <label for="enquire-name">Full Name</label>
@@ -168,9 +172,9 @@
       </nav>
       <div class="footer-col">
         <h5>Get in Touch</h5>
-        <p>hello@hostwiththeutmost.com</p>
-        <p>WhatsApp: +27 73 442 6770</p>
-        <p>@hostwiththeutmost on Instagram &amp; TikTok</p>
+        <p data-settings-email>hello@hostwiththeutmost.com</p>
+        <p data-settings-whatsapp-text>WhatsApp: +27 73 442 6770</p>
+        <p data-settings-social-text>@hostwiththeutmost on Instagram &amp; TikTok</p>
       </div>
     </div>
     <div class="footer-bottom">
