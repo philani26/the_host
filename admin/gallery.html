@@ -182,16 +182,25 @@
   document.getElementById('uploadDrop').addEventListener('click', openMediaPicker);
 
   document.getElementById('mediaConfirmBtn').addEventListener('click', async () => {
+    const confirmBtn = document.getElementById('mediaConfirmBtn');
     const category = document.getElementById('mediaCategorySelect').value;
     const toAdd = [...mediaSelected];
     if (!toAdd.length){ huCloseModal('mediaModal'); return; }
-    for (const src of toAdd){
-      const id = await huAddGalleryImage(src, category);
-      data.gallery.push({ id, src, category, order: Date.now() });
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Adding...';
+    try {
+      const ids = await huAddGalleryImages(toAdd, category);
+      toAdd.forEach((src, index) => data.gallery.push({ id: ids[index], src, category, order: Date.now() }));
+      huToast(`${toAdd.length} image${toAdd.length>1?'s':''} added`);
+      huCloseModal('mediaModal');
+      render();
+    } catch (error) {
+      const message = (error.message || 'Unable to add selected images').replace('Firebase: ', '');
+      huToast(message, { error: true });
+    } finally {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = 'Add Selected';
     }
-    huToast(`${toAdd.length} image${toAdd.length>1?'s':''} added`);
-    huCloseModal('mediaModal');
-    render();
   });
 
   (async () => {

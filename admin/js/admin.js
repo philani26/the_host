@@ -74,14 +74,21 @@ async function huLogin(email, password){
 /* ==========================================================
    DATA — Firestore
    ========================================================== */
+function huFirestoreRequest(operation){
+  return Promise.race([
+    operation(),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore is unavailable. Create the default database for utmost-travel and check access.')), 10000))
+  ]);
+}
+
 async function huFetchAll(){
-  const [tripsSnap, testiSnap, gallerySnap, enqSnap, settingsSnap] = await Promise.all([
+  const [tripsSnap, testiSnap, gallerySnap, enqSnap, settingsSnap] = await huFirestoreRequest(() => Promise.all([
     db.collection('trips').get(),
     db.collection('testimonials').get(),
     db.collection('gallery').get(),
     db.collection('enquiries').get(),
     db.collection('settings').doc('site').get()
-  ]);
+  ]));
   const toDate = (v) => (v && typeof v.toDate === 'function') ? v.toDate().toISOString() : v;
 
   return {
@@ -95,52 +102,62 @@ async function huFetchAll(){
 
 /* --- Trips --- */
 async function huSaveTrip(id, payload){
-  if (id) { await db.collection('trips').doc(id).set(payload, { merge: true }); return id; }
-  const ref = await db.collection('trips').add(payload);
+  if (id) { await huFirestoreRequest(() => db.collection('trips').doc(id).set(payload, { merge: true })); return id; }
+  const ref = await huFirestoreRequest(() => db.collection('trips').add(payload));
   return ref.id;
 }
-async function huDeleteTrip(id){ await db.collection('trips').doc(id).delete(); }
-async function huSetTripStatus(id, status){ await db.collection('trips').doc(id).update({ status }); }
+async function huDeleteTrip(id){ await huFirestoreRequest(() => db.collection('trips').doc(id).delete()); }
+async function huSetTripStatus(id, status){ await huFirestoreRequest(() => db.collection('trips').doc(id).update({ status })); }
 
 /* --- Testimonials --- */
 async function huSaveTestimonial(id, payload){
-  if (id) { await db.collection('testimonials').doc(id).set(payload, { merge: true }); return id; }
-  const ref = await db.collection('testimonials').add(payload);
+  if (id) { await huFirestoreRequest(() => db.collection('testimonials').doc(id).set(payload, { merge: true })); return id; }
+  const ref = await huFirestoreRequest(() => db.collection('testimonials').add(payload));
   return ref.id;
 }
-async function huDeleteTestimonial(id){ await db.collection('testimonials').doc(id).delete(); }
+async function huDeleteTestimonial(id){ await huFirestoreRequest(() => db.collection('testimonials').doc(id).delete()); }
 async function huReorderTestimonials(orderedIds){
   const batch = db.batch();
   orderedIds.forEach((id, i) => batch.update(db.collection('testimonials').doc(id), { order: i + 1 }));
-  await batch.commit();
+  await huFirestoreRequest(() => batch.commit());
 }
 
 /* --- Gallery --- */
 async function huAddGalleryImage(src, category){
-  const ref = await db.collection('gallery').add({ src, category, order: Date.now() });
+  const ref = await huFirestoreRequest(() => db.collection('gallery').add({ src, category, order: Date.now() }));
   return ref.id;
 }
-async function huUpdateGalleryCategory(id, category){ await db.collection('gallery').doc(id).update({ category }); }
-async function huDeleteGalleryImage(id){ await db.collection('gallery').doc(id).delete(); }
+async function huAddGalleryImages(images, category){
+  const batch = db.batch();
+  const refs = images.map(src => {
+    const ref = db.collection('gallery').doc();
+    batch.set(ref, { src, category, order: Date.now() });
+    return ref;
+  });
+  await huFirestoreRequest(() => batch.commit());
+  return refs.map(ref => ref.id);
+}
+async function huUpdateGalleryCategory(id, category){ await huFirestoreRequest(() => db.collection('gallery').doc(id).update({ category })); }
+async function huDeleteGalleryImage(id){ await huFirestoreRequest(() => db.collection('gallery').doc(id).delete()); }
 async function huReorderGallery(orderedIds){
   const batch = db.batch();
   orderedIds.forEach((id, i) => batch.update(db.collection('gallery').doc(id), { order: i + 1 }));
-  await batch.commit();
+  await huFirestoreRequest(() => batch.commit());
 }
 
 /* --- Enquiries (huAddEnquiry is also used by the public site forms) --- */
 async function huAddEnquiry(payload){
-  await db.collection('enquiries').add({
+  await huFirestoreRequest(() => db.collection('enquiries').add({
     ...payload,
     status: 'new',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  }));
 }
-async function huSetEnquiryStatus(id, status){ await db.collection('enquiries').doc(id).update({ status }); }
-async function huDeleteEnquiry(id){ await db.collection('enquiries').doc(id).delete(); }
+async function huSetEnquiryStatus(id, status){ await huFirestoreRequest(() => db.collection('enquiries').doc(id).update({ status })); }
+async function huDeleteEnquiry(id){ await huFirestoreRequest(() => db.collection('enquiries').doc(id).delete()); }
 
 /* --- Settings --- */
-async function huSaveSettings(payload){ await db.collection('settings').doc('site').set(payload, { merge: true }); }
+async function huSaveSettings(payload){ await huFirestoreRequest(() => db.collection('settings').doc('site').set(payload, { merge: true })); }
 
 /* ---------------- Shared shell (sidebar + topbar) ---------------- */
 const HU_NAV = [
@@ -248,4 +265,9 @@ function huConfirm(message){ return window.confirm(message); }
 
 document.addEventListener('DOMContentLoaded', () => {
   huShowPendingToast();
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  const message = event.reason?.message || 'An admin action failed.';
+  huToast(message.replace('Firebase: ', ''), { error: true });
 });

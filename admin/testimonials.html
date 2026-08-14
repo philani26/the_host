@@ -133,6 +133,7 @@
 
   document.getElementById('testiSaveBtn').addEventListener('click', async () => {
     if (!document.getElementById('testiForm').reportValidity()) return;
+    const saveBtn = document.getElementById('testiSaveBtn');
     const id = document.getElementById('tId').value;
     const payload = {
       text: document.getElementById('tText').value.trim(),
@@ -141,19 +142,35 @@
       rating: Number(document.getElementById('tRating').value),
       status: document.getElementById('tStatus').value
     };
-    if (id){
-      await huSaveTestimonial(id, payload);
-      Object.assign(data.testimonials.find(t => t.id === id), payload);
-      huToast('Testimonial updated');
-    } else {
-      const maxOrder = Math.max(0, ...data.testimonials.map(t=>t.order));
-      const newDoc = { order: maxOrder+1, avatar:'images/17.jpeg', ...payload };
-      const newId = await huSaveTestimonial(null, newDoc);
-      data.testimonials.push({ id: newId, ...newDoc });
-      huToast('Testimonial added');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+    try {
+      if (id){
+        await Promise.race([
+          huSaveTestimonial(id, payload),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase did not respond. Check your connection and Firestore access.')), 10000))
+        ]);
+        Object.assign(data.testimonials.find(t => t.id === id), payload);
+        huToast('Testimonial updated');
+      } else {
+        const maxOrder = Math.max(0, ...data.testimonials.map(t=>t.order));
+        const newDoc = { order: maxOrder+1, avatar:'images/17.jpeg', ...payload };
+        const newId = await Promise.race([
+          huSaveTestimonial(null, newDoc),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase did not respond. Check your connection and Firestore access.')), 10000))
+        ]);
+        data.testimonials.push({ id: newId, ...newDoc });
+        huToast('Testimonial added');
+      }
+      huCloseModal('testiModal');
+      render();
+    } catch (error) {
+      const message = (error.message || 'Unable to save testimonial').replace('Firebase: ', '');
+      huToast(message, { error: true });
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Testimonial';
     }
-    huCloseModal('testiModal');
-    render();
   });
 
   /* Drag to reorder */
