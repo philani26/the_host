@@ -67,7 +67,12 @@
   }
 
   class RestFirestore {
-    constructor(config, auth){ this.config = config; this.auth = auth; this.base = `https://firestore.googleapis.com/v1/projects/${config.projectId}/databases/default/documents`; }
+    constructor(config, auth){
+      this.config = config;
+      this.auth = auth;
+      this.resourceBase = `projects/${config.projectId}/databases/default/documents`;
+      this.base = `https://firestore.googleapis.com/v1/${this.resourceBase}`;
+    }
     settings(){ return this; }
     collection(name){ return new RestCollection(this, name); }
     batch(){ return new RestBatch(this); }
@@ -87,7 +92,7 @@
       const writes = operations.map(operation => {
         const fields = encodeFields(operation.data);
         const transforms = serverTransforms(operation.data);
-        const write = { update: { name: `${this.base}/${operation.path}`, fields } };
+        const write = { update: { name: `${this.resourceBase}/${operation.path}`, fields } };
         if (operation.type === 'update' || operation.merge) write.updateMask = { fieldPaths: Object.keys(operation.data).filter(field => !(operation.data[field] && operation.data[field].__serverTimestamp)) };
         if (transforms.length) write.updateTransforms = transforms;
         return write;
