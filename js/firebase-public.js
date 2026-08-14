@@ -12,7 +12,8 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const publicDb = firebase.firestore();
+firebase.firestore.FieldValue = { serverTimestamp: restServerTimestamp };
+const publicDb = new RestFirestore(firebaseConfig, null);
 
 async function submitEnquiry(payload){
   await publicDb.collection('enquiries').add({

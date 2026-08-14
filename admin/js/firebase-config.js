@@ -11,6 +11,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-db.settings({ experimentalForceLongPolling: true });
 const auth = firebase.auth();
+firebase.firestore.FieldValue = { serverTimestamp: restServerTimestamp };
+const db = new RestFirestore(firebaseConfig, auth);
