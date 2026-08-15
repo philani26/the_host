@@ -13,9 +13,13 @@
     "public": ".",
     "ignore": [
       "firebase.json",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "storage.rules",
       "**/.*",
       "**/node_modules/**",
-      "scripts/**"
+      "scripts/**",
+      "functions/**"
     ]
   }
 }
