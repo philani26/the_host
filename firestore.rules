@@ -3,8 +3,14 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Locked to the site's admin account specifically — not just "any signed-in
+    // user". Firebase's email/password sign-up endpoint is reachable by anyone
+    // holding the public API key (which is, by design, embedded in the client
+    // JS), so `request.auth != null` alone would let a stranger self-register
+    // and pass every write check below as if they were the admin.
     function isAdmin() {
-      return request.auth != null;
+      return request.auth != null &&
+        request.auth.token.email in ['promise@hostwiththeutmost.com'];
     }
 
     // Trips: anyone can read published trips; only signed-in admin can write,
@@ -33,9 +39,16 @@ service cloud.firestore {
     }
 
     // Enquiries: anyone can submit a new enquiry (the public forms), but only
-    // the admin can read, update (status) or delete them.
+    // the admin can read, update (status) or delete them. The open `create`
+    // is constrained to the exact shape the forms send, with size caps, so it
+    // can't be used to dump arbitrary or oversized documents into the DB.
     match /enquiries/{enquiryId} {
-      allow create: if true;
+      allow create: if request.resource.data.keys().hasOnly(
+                        ['name','email','whatsapp','trip','travellers','dates','message','status','createdAt']) &&
+                      request.resource.data.status == 'new' &&
+                      request.resource.data.name is string && request.resource.data.name.size() < 200 &&
+                      request.resource.data.email is string && request.resource.data.email.size() < 200 &&
+                      request.resource.data.message is string && request.resource.data.message.size() < 5000;
       allow read, update, delete: if isAdmin();
     }
   }

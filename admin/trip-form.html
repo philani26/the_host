@@ -50,22 +50,31 @@
         </div>
 
         <div class="panel">
-          <div class="panel-head"><div><h3>Images</h3><p>Choose a hero image and build the trip gallery from your media library</p></div></div>
+          <div class="panel-head"><div><h3>Images</h3><p>Choose a hero image and build the trip gallery — upload your own photos or pick from the media library</p></div></div>
           <div class="panel-body">
             <div class="afield" style="margin-bottom:20px;">
               <label>Hero Image <span class="hint">Shown on trip cards and the detail header</span></label>
               <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
                 <img id="heroPreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
-                <button type="button" class="abtn abtn-outline" id="pickHeroBtn">Choose Hero Image</button>
+                <button type="button" class="abtn abtn-outline" id="pickHeroBtn">Choose From Library</button>
+                <button type="button" class="abtn abtn-outline" id="uploadHeroBtn">Upload Image</button>
+                <input type="file" id="uploadHeroInput" accept="image/*" style="display:none;">
               </div>
             </div>
             <div class="afield">
               <label>Trip Gallery <span class="hint">Shown in the expandable "Gallery" section</span></label>
               <div class="gallery-manager-grid" id="galleryPicks" style="margin-top:8px;"></div>
-              <button type="button" class="repeater-add" id="pickGalleryBtn" style="margin-top:12px;">
-                <span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>
-                Add Images From Library
-              </button>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <button type="button" class="repeater-add" id="pickGalleryBtn">
+                  <span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>
+                  Add From Library
+                </button>
+                <button type="button" class="repeater-add" id="uploadGalleryBtn">
+                  <span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
+                  Upload Images
+                </button>
+                <input type="file" id="uploadGalleryInput" accept="image/*" multiple style="display:none;">
+              </div>
             </div>
           </div>
         </div>
@@ -129,6 +138,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="../js/firestore-rest.js"></script>
+<script src="../js/storage-rest.js"></script>
 <script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
@@ -249,6 +259,43 @@
 
   document.getElementById('pickHeroBtn').addEventListener('click', () => openMediaModal('hero'));
   document.getElementById('pickGalleryBtn').addEventListener('click', () => openMediaModal('gallery'));
+
+  document.getElementById('uploadHeroBtn').addEventListener('click', () => document.getElementById('uploadHeroInput').click());
+  document.getElementById('uploadHeroInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    const btn = document.getElementById('uploadHeroBtn');
+    btn.disabled = true; btn.textContent = 'Uploading…';
+    try {
+      state.hero = await huUploadImage(file);
+      document.getElementById('heroPreview').src = huImg(state.hero);
+      huToast('Hero image uploaded');
+    } catch (err) {
+      huToast(err.message, { error: true });
+    } finally {
+      btn.disabled = false; btn.textContent = 'Upload Image';
+    }
+  });
+
+  document.getElementById('uploadGalleryBtn').addEventListener('click', () => document.getElementById('uploadGalleryInput').click());
+  document.getElementById('uploadGalleryInput').addEventListener('change', async (e) => {
+    const files = [...e.target.files];
+    e.target.value = '';
+    if (!files.length) return;
+    const btn = document.getElementById('uploadGalleryBtn');
+    btn.disabled = true;
+    try {
+      const urls = await huUploadImages(files);
+      state.gallery.push(...urls);
+      renderGalleryPicks();
+      huToast(`${urls.length} image(s) uploaded`);
+    } catch (err) {
+      huToast(err.message, { error: true });
+    } finally {
+      btn.disabled = false;
+    }
+  });
   document.getElementById('mediaConfirmBtn').addEventListener('click', () => {
     if (mediaMode === 'hero'){
       const picked = [...mediaSelected][0];
@@ -286,7 +333,7 @@
   });
 
   document.getElementById('deleteBtn').addEventListener('click', async () => {
-    if (!huConfirm('Delete this trip permanently?')) return;
+    if (!(await huConfirm('Delete this trip permanently?'))) return;
     await huDeleteTrip(editingTrip.id);
     sessionStorage.setItem('hu_toast', 'Trip deleted');
     location.href = 'trips.html';

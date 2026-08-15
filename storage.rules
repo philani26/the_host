@@ -1,0 +1,17 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Uploaded trip/gallery images: publicly viewable (they're shown on the
+    // live site), but only the site's admin can upload — same admin lock as
+    // firestore.rules, capped at 10MB and images only.
+    match /uploads/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null &&
+        request.auth.token.email in ['promise@hostwiththeutmost.com'] &&
+        request.resource.size < 10 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*');
+    }
+  }
+}

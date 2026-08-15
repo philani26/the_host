@@ -77,7 +77,7 @@ async function huLogin(email, password){
 function huFirestoreRequest(operation){
   return Promise.race([
     operation(),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore is unavailable. Create the default database for utmost-travel and check access.')), 10000))
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore is unavailable. Check that the default database exists for this Firebase project and that you have access.')), 10000))
   ]);
 }
 
@@ -120,6 +120,24 @@ async function huReorderTestimonials(orderedIds){
   const batch = db.batch();
   orderedIds.forEach((id, i) => batch.update(db.collection('testimonials').doc(id), { order: i + 1 }));
   await huFirestoreRequest(() => batch.commit());
+}
+
+/* --- Image upload (Firebase Storage) --- */
+const HU_MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+function huUploadImage(file){
+  if (!file.type.startsWith('image/')) throw new Error(`"${file.name}" isn't an image file.`);
+  if (file.size > HU_MAX_UPLOAD_BYTES) throw new Error(`"${file.name}" is over the 10MB upload limit.`);
+  const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+  const path = `uploads/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
+  return Promise.race([
+    storage.upload(path, file),
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`Upload of "${file.name}" timed out.`)), 30000))
+  ]);
+}
+async function huUploadImages(files){
+  const urls = [];
+  for (const file of files) urls.push(await huUploadImage(file));
+  return urls;
 }
 
 /* --- Gallery --- */
@@ -261,7 +279,68 @@ document.addEventListener('click', (e) => {
 });
 
 /* ---------------- Confirm helper ---------------- */
-function huConfirm(message){ return window.confirm(message); }
+let huConfirmEls = null;
+function huConfirmInit(){
+  if (huConfirmEls) return huConfirmEls;
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal-box confirm-box">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6h16z"/><path d="M10 11v6M14 11v6"/></svg>
+      </div>
+      <h3></h3>
+      <p></p>
+      <div class="confirm-actions">
+        <button type="button" class="abtn abtn-outline" data-role="cancel">Cancel</button>
+        <button type="button" class="abtn abtn-danger-solid" data-role="ok">Delete</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  huConfirmEls = {
+    overlay,
+    title: overlay.querySelector('h3'),
+    message: overlay.querySelector('p'),
+    cancelBtn: overlay.querySelector('[data-role="cancel"]'),
+    okBtn: overlay.querySelector('[data-role="ok"]')
+  };
+  return huConfirmEls;
+}
+
+function huConfirm(message, opts = {}){
+  const els = huConfirmInit();
+
+  let title = message, sub = '';
+  const qIdx = message.indexOf('?');
+  if (qIdx !== -1 && qIdx < message.length - 1) {
+    title = message.slice(0, qIdx + 1);
+    sub = message.slice(qIdx + 1).trim();
+  }
+  els.title.textContent = opts.title || title;
+  els.message.textContent = opts.message || sub || "This action can't be undone.";
+  els.okBtn.textContent = opts.confirmLabel || 'Delete';
+  els.overlay.classList.add('open');
+  els.cancelBtn.focus();
+
+  return new Promise((resolve) => {
+    const cleanup = (result) => {
+      els.overlay.classList.remove('open');
+      els.okBtn.removeEventListener('click', onOk);
+      els.cancelBtn.removeEventListener('click', onCancel);
+      els.overlay.removeEventListener('click', onOverlay);
+      document.removeEventListener('keydown', onKey);
+      resolve(result);
+    };
+    const onOk = () => cleanup(true);
+    const onCancel = () => cleanup(false);
+    const onOverlay = (e) => { if (e.target === els.overlay) cleanup(false); };
+    const onKey = (e) => { if (e.key === 'Escape') cleanup(false); };
+    els.okBtn.addEventListener('click', onOk);
+    els.cancelBtn.addEventListener('click', onCancel);
+    els.overlay.addEventListener('click', onOverlay);
+    document.addEventListener('keydown', onKey);
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   huShowPendingToast();

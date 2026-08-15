@@ -71,6 +71,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="../js/firestore-rest.js"></script>
+<script src="../js/storage-rest.js"></script>
 <script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
@@ -108,7 +109,7 @@
   document.getElementById('enqTbody').addEventListener('click', async (e) => {
     const delBtn = e.target.closest('[data-action="delete"]');
     if (delBtn){
-      if (!huConfirm('Delete this enquiry?')) return;
+      if (!(await huConfirm('Delete this enquiry?'))) return;
       await huDeleteEnquiry(delBtn.dataset.id);
       data.enquiries = data.enquiries.filter(x => x.id !== delBtn.dataset.id);
       huToast('Enquiry deleted'); render();

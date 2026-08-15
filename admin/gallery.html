@@ -24,9 +24,17 @@
       <div class="panel">
         <div class="panel-body">
           <div class="upload-drop" id="uploadDrop">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5-11 11"/></svg>
-            <div><strong>Add images from your media library</strong></div>
-            <div style="font-size:12px; margin-top:4px;">Choose from photos already on the site</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0-12 4 4m-4-4-4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div><strong>Drag & drop images here, or click to upload</strong></div>
+            <div style="font-size:12px; margin-top:4px;">JPG, PNG or WEBP — up to 10MB each</div>
+          </div>
+          <input type="file" id="uploadInput" accept="image/*" multiple style="display:none;">
+          <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:14px; margin-top:14px; flex-wrap:wrap;">
+            <div class="afield" style="flex:1; min-width:200px;">
+              <label for="uploadCategorySelect">Category for new uploads</label>
+              <select id="uploadCategorySelect" class="select-filter"></select>
+            </div>
+            <button type="button" class="abtn abtn-outline" id="pickLibraryBtn">Add From Library Instead</button>
           </div>
         </div>
       </div>
@@ -74,6 +82,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="../js/firestore-rest.js"></script>
+<script src="../js/storage-rest.js"></script>
 <script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
@@ -124,7 +133,7 @@
 
   function bindGrid(){
     document.querySelectorAll('.gm-del').forEach(btn => btn.addEventListener('click', async () => {
-      if (!huConfirm('Remove this image from the gallery?')) return;
+      if (!(await huConfirm('Remove this image from the gallery?'))) return;
       await huDeleteGalleryImage(btn.dataset.id);
       data.gallery = data.gallery.filter(g => g.id !== btn.dataset.id);
       huToast('Image removed'); render();
@@ -180,7 +189,56 @@
     huOpenModal('mediaModal');
   }
 
-  document.getElementById('uploadDrop').addEventListener('click', openMediaPicker);
+  function uploadCategoryValue(){
+    const sel = document.getElementById('uploadCategorySelect');
+    return sel.value || 'destinations';
+  }
+  function renderUploadCategorySelect(){
+    const sel = document.getElementById('uploadCategorySelect');
+    const prev = sel.value;
+    sel.innerHTML = CATS.filter(c => c.key !== 'all').map(c => `<option value="${c.key}">${c.label}</option>`).join('');
+    sel.value = prev || (activeCat === 'all' ? 'destinations' : activeCat);
+  }
+
+  async function handleUploadFiles(files){
+    if (!files.length) return;
+    const dropEl = document.getElementById('uploadDrop');
+    dropEl.style.pointerEvents = 'none';
+    dropEl.style.opacity = '.6';
+    try {
+      const urls = await huUploadImages(files);
+      const category = uploadCategoryValue();
+      const ids = await huAddGalleryImages(urls, category);
+      urls.forEach((src, i) => data.gallery.push({ id: ids[i], src, category, order: Date.now() }));
+      huToast(`${urls.length} image${urls.length > 1 ? 's' : ''} uploaded`);
+      render();
+    } catch (error) {
+      huToast((error.message || 'Upload failed').replace('Firebase: ', ''), { error: true });
+    } finally {
+      dropEl.style.pointerEvents = '';
+      dropEl.style.opacity = '';
+    }
+  }
+
+  document.getElementById('uploadDrop').addEventListener('click', () => document.getElementById('uploadInput').click());
+  document.getElementById('uploadInput').addEventListener('change', (e) => {
+    const files = [...e.target.files];
+    e.target.value = '';
+    handleUploadFiles(files);
+  });
+  ['dragenter', 'dragover'].forEach(evt => document.getElementById('uploadDrop').addEventListener(evt, (e) => {
+    e.preventDefault();
+    document.getElementById('uploadDrop').classList.add('drag-over');
+  }));
+  ['dragleave', 'drop'].forEach(evt => document.getElementById('uploadDrop').addEventListener(evt, (e) => {
+    e.preventDefault();
+    document.getElementById('uploadDrop').classList.remove('drag-over');
+  }));
+  document.getElementById('uploadDrop').addEventListener('drop', (e) => {
+    handleUploadFiles([...(e.dataTransfer.files || [])]);
+  });
+
+  document.getElementById('pickLibraryBtn').addEventListener('click', openMediaPicker);
 
   document.getElementById('mediaConfirmBtn').addEventListener('click', async () => {
     const confirmBtn = document.getElementById('mediaConfirmBtn');
@@ -209,6 +267,7 @@
     huRenderShell('gallery', '<span class="cur">Gallery</span>');
     data = await huFetchAll();
     huUpdateNavCounts(data);
+    renderUploadCategorySelect();
     render();
   })();
 </script>

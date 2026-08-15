@@ -260,4 +260,12 @@ function applySiteSettings(settings){
   document.querySelectorAll('[data-settings-whatsapp-text]').forEach(el => { if (settings.whatsapp) el.textContent = `WhatsApp: ${settings.whatsapp}`; });
   document.querySelectorAll('[data-settings-social-text]').forEach(el => { if (igHandle) el.innerHTML = `@${igHandle} on Instagram &amp; TikTok`; });
   document.querySelectorAll('[data-settings-address]').forEach(el => { if (settings.address) el.textContent = settings.address; });
+
+  const feesList = document.getElementById('concierge-fees-list');
+  if (feesList && Array.isArray(settings.fees) && settings.fees.length) {
+    feesList.innerHTML = settings.fees.map((f, i) => `
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 26px; ${i < settings.fees.length - 1 ? 'border-bottom:1px solid var(--border-soft);' : ''}">
+        <span>${f.service}</span><span class="trip-price" style="font-size:1.15rem;">${fmtCurrency(f.fee)}</span>
+      </div>`).join('');
+  }
 }

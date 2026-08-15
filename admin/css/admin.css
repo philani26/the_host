@@ -343,6 +343,21 @@ tr.dragging, .drag-card.dragging{ opacity:.4; }
 .modal-body{ padding:22px 24px; }
 .modal-foot{ padding:18px 24px; border-top:1px solid var(--admin-border); display:flex; justify-content:flex-end; gap:10px; }
 
+/* ---------- Confirm dialog ---------- */
+.confirm-box{ max-width:380px; padding:30px 26px 24px; text-align:center; animation:confirmIn .22s cubic-bezier(.16,.8,.3,1) both; }
+@keyframes confirmIn{ from{ opacity:0; transform:translateY(10px) scale(.97); } to{ opacity:1; transform:translateY(0) scale(1); } }
+.confirm-icon{
+  width:52px; height:52px; border-radius:50%; margin:0 auto 16px;
+  background:#FBEAE7; color:#B4382C; display:flex; align-items:center; justify-content:center;
+}
+.confirm-icon svg{ width:24px; height:24px; }
+.confirm-box h3{ font-size:1.15rem; margin:0 0 8px; }
+.confirm-box p{ font-size:13.5px; color:var(--espresso-45); line-height:1.55; margin:0 0 24px; }
+.confirm-actions{ display:flex; gap:10px; }
+.confirm-actions .abtn{ flex:1; justify-content:center; }
+.abtn-danger-solid{ background:#B4382C; color:#fff; }
+.abtn-danger-solid:hover{ background:#8F2C22; }
+
 /* ---------- Login ---------- */
 .login-shell{
   min-height:100vh; display:grid; grid-template-columns:1fr 1fr; background:var(--admin-bg);

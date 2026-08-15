@@ -80,6 +80,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="../js/firestore-rest.js"></script>
+<script src="../js/storage-rest.js"></script>
 <script src="js/firebase-config.js"></script>
 <script src="js/admin.js"></script>
 <script>
@@ -165,7 +166,7 @@
     const action = btn.dataset.action;
     if (action === 'edit'){ location.href = `trip-form.html?id=${id}`; return; }
     if (action === 'delete'){
-      if (!huConfirm('Delete this trip permanently? This cannot be undone.')) return;
+      if (!(await huConfirm('Delete this trip permanently? This cannot be undone.'))) return;
       await huDeleteTrip(id);
       data.trips = data.trips.filter(t => t.id !== id);
       huToast('Trip deleted'); render();
@@ -191,7 +192,7 @@
     huToast('Selected trips archived'); selected.clear(); render();
   });
   document.getElementById('bulkDelete').addEventListener('click', async () => {
-    if (!huConfirm(`Delete ${selected.size} trip(s) permanently?`)) return;
+    if (!(await huConfirm(`Delete ${selected.size} trip(s) permanently?`))) return;
     await Promise.all([...selected].map(id => huDeleteTrip(id)));
     data.trips = data.trips.filter(t => !selected.has(t.id));
     huToast('Selected trips deleted'); selected.clear(); render();

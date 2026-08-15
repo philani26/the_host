@@ -44,6 +44,39 @@
     path(){ return `${this.collection}/${encodeURIComponent(this.id)}`; }
   }
 
+  const QUERY_OPS = {
+    '==': 'EQUAL', '!=': 'NOT_EQUAL', '<': 'LESS_THAN', '<=': 'LESS_THAN_OR_EQUAL',
+    '>': 'GREATER_THAN', '>=': 'GREATER_THAN_OR_EQUAL', 'array-contains': 'ARRAY_CONTAINS',
+    'in': 'IN', 'array-contains-any': 'ARRAY_CONTAINS_ANY'
+  };
+
+  function runQueryDocs(store, structuredQuery){
+    return store.request('POST', ':runQuery', { structuredQuery }).then(response => ({
+      docs: (Array.isArray(response) ? response : [])
+        .filter(item => item.document)
+        .map(item => {
+          const id = item.document.name.split('/').pop();
+          return { id, data: () => decodeFields(item.document.fields || {}) };
+        })
+    }));
+  }
+
+  class RestQuery {
+    constructor(store, collectionId, filters){ this.store = store; this.collectionId = collectionId; this.filters = filters; }
+    where(field, op, value){
+      return new RestQuery(this.store, this.collectionId, [...this.filters, { field, op, value }]);
+    }
+    get(){
+      const fieldFilters = this.filters.map(f => ({
+        fieldFilter: { field: { fieldPath: f.field }, op: QUERY_OPS[f.op] || 'EQUAL', value: encodeValue(f.value) }
+      }));
+      const structuredQuery = { from: [{ collectionId: this.collectionId }] };
+      if (fieldFilters.length === 1) structuredQuery.where = fieldFilters[0];
+      else if (fieldFilters.length > 1) structuredQuery.where = { compositeFilter: { op: 'AND', filters: fieldFilters } };
+      return runQueryDocs(this.store, structuredQuery);
+    }
+  }
+
   class RestCollection {
     constructor(store, name){ this.store = store; this.name = name; }
     get(){
@@ -52,6 +85,7 @@
         return { id, data: () => decodeFields(document.fields || {}) };
       }) }));
     }
+    where(field, op, value){ return new RestQuery(this.store, this.name, []).where(field, op, value); }
     add(data){
       const id = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
       return this.doc(id).set(data).then(() => ({ id }));
@@ -70,7 +104,7 @@
     constructor(config, auth){
       this.config = config;
       this.auth = auth;
-      this.resourceBase = `projects/${config.projectId}/databases/default/documents`;
+      this.resourceBase = `projects/${config.projectId}/databases/(default)/documents`;
       this.base = `https://firestore.googleapis.com/v1/${this.resourceBase}`;
     }
     settings(){ return this; }

@@ -2,13 +2,13 @@
 // Used by the enquiry forms (writes) and by the homepage/trips/gallery
 // pages (reads) so CMS edits show up on the live site.
 const firebaseConfig = {
-  apiKey: "AIzaSyDEecAmK9igLbXl26KBAyxursiNLw9p1eg",
-  authDomain: "utmost-travel.firebaseapp.com",
-  projectId: "utmost-travel",
-  storageBucket: "utmost-travel.firebasestorage.app",
-  messagingSenderId: "919080241127",
-  appId: "1:919080241127:web:a2f3b76c120925847e5f42",
-  measurementId: "G-WE11N5HM2W"
+  apiKey: "AIzaSyCybk-4R5bP7VFB7xxePTMc4_wIjhLm7E4",
+  authDomain: "utmost-trips.firebaseapp.com",
+  projectId: "utmost-trips",
+  storageBucket: "utmost-trips.firebasestorage.app",
+  messagingSenderId: "398493046613",
+  appId: "1:398493046613:web:f76f3bc34a5df7072401dc",
+  measurementId: "G-XFQ7DSCHFF"
 };
 
 firebase.initializeApp(firebaseConfig);
