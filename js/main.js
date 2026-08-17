@@ -261,6 +261,12 @@ function applySiteSettings(settings){
   document.querySelectorAll('[data-settings-social-text]').forEach(el => { if (igHandle) el.innerHTML = `@${igHandle} on Instagram &amp; TikTok`; });
   document.querySelectorAll('[data-settings-address]').forEach(el => { if (settings.address) el.textContent = settings.address; });
 
+  const heroImg = document.querySelector('img[data-hero-key]');
+  if (heroImg && settings.heroImages) {
+    const url = settings.heroImages[heroImg.dataset.heroKey];
+    if (url) heroImg.src = url;
+  }
+
   const feesList = document.getElementById('concierge-fees-list');
   if (feesList && Array.isArray(settings.fees) && settings.fees.length) {
     feesList.innerHTML = settings.fees.map((f, i) => `
