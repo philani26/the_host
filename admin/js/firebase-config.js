@@ -1,13 +1,13 @@
 // The Host with the Utmost — Firebase project config
-// Project: utmost-trips (Firestore + Authentication)
+// Project: utmost-trips-aaae0 (Firestore + Authentication)
 const firebaseConfig = {
-  apiKey: "AIzaSyCybk-4R5bP7VFB7xxePTMc4_wIjhLm7E4",
-  authDomain: "utmost-trips.firebaseapp.com",
-  projectId: "utmost-trips",
-  storageBucket: "utmost-trips.firebasestorage.app",
-  messagingSenderId: "398493046613",
-  appId: "1:398493046613:web:f76f3bc34a5df7072401dc",
-  measurementId: "G-XFQ7DSCHFF"
+  apiKey: "AIzaSyCKEZHDpTJmF-33lkmbxnBL7wAZQtFr4Jo",
+  authDomain: "utmost-trips-aaae0.firebaseapp.com",
+  projectId: "utmost-trips-aaae0",
+  storageBucket: "utmost-trips-aaae0.firebasestorage.app",
+  messagingSenderId: "411162201421",
+  appId: "1:411162201421:web:8ccd5eb89948115b83bb04",
+  measurementId: "G-T0J31FVVZD"
 };
 
 firebase.initializeApp(firebaseConfig);
