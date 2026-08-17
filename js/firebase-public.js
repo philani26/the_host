@@ -50,6 +50,11 @@ async function fetchSiteSettings(){
   return doc.exists ? doc.data() : {};
 }
 
+async function fetchAboutContent(){
+  const doc = await publicDb.collection('settings').doc('about').get();
+  return doc.exists ? doc.data() : {};
+}
+
 /* ---------------- Small formatting helpers (mirrors admin.js) ---------------- */
 function fmtDateRange(startISO, endISO){
   const opts = { day:'numeric', month:'short', year:'numeric' };
