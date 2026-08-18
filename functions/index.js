@@ -5,8 +5,10 @@ const nodemailer = require('nodemailer');
 
 initializeApp();
 
-const gmailUser = defineSecret('GMAIL_USER');
-const gmailAppPassword = defineSecret('GMAIL_APP_PASSWORD');
+const smtpHost = defineSecret('SMTP_HOST');
+const smtpPort = defineSecret('SMTP_PORT');
+const smtpUser = defineSecret('SMTP_USER');
+const smtpPass = defineSecret('SMTP_PASS');
 
 function escapeHtml(str) {
   return String(str || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -25,29 +27,35 @@ function enquiryDetailsHtml(enquiry) {
 }
 
 exports.onEnquiryCreated = onDocumentCreated(
-  { document: 'enquiries/{enquiryId}', secrets: [gmailUser, gmailAppPassword] },
+  { document: 'enquiries/{enquiryId}', secrets: [smtpHost, smtpPort, smtpUser, smtpPass] },
   async (event) => {
+    const enquiryId = event.params.enquiryId;
     const enquiry = event.data?.data();
-    if (!enquiry) return;
+    if (!enquiry) { console.warn(`onEnquiryCreated: no data for ${enquiryId}`); return; }
 
-    const fromAddress = gmailUser.value();
+    const fromAddress = smtpUser.value();
+    const port = Number(smtpPort.value());
+    console.log(`onEnquiryCreated: sending for ${enquiryId} via ${smtpHost.value()}:${port} as ${fromAddress}`);
+
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: fromAddress, pass: gmailAppPassword.value() }
+      host: smtpHost.value(),
+      port,
+      secure: port === 465,
+      auth: { user: fromAddress, pass: smtpPass.value() }
     });
 
-    const sends = [
-      transporter.sendMail({
+    const jobs = [
+      { label: 'admin notification', mail: {
         from: `"The Host with the Utmost" <${fromAddress}>`,
         to: fromAddress,
         replyTo: enquiry.email || undefined,
         subject: `New enquiry from ${enquiry.name || 'a website visitor'}`,
         html: enquiryDetailsHtml(enquiry)
-      })
+      } }
     ];
 
     if (enquiry.email) {
-      sends.push(transporter.sendMail({
+      jobs.push({ label: 'visitor confirmation', mail: {
         from: `"The Host with the Utmost" <${fromAddress}>`,
         to: enquiry.email,
         subject: "We've received your enquiry — The Host with the Utmost",
@@ -58,9 +66,16 @@ exports.onEnquiryCreated = onDocumentCreated(
           ${enquiryDetailsHtml(enquiry)}
           <p>Talk soon,<br>The Host with the Utmost team</p>
         `
-      }));
+      } });
     }
 
-    await Promise.all(sends);
+    const results = await Promise.allSettled(jobs.map(j => transporter.sendMail(j.mail)));
+    results.forEach((result, i) => {
+      if (result.status === 'fulfilled') {
+        console.log(`onEnquiryCreated: ${jobs[i].label} sent for ${enquiryId}, messageId=${result.value.messageId}`);
+      } else {
+        console.error(`onEnquiryCreated: ${jobs[i].label} FAILED for ${enquiryId}:`, result.reason);
+      }
+    });
   }
 );
