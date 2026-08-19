@@ -65,6 +65,34 @@ document.addEventListener('DOMContentLoaded', () => {
   window.HU.initReveal = initReveal;
   initReveal();
 
+  /* Departure countdowns — re-callable after dynamic trip content renders */
+  function tickCountdowns(root = document) {
+    root.querySelectorAll('[data-countdown]').forEach(el => {
+      const target = new Date(el.dataset.countdown).getTime();
+      const diff = target - Date.now();
+      if (isNaN(target) || diff <= 0) {
+        el.innerHTML = '<span class="cd-departed">Bon voyage! This trip has departed.</span>';
+        return;
+      }
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins = Math.floor((diff % 3600000) / 60000);
+      const secs = Math.floor((diff % 60000) / 1000);
+      const pad = (n) => String(n).padStart(2, '0');
+      el.innerHTML = `
+        <div class="cd-unit"><span class="cd-num">${days}</span><span class="cd-label">Days</span></div>
+        <div class="cd-unit"><span class="cd-num">${pad(hours)}</span><span class="cd-label">Hrs</span></div>
+        <div class="cd-unit"><span class="cd-num">${pad(mins)}</span><span class="cd-label">Min</span></div>
+        <div class="cd-unit"><span class="cd-num">${pad(secs)}</span><span class="cd-label">Sec</span></div>`;
+    });
+  }
+  function initCountdowns(root = document) {
+    if (!root.querySelector('[data-countdown]')) return;
+    tickCountdowns(root);
+    setInterval(() => tickCountdowns(root), 1000);
+  }
+  window.HU.initCountdowns = initCountdowns;
+
   /* Subtle hero parallax (rAF-throttled, skipped for reduced-motion) */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const parallaxImgs = document.querySelectorAll('.hero-media img, .page-hero .hero-media img');

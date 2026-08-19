@@ -229,6 +229,7 @@
                 <div class="trip-meta"><span class="label">Price pp</span><span class="value">${fmtCurrency(t.price)}</span></div>
                 <div class="trip-meta"><span class="label">Deposit</span><span class="value">${fmtCurrency(t.deposit)}</span></div>
               </div>
+              ${t.showCountdown ? `<div class="trip-countdown" data-countdown="${t.dateStart}"></div>` : ''}
               <div class="trip-detail-actions">
                 <a href="#enquire" class="btn btn-primary" data-enquire-trip="${enquireLabel}">Enquire / Join This Trip</a>
                 <a href="https://wa.me/27734426770?text=${waText}" class="btn btn-outline btn-sm" target="_blank" rel="noopener">Ask on WhatsApp</a>
@@ -284,6 +285,7 @@
     tripOptions.innerHTML = trips.map(t => `<option>${t.destination} (${fmtLongDateRange(t.dateStart, t.dateEnd)})</option>`).join('');
 
     HU.initReveal(container);
+    HU.initCountdowns(container);
   })();
 </script>
 </body>

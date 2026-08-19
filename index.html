@@ -280,6 +280,7 @@
           <img src="${t.hero}" alt="${t.destination} trip destination">
           <span class="trip-tag">${fmtDateRange(t.dateStart, t.dateEnd)}</span>
           <span class="trip-price-tag">${fmtCurrency(t.price)} pp</span>
+          ${t.showCountdown ? `<div class="trip-countdown" data-countdown="${t.dateStart}"></div>` : ''}
         </div>
         <div class="trip-body">
           <h3>${t.destination}</h3>
@@ -315,6 +316,7 @@
         ? trips.slice(0, 3).map(tripCardHtml).join('')
         : '<p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">New trips coming soon — check back shortly.</p>';
       HU.initReveal(grid);
+      HU.initCountdowns(grid);
     } catch (err) { console.error('Failed to load featured trips:', err); }
 
     try {

@@ -46,6 +46,10 @@
                 <div class="input-prefix"><span>R</span><input type="number" id="fDeposit" min="0" required placeholder="2300"></div>
               </div>
             </div>
+            <label style="display:flex; align-items:center; gap:8px; margin-top:16px; font-size:13.5px; color:var(--espresso-70); cursor:pointer;">
+              <input type="checkbox" id="fShowCountdown" style="width:16px; height:16px; accent-color:var(--terracotta); cursor:pointer;">
+              Show a departure countdown timer for this trip
+            </label>
           </div>
         </div>
 
@@ -151,7 +155,7 @@
 
   let state = {
     id: null, destination:'', tagline:'', dateStart:'', dateEnd:'', price:'', deposit:'', status:'published',
-    hero:'', gallery:[], included:[''], excluded:[''], paymentPlan:['']
+    hero:'', gallery:[], included:[''], excluded:[''], paymentPlan:[''], showCountdown: false
   };
 
   function fillForm(){
@@ -163,6 +167,7 @@
     document.getElementById('fPrice').value = state.price;
     document.getElementById('fDeposit').value = state.deposit;
     document.getElementById(state.status === 'draft' ? 'stDraft' : state.status === 'archived' ? 'stArchived' : 'stPublished').checked = true;
+    document.getElementById('fShowCountdown').checked = !!state.showCountdown;
     document.getElementById('heroPreview').src = state.hero ? huImg(state.hero) : '../images/1.jpeg';
     renderGalleryPicks();
     renderRepeater('includedList', state.included);
@@ -319,6 +324,7 @@
     state.price = Number(document.getElementById('fPrice').value);
     state.deposit = Number(document.getElementById('fDeposit').value);
     state.status = document.querySelector('input[name="status"]:checked').value;
+    state.showCountdown = document.getElementById('fShowCountdown').checked;
     state.included = readRepeater('includedList').filter(v => v.trim());
     state.excluded = readRepeater('excludedList').filter(v => v.trim());
     state.paymentPlan = readRepeater('paymentList').filter(v => v.trim());

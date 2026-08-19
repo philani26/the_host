@@ -38,8 +38,8 @@
     <div class="hero-media"><img src="images/13.jpeg" alt="Founder moment from a Host with the Utmost gathering" data-hero-key="about"></div>
     <div class="container">
       <div class="hero-content">
-        <span class="eyebrow">Our Story</span>
-        <h1>Built on warmth. <em>Grown into a community.</em></h1>
+        <span class="eyebrow" id="about-hero-eyebrow">Our Story</span>
+        <h1 id="about-hero-heading">Built on warmth. Grown into a community.</h1>
       </div>
     </div>
   </section>
@@ -49,7 +49,7 @@
     <div class="container">
       <div class="grid-2" style="align-items:center; gap:60px;">
         <div data-reveal>
-          <span class="eyebrow">About Us</span>
+          <span class="eyebrow" id="about-story-eyebrow">About Us</span>
           <h2 id="about-story-heading" style="font-size:2.2rem;">Travel, hosted with the utmost care.</h2>
           <p id="about-story-p1">The Host with the Utmost began with a simple belief: that travel is better shared, and that every woman deserves to feel cared for — from the moment she says "I'm in" to the moment she lands back home, already planning the next trip.</p>
           <p id="about-story-p2">What started as a small circle of women gathering for tastings, weekend escapes and shared celebrations has grown into a global community — one that spans borders, backgrounds and generations, bound by a love of intentional travel and genuine connection.</p>
@@ -70,21 +70,21 @@
           <div class="step-num" style="margin:0 0 18px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="26" height="26"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18zM3 12h18"/></svg>
           </div>
-          <h3>Vision</h3>
+          <h3 id="about-vision-heading">Vision</h3>
           <p id="about-vision">A global community of women travelling together — where borders soften, friendships form, and every woman has a soft place to land, anywhere in the world.</p>
         </div>
         <div class="trip-card" style="padding:38px 30px;">
           <div class="step-num" style="margin:0 0 18px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="26" height="26"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg>
           </div>
-          <h3>Mission</h3>
+          <h3 id="about-mission-heading">Mission</h3>
           <p id="about-mission">To make travel accessible, intentional and deeply connected — through curated trips, flexible payment plans, and a concierge that handles the details so you don't have to.</p>
         </div>
         <div class="trip-card" style="padding:38px 30px;">
           <div class="step-num" style="margin:0 0 18px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="26" height="26"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
           </div>
-          <h3>Brand Feeling</h3>
+          <h3 id="about-feeling-heading">Brand Feeling</h3>
           <p id="about-feeling">Warm. Luxurious. Welcoming. Feminine. Adventurous. Every touchpoint is designed to feel like an embrace, not a transaction.</p>
         </div>
       </div>
@@ -99,7 +99,7 @@
           <img id="about-founder-img" src="images/2.jpeg" alt="Promise Thomo, founder of The Host with the Utmost, at a Cape Winelands tasting" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
         </div>
         <div data-reveal>
-          <span class="eyebrow">Meet the Founder</span>
+          <span class="eyebrow" id="about-founder-eyebrow">Meet the Founder</span>
           <h2 id="about-founder-name" style="font-size:2.2rem;">Promise Thomo</h2>
           <p id="about-founder-bio">The Host with the Utmost was born from Promise's own love of gathering people — turning ordinary weekends into cherished memories, and strangers into a sisterhood. After years of hosting friends, family and colleagues with meticulous care, the natural next step was to open that same warmth to women everywhere.</p>
           <p class="pull-quote" id="about-founder-quote">I wanted to build the trip I always wished I could find — beautiful, safe, generously planned, and full of women who leave as friends. That's the heart of everything we do here.</p>
@@ -113,8 +113,8 @@
   <section id="community" style="background:var(--cream);">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow center">Social Proof</span>
-        <h2>Trusted by women who travel with intention</h2>
+        <span class="eyebrow center" id="about-community-eyebrow">Social Proof</span>
+        <h2 id="about-community-heading">Trusted by women who travel with intention</h2>
       </div>
 
       <div class="grid-3" data-reveal id="aboutTestiGrid">
@@ -137,10 +137,10 @@
     <div class="container">
       <div class="cta-band" data-reveal>
         <div class="bg"><img src="images/18.jpeg" alt=""></div>
-        <span class="eyebrow center">Join Us</span>
-        <h2>Come travel with women who feel like home.</h2>
-        <p>Explore our upcoming trips or reach out — we'd love to host you.</p>
-        <a href="trips.html" class="btn btn-light">View Upcoming Trips</a>
+        <span class="eyebrow center" id="about-cta-eyebrow">Join Us</span>
+        <h2 id="about-cta-heading">Come travel with women who feel like home.</h2>
+        <p id="about-cta-copy">Explore our upcoming trips or reach out — we'd love to host you.</p>
+        <a href="trips.html" class="btn btn-light" id="about-cta-button">View Upcoming Trips</a>
       </div>
     </div>
   </section>
@@ -210,6 +210,9 @@
   (async () => {
     try {
       const about = await fetchAboutContent();
+      if (about.heroEyebrow) document.getElementById('about-hero-eyebrow').textContent = about.heroEyebrow;
+      if (about.heroHeading) document.getElementById('about-hero-heading').textContent = about.heroHeading;
+      if (about.storyEyebrow) document.getElementById('about-story-eyebrow').textContent = about.storyEyebrow;
       if (about.storyHeading) document.getElementById('about-story-heading').textContent = about.storyHeading;
       if (about.storyP1) document.getElementById('about-story-p1').textContent = about.storyP1;
       if (about.storyP2) document.getElementById('about-story-p2').textContent = about.storyP2;
@@ -218,6 +221,10 @@
       if (about.vision) document.getElementById('about-vision').textContent = about.vision;
       if (about.mission) document.getElementById('about-mission').textContent = about.mission;
       if (about.feeling) document.getElementById('about-feeling').textContent = about.feeling;
+      if (about.visionHeading) document.getElementById('about-vision-heading').textContent = about.visionHeading;
+      if (about.missionHeading) document.getElementById('about-mission-heading').textContent = about.missionHeading;
+      if (about.feelingHeading) document.getElementById('about-feeling-heading').textContent = about.feelingHeading;
+      if (about.founderEyebrow) document.getElementById('about-founder-eyebrow').textContent = about.founderEyebrow;
       if (about.founderBio) document.getElementById('about-founder-bio').textContent = about.founderBio;
       if (about.founderQuote) document.getElementById('about-founder-quote').textContent = about.founderQuote;
       if (about.founderImage) document.getElementById('about-founder-img').src = about.founderImage;
@@ -225,6 +232,12 @@
         document.getElementById('about-founder-name').textContent = about.founderName;
         document.getElementById('about-founder-signature').textContent = `— ${about.founderName}, Founder`;
       }
+      if (about.communityEyebrow) document.getElementById('about-community-eyebrow').textContent = about.communityEyebrow;
+      if (about.communityHeading) document.getElementById('about-community-heading').textContent = about.communityHeading;
+      if (about.ctaEyebrow) document.getElementById('about-cta-eyebrow').textContent = about.ctaEyebrow;
+      if (about.ctaHeading) document.getElementById('about-cta-heading').textContent = about.ctaHeading;
+      if (about.ctaCopy) document.getElementById('about-cta-copy').textContent = about.ctaCopy;
+      if (about.ctaButton) document.getElementById('about-cta-button').textContent = about.ctaButton;
     } catch (err) { console.error('Failed to load about content:', err); }
     try {
       const testis = await fetchPublishedTestimonials();

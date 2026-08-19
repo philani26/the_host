@@ -318,6 +318,34 @@ section{ padding:96px 0; }
 .trip-meta .value{ font-family:var(--font-display); font-size:1.3rem; color:var(--terracotta-dark); }
 .trip-detail-actions{ display:flex; gap:14px; margin-top:auto; flex-wrap:wrap; }
 
+/* Departure countdown */
+.trip-countdown{
+  display:flex; gap:10px; margin:0 0 22px;
+}
+.trip-countdown .cd-unit{
+  background:var(--rose-soft); border-radius:var(--radius-md, 12px);
+  padding:10px 14px; min-width:58px; text-align:center;
+}
+.trip-countdown .cd-num{
+  display:block; font-family:var(--font-display); font-size:1.5rem; line-height:1;
+  color:var(--terracotta-dark);
+}
+.trip-countdown .cd-label{
+  display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--espresso-45); margin-top:4px;
+}
+.trip-countdown .cd-departed{
+  font-family:var(--font-display); font-style:italic; color:var(--terracotta-dark); font-size:1.05rem;
+}
+.trip-card .trip-countdown{
+  position:absolute; top:18px; right:18px; left:auto; margin:0; gap:6px;
+}
+.trip-card .trip-countdown .cd-unit{
+  background:rgba(255,255,255,.92); padding:6px 9px; min-width:auto;
+}
+.trip-card .trip-countdown .cd-num{ font-size:1.05rem; }
+.trip-card .trip-countdown .cd-label{ font-size:8.5px; margin-top:2px; }
+
 /* Accordion */
 .accordion{ border-top:1px solid var(--border-soft); }
 .accordion-item{ border-bottom:1px solid var(--border-soft); }
