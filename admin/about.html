@@ -15,7 +15,7 @@
   <div class="admin-main">
     <div id="shellTopbar"></div>
 
-    <div class="admin-content admin-content-narrow">
+    <div class="admin-content">
       <div style="margin-bottom:22px;">
         <h1 style="font-size:1.6rem; margin-bottom:4px;">About Page</h1>
         <p style="color:var(--espresso-45); margin:0;">The story, vision and founder content shown on the About Us page.</p>
@@ -23,49 +23,12 @@
 
       <form id="aboutForm">
         <div class="panel">
-          <div class="panel-head"><div><h3>Page Headings</h3><p>The labels and introductory heading on the About page</p></div></div>
+          <div class="panel-head"><div><h3>Page Headings &amp; Section Titles</h3><p>The hero heading plus the labels for each section on the page</p></div></div>
           <div class="panel-body">
             <div class="aform-grid">
               <div class="afield"><label for="aHeroEyebrow">Hero Label</label><input type="text" id="aHeroEyebrow"></div>
               <div class="afield"><label for="aStoryEyebrow">Story Label</label><input type="text" id="aStoryEyebrow"></div>
               <div class="afield full"><label for="aHeroHeading">Hero Heading</label><input type="text" id="aHeroHeading"></div>
-            </div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>Our Story</h3><p>The main "About Us" section</p></div></div>
-          <div class="panel-body">
-            <div class="afield" style="margin-bottom:16px;">
-              <label for="aStoryHeading">Heading</label>
-              <input type="text" id="aStoryHeading">
-            </div>
-            <div class="afield" style="margin-bottom:12px;">
-              <label for="aStoryP1">Paragraph 1</label>
-              <textarea id="aStoryP1"></textarea>
-            </div>
-            <div class="afield" style="margin-bottom:12px;">
-              <label for="aStoryP2">Paragraph 2</label>
-              <textarea id="aStoryP2"></textarea>
-            </div>
-            <div class="afield" style="margin-bottom:16px;">
-              <label for="aStoryP3">Paragraph 3</label>
-              <textarea id="aStoryP3"></textarea>
-            </div>
-            <div class="afield">
-              <label>Story Image</label>
-              <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
-                <img id="storyImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
-                <button type="button" class="abtn abtn-outline" data-upload-target="storyImage">Upload Image</button>
-                <button type="button" class="abtn abtn-outline" data-library-target="storyImage">Choose From Library</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Section Titles</h3><p>Headings for the vision, mission, founder and community sections</p></div></div>
-          <div class="panel-body">
-            <div class="aform-grid">
               <div class="afield"><label for="aVisionHeading">Vision Title</label><input type="text" id="aVisionHeading"></div>
               <div class="afield"><label for="aMissionHeading">Mission Title</label><input type="text" id="aMissionHeading"></div>
               <div class="afield"><label for="aFeelingHeading">Brand Feeling Title</label><input type="text" id="aFeelingHeading"></div>
@@ -76,58 +39,90 @@
           </div>
         </div>
 
-        <div class="panel">
-          <div class="panel-head"><div><h3>Vision, Mission &amp; Brand Feeling</h3><p>The three-card section beneath the story</p></div></div>
-          <div class="panel-body">
-            <div class="afield" style="margin-bottom:12px;">
-              <label for="aVision">Vision</label>
-              <textarea id="aVision"></textarea>
-            </div>
-            <div class="afield" style="margin-bottom:12px;">
-              <label for="aMission">Mission</label>
-              <textarea id="aMission"></textarea>
-            </div>
-            <div class="afield">
-              <label for="aFeeling">Brand Feeling</label>
-              <textarea id="aFeeling"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Call to Action</h3><p>The final invitation on the About page</p></div></div>
-          <div class="panel-body">
-            <div class="aform-grid">
-              <div class="afield"><label for="aCtaEyebrow">Label</label><input type="text" id="aCtaEyebrow"></div>
-              <div class="afield"><label for="aCtaButton">Button Text</label><input type="text" id="aCtaButton"></div>
-              <div class="afield full"><label for="aCtaHeading">Heading</label><input type="text" id="aCtaHeading"></div>
-              <div class="afield full"><label for="aCtaCopy">Copy</label><textarea id="aCtaCopy"></textarea></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div><h3>Meet the Founder</h3></div></div>
-          <div class="panel-body">
-            <div class="afield" style="margin-bottom:16px;">
-              <label for="aFounderName">Founder Name</label>
-              <input type="text" id="aFounderName">
-            </div>
-            <div class="afield" style="margin-bottom:12px;">
-              <label for="aFounderBio">Bio</label>
-              <textarea id="aFounderBio"></textarea>
-            </div>
-            <div class="afield" style="margin-bottom:16px;">
-              <label for="aFounderQuote">Pull Quote</label>
-              <textarea id="aFounderQuote"></textarea>
-            </div>
-            <div class="afield">
-              <label>Founder Image</label>
-              <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
-                <img id="founderImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
-                <button type="button" class="abtn abtn-outline" data-upload-target="founderImage">Upload Image</button>
-                <button type="button" class="abtn abtn-outline" data-library-target="founderImage">Choose From Library</button>
+        <div class="aform-grid" style="align-items:start;">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Our Story</h3><p>The main "About Us" section</p></div></div>
+            <div class="panel-body">
+              <div class="afield" style="margin-bottom:16px;">
+                <label for="aStoryHeading">Heading</label>
+                <input type="text" id="aStoryHeading">
               </div>
+              <div class="afield" style="margin-bottom:12px;">
+                <label for="aStoryP1">Paragraph 1</label>
+                <textarea id="aStoryP1"></textarea>
+              </div>
+              <div class="afield" style="margin-bottom:12px;">
+                <label for="aStoryP2">Paragraph 2</label>
+                <textarea id="aStoryP2"></textarea>
+              </div>
+              <div class="afield" style="margin-bottom:16px;">
+                <label for="aStoryP3">Paragraph 3</label>
+                <textarea id="aStoryP3"></textarea>
+              </div>
+              <div class="afield">
+                <label>Story Image</label>
+                <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
+                  <img id="storyImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+                  <button type="button" class="abtn abtn-outline" data-upload-target="storyImage">Upload Image</button>
+                  <button type="button" class="abtn abtn-outline" data-library-target="storyImage">Choose From Library</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h3>Meet the Founder</h3></div></div>
+            <div class="panel-body">
+              <div class="afield" style="margin-bottom:16px;">
+                <label for="aFounderName">Founder Name</label>
+                <input type="text" id="aFounderName">
+              </div>
+              <div class="afield" style="margin-bottom:12px;">
+                <label for="aFounderBio">Bio</label>
+                <textarea id="aFounderBio"></textarea>
+              </div>
+              <div class="afield" style="margin-bottom:16px;">
+                <label for="aFounderQuote">Pull Quote</label>
+                <textarea id="aFounderQuote"></textarea>
+              </div>
+              <div class="afield">
+                <label>Founder Image</label>
+                <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
+                  <img id="founderImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+                  <button type="button" class="abtn abtn-outline" data-upload-target="founderImage">Upload Image</button>
+                  <button type="button" class="abtn abtn-outline" data-library-target="founderImage">Choose From Library</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="aform-grid" style="align-items:start;">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Vision, Mission &amp; Brand Feeling</h3><p>The three-card section beneath the story</p></div></div>
+            <div class="panel-body">
+              <div class="afield" style="margin-bottom:12px;">
+                <label for="aVision">Vision</label>
+                <textarea id="aVision"></textarea>
+              </div>
+              <div class="afield" style="margin-bottom:12px;">
+                <label for="aMission">Mission</label>
+                <textarea id="aMission"></textarea>
+              </div>
+              <div class="afield">
+                <label for="aFeeling">Brand Feeling</label>
+                <textarea id="aFeeling"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><div><h3>Call to Action</h3><p>The final invitation on the About page</p></div></div>
+            <div class="panel-body">
+              <div class="afield" style="margin-bottom:16px;"><label for="aCtaEyebrow">Label</label><input type="text" id="aCtaEyebrow"></div>
+              <div class="afield" style="margin-bottom:16px;"><label for="aCtaButton">Button Text</label><input type="text" id="aCtaButton"></div>
+              <div class="afield" style="margin-bottom:16px;"><label for="aCtaHeading">Heading</label><input type="text" id="aCtaHeading"></div>
+              <div class="afield"><label for="aCtaCopy">Copy</label><textarea id="aCtaCopy"></textarea></div>
             </div>
           </div>
         </div>

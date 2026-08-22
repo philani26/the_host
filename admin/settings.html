@@ -15,49 +15,49 @@
   <div class="admin-main">
     <div id="shellTopbar"></div>
 
-    <div class="admin-content admin-content-narrow">
+    <div class="admin-content">
       <div style="margin-bottom:22px;">
         <h1 style="font-size:1.6rem; margin-bottom:4px;">Site Settings</h1>
         <p style="color:var(--espresso-45); margin:0;">One place to update contact details and social links — they update everywhere on the site.</p>
       </div>
 
       <form id="settingsForm">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Contact Details</h3><p>Shown in the header, footer, floating WhatsApp button and Contact page</p></div></div>
-          <div class="panel-body">
-            <div class="aform-grid">
-              <div class="afield">
+        <div class="aform-grid" style="align-items:start;">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Contact Details</h3><p>Shown in the header, footer, floating WhatsApp button and Contact page</p></div></div>
+            <div class="panel-body">
+              <div class="afield" style="margin-bottom:16px;">
                 <label for="sEmail">Contact Email</label>
                 <input type="email" id="sEmail" required>
               </div>
-              <div class="afield">
+              <div class="afield" style="margin-bottom:16px;">
                 <label for="sWhatsapp">WhatsApp Number <span class="hint">Include country code</span></label>
                 <input type="text" id="sWhatsapp" required placeholder="+27 73 442 6770">
               </div>
-              <div class="afield">
+              <div class="afield" style="margin-bottom:16px;">
                 <label for="sInstagram">Instagram Handle</label>
                 <input type="text" id="sInstagram" placeholder="@hostwiththeutmost">
               </div>
-              <div class="afield">
+              <div class="afield" style="margin-bottom:16px;">
                 <label for="sTiktok">TikTok Handle</label>
                 <input type="text" id="sTiktok" placeholder="@hostwiththeutmost">
               </div>
-              <div class="afield full">
+              <div class="afield" style="margin-bottom:16px;">
                 <label for="sAddress">Based In</label>
                 <input type="text" id="sAddress">
               </div>
-              <div class="afield full">
+              <div class="afield">
                 <label for="sTagline">Brand Tagline</label>
                 <input type="text" id="sTagline">
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="panel">
-          <div class="panel-head"><div><h3>Travel Concierge Pricing</h3><p>Shown on the Experiences page</p></div></div>
-          <div class="panel-body">
-            <div class="repeater" id="concierge-fees"></div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Travel Concierge Pricing</h3><p>Shown on the Experiences page</p></div></div>
+            <div class="panel-body">
+              <div class="repeater" id="concierge-fees"></div>
+            </div>
           </div>
         </div>
 
