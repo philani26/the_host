@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experiences Page | Host with the Utmost Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="../images/logo-mark.jpg">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-page="experiences">
+
+<div class="admin-shell">
+  <div id="shellSidebar"></div>
+  <div class="admin-main">
+    <div id="shellTopbar"></div>
+
+    <div class="admin-content admin-content-narrow">
+      <div style="margin-bottom:22px;">
+        <h1 style="font-size:1.6rem; margin-bottom:4px;">Experiences Page</h1>
+        <p style="color:var(--espresso-45); margin:0;">The categories, local escapes, concierge and closing sections shown on the Experiences page.</p>
+      </div>
+
+      <form id="expForm">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Hero &amp; Intro</h3></div></div>
+          <div class="panel-body">
+            <div class="aform-grid">
+              <div class="afield"><label for="eHeroEyebrow">Hero Label</label><input type="text" id="eHeroEyebrow"></div>
+              <div class="afield full"><label for="eHeroHeading">Hero Heading</label><input type="text" id="eHeroHeading"></div>
+              <div class="afield full"><label for="eIntro">Intro Paragraph</label><textarea id="eIntro"></textarea></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Experience Categories</h3><p>The 4-card grid near the top of the page</p></div></div>
+          <div class="panel-body">
+            <div id="categoriesList"></div>
+            <button type="button" class="repeater-add" id="addCategoryBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add category</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Local Experiences</h3></div></div>
+          <div class="panel-body">
+            <div class="aform-grid">
+              <div class="afield"><label for="eLocalEyebrow">Label</label><input type="text" id="eLocalEyebrow"></div>
+              <div class="afield"><label for="eLocalHeading">Heading</label><input type="text" id="eLocalHeading"></div>
+              <div class="afield full"><label for="eLocalText">Text</label><textarea id="eLocalText"></textarea></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Local Destinations</h3><p>The photo grid of local escapes</p></div></div>
+          <div class="panel-body">
+            <div id="destinationsList"></div>
+            <button type="button" class="repeater-add" id="addDestBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add destination</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Travel Concierge</h3><p>Pricing is managed separately on the Settings page</p></div></div>
+          <div class="panel-body">
+            <div class="aform-grid">
+              <div class="afield"><label for="eConciergeEyebrow">Label</label><input type="text" id="eConciergeEyebrow"></div>
+              <div class="afield"><label for="eConciergeButton">Button Text</label><input type="text" id="eConciergeButton"></div>
+              <div class="afield full"><label for="eConciergeHeading">Heading</label><input type="text" id="eConciergeHeading"></div>
+              <div class="afield full"><label for="eConciergeText">Text</label><textarea id="eConciergeText"></textarea></div>
+            </div>
+            <div class="afield" style="margin-top:16px;">
+              <label>Image</label>
+              <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
+                <img id="conciergeImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+                <button type="button" class="abtn abtn-outline" data-upload-target="conciergeImage">Upload Image</button>
+                <button type="button" class="abtn abtn-outline" data-library-target="conciergeImage">Choose From Library</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h3>Call to Action</h3><p>The closing banner at the bottom of the page</p></div></div>
+          <div class="panel-body">
+            <div class="aform-grid">
+              <div class="afield"><label for="eCtaEyebrow">Label</label><input type="text" id="eCtaEyebrow"></div>
+              <div class="afield"><label for="eCtaButton">Button Text</label><input type="text" id="eCtaButton"></div>
+              <div class="afield full"><label for="eCtaHeading">Heading</label><input type="text" id="eCtaHeading"></div>
+              <div class="afield full"><label for="eCtaText">Text</label><textarea id="eCtaText"></textarea></div>
+            </div>
+            <div class="afield" style="margin-top:16px;">
+              <label>Background Image</label>
+              <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
+                <img id="ctaImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+                <button type="button" class="abtn abtn-outline" data-upload-target="ctaImage">Upload Image</button>
+                <button type="button" class="abtn abtn-outline" data-library-target="ctaImage">Choose From Library</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="form-actions-bar">
+            <span style="font-size:12.5px; color:var(--espresso-45);">Shown live on the Experiences page.</span>
+            <button type="submit" class="abtn abtn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+              Save Experiences Page
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="expUploadInput" accept="image/*" style="display:none;">
+
+<!-- Media library picker -->
+<div class="modal-overlay" id="expMediaModal">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-head">
+      <h3>Choose Image</h3>
+      <button class="modal-close" onclick="huCloseModal('expMediaModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="gallery-manager-grid" id="expMediaGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="../js/firestore-rest.js"></script>
+<script src="../js/storage-rest.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  const MEDIA_LIBRARY = [1,2,3,4,5,6,7,8,9,10,11,13,15,16,17,18,19,20,21,22,23,24].map(n => `../images/${n}.jpeg`);
+
+  const EXP_DEFAULTS = {
+    heroEyebrow: 'What We Offer',
+    heroHeading: 'Experience it all, with the utmost.',
+    introText: 'However you choose to travel with us — across the world, across the country, or across town — every experience is curated with the same intention, warmth and attention to detail.',
+    categories: [
+      { tag: '01 · International Travel', heading: 'International Travel', text: 'Curated group trips to destinations across Africa and beyond — thoughtfully planned itineraries, trusted local partners, and a community of women to share it all with.', image: 'images/18.jpeg' },
+      { tag: '02 · Local Escapes', heading: 'Local Escapes', text: "Weekend getaways, scenic road trips and local experiences that prove you don't need a passport to feel far away — just good company and a beautiful destination.", image: 'images/13.jpeg' },
+      { tag: '03 · Staycations & Retreats', heading: 'Staycations & Retreats', text: 'Beautiful local escapes designed for rest, connection and a little luxury — think slow mornings, tastings, and spaces made for exhaling.', image: 'images/24.jpeg' },
+      { tag: '04 · Events & Experiences', heading: 'Events & Experiences', text: 'Social gatherings, tastings and celebrations that bring the community together — the moments between the trips, where the friendships really grow.', image: 'images/17.jpeg' }
+    ],
+    localEyebrow: 'Closer to Home',
+    localHeading: 'Local Experiences',
+    localText: "Beautiful escapes across South Africa and its neighbours — for the weekends when jet lag isn't an option, but a soft landing still is.",
+    destinations: [
+      { image: 'images/13.jpeg', tag: 'Local Escape', label: 'Mpumalanga' },
+      { image: 'images/18.jpeg', tag: 'Local Escape', label: 'Kruger National Park' },
+      { image: 'images/21.jpeg', tag: 'Local Escape', label: 'Hartbeespoort' },
+      { image: 'images/6.jpeg', tag: 'Local Escape', label: 'Drakensberg' },
+      { image: 'images/7.jpeg', tag: 'Local Escape', label: 'Durban' },
+      { image: 'images/9.jpeg', tag: 'Local Escape', label: 'Cape Town' },
+      { image: 'images/8.jpeg', tag: 'Local Escape', label: 'Lesotho' },
+      { image: 'images/24.jpeg', tag: 'Retreat', label: 'Retreats & Staycations' }
+    ],
+    conciergeEyebrow: 'Travel Concierge',
+    conciergeHeading: 'We handle the details. You just pack.',
+    conciergeText: 'From visas to itineraries, our concierge service takes the admin off your plate — so every trip, whether booked with us or planned on your own, feels effortless from the very first step.',
+    conciergeButtonText: 'Enquire About Concierge Services',
+    conciergeImage: 'images/11.jpeg',
+    ctaEyebrow: 'Curated For You',
+    ctaHeading: 'Not sure which experience is right for you?',
+    ctaText: "Send us an enquiry and we'll help you find the trip, escape or retreat that fits your season of life.",
+    ctaButtonText: 'Start an Enquiry',
+    ctaImage: 'images/9.jpeg'
+  };
+
+  let exp = {};
+
+  function fillForm(){
+    exp = { ...EXP_DEFAULTS, ...exp };
+    document.getElementById('eHeroEyebrow').value = exp.heroEyebrow;
+    document.getElementById('eHeroHeading').value = exp.heroHeading;
+    document.getElementById('eIntro').value = exp.introText;
+    document.getElementById('eLocalEyebrow').value = exp.localEyebrow;
+    document.getElementById('eLocalHeading').value = exp.localHeading;
+    document.getElementById('eLocalText').value = exp.localText;
+    document.getElementById('eConciergeEyebrow').value = exp.conciergeEyebrow;
+    document.getElementById('eConciergeButton').value = exp.conciergeButtonText;
+    document.getElementById('eConciergeHeading').value = exp.conciergeHeading;
+    document.getElementById('eConciergeText').value = exp.conciergeText;
+    document.getElementById('conciergeImagePreview').src = huImg(exp.conciergeImage);
+    document.getElementById('eCtaEyebrow').value = exp.ctaEyebrow;
+    document.getElementById('eCtaButton').value = exp.ctaButtonText;
+    document.getElementById('eCtaHeading').value = exp.ctaHeading;
+    document.getElementById('eCtaText').value = exp.ctaText;
+    document.getElementById('ctaImagePreview').src = huImg(exp.ctaImage);
+    renderCategories();
+    renderDestinations();
+  }
+
+  function renderCategories(){
+    document.getElementById('categoriesList').innerHTML = exp.categories.map((c, i) => `
+      <div style="border:1px solid var(--admin-border); border-radius:12px; padding:16px; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+          <img src="${huImg(c.image)}" alt="" style="width:80px; height:56px; object-fit:cover; border-radius:8px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+          <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-cat-upload="${i}">Upload</button>
+          <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-cat-library="${i}">Library</button>
+          <button type="button" class="abtn abtn-danger" style="padding:6px 10px; font-size:12px; margin-left:auto;" data-cat-remove="${i}">Remove</button>
+        </div>
+        <div class="aform-grid">
+          <div class="afield"><label>Tag</label><input type="text" data-cat-tag="${i}" value="${(c.tag||'').replace(/"/g,'&quot;')}" placeholder="e.g. 01 · International Travel"></div>
+          <div class="afield"><label>Heading</label><input type="text" data-cat-heading="${i}" value="${(c.heading||'').replace(/"/g,'&quot;')}"></div>
+          <div class="afield full"><label>Text</label><textarea data-cat-text="${i}">${c.text||''}</textarea></div>
+        </div>
+      </div>`).join('');
+
+    document.querySelectorAll('[data-cat-upload]').forEach(btn => btn.addEventListener('click', () => {
+      imageTarget = { list: 'categories', index: Number(btn.dataset.catUpload) };
+      document.getElementById('expUploadInput').click();
+    }));
+    document.querySelectorAll('[data-cat-library]').forEach(btn => btn.addEventListener('click', () => openLibrary({ list: 'categories', index: Number(btn.dataset.catLibrary) })));
+    document.querySelectorAll('[data-cat-remove]').forEach(btn => btn.addEventListener('click', () => {
+      exp.categories.splice(Number(btn.dataset.catRemove), 1);
+      renderCategories();
+    }));
+    document.querySelectorAll('[data-cat-tag]').forEach(inp => inp.addEventListener('input', () => exp.categories[Number(inp.dataset.catTag)].tag = inp.value));
+    document.querySelectorAll('[data-cat-heading]').forEach(inp => inp.addEventListener('input', () => exp.categories[Number(inp.dataset.catHeading)].heading = inp.value));
+    document.querySelectorAll('[data-cat-text]').forEach(inp => inp.addEventListener('input', () => exp.categories[Number(inp.dataset.catText)].text = inp.value));
+  }
+
+  function renderDestinations(){
+    document.getElementById('destinationsList').innerHTML = exp.destinations.map((d, i) => `
+      <div style="border:1px solid var(--admin-border); border-radius:12px; padding:16px; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+          <img src="${huImg(d.image)}" alt="" style="width:80px; height:56px; object-fit:cover; border-radius:8px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+          <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-dest-upload="${i}">Upload</button>
+          <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-dest-library="${i}">Library</button>
+          <button type="button" class="abtn abtn-danger" style="padding:6px 10px; font-size:12px; margin-left:auto;" data-dest-remove="${i}">Remove</button>
+        </div>
+        <div class="aform-grid">
+          <div class="afield"><label>Tag</label><input type="text" data-dest-tag="${i}" value="${(d.tag||'').replace(/"/g,'&quot;')}" placeholder="e.g. Local Escape"></div>
+          <div class="afield"><label>Label</label><input type="text" data-dest-label="${i}" value="${(d.label||'').replace(/"/g,'&quot;')}" placeholder="e.g. Mpumalanga"></div>
+        </div>
+      </div>`).join('');
+
+    document.querySelectorAll('[data-dest-upload]').forEach(btn => btn.addEventListener('click', () => {
+      imageTarget = { list: 'destinations', index: Number(btn.dataset.destUpload) };
+      document.getElementById('expUploadInput').click();
+    }));
+    document.querySelectorAll('[data-dest-library]').forEach(btn => btn.addEventListener('click', () => openLibrary({ list: 'destinations', index: Number(btn.dataset.destLibrary) })));
+    document.querySelectorAll('[data-dest-remove]').forEach(btn => btn.addEventListener('click', () => {
+      exp.destinations.splice(Number(btn.dataset.destRemove), 1);
+      renderDestinations();
+    }));
+    document.querySelectorAll('[data-dest-tag]').forEach(inp => inp.addEventListener('input', () => exp.destinations[Number(inp.dataset.destTag)].tag = inp.value));
+    document.querySelectorAll('[data-dest-label]').forEach(inp => inp.addEventListener('input', () => exp.destinations[Number(inp.dataset.destLabel)].label = inp.value));
+  }
+
+  document.getElementById('addCategoryBtn').addEventListener('click', () => {
+    exp.categories.push({ tag: '', heading: '', text: '', image: 'images/1.jpeg' });
+    renderCategories();
+  });
+  document.getElementById('addDestBtn').addEventListener('click', () => {
+    exp.destinations.push({ tag: 'Local Escape', label: '', image: 'images/1.jpeg' });
+    renderDestinations();
+  });
+
+  // imageTarget is either a top-level key string (e.g. 'conciergeImage')
+  // or { list, index } for a repeater row's image.
+  let imageTarget = null;
+  const SIMPLE_PREVIEW_EL = { conciergeImage: 'conciergeImagePreview', ctaImage: 'ctaImagePreview' };
+
+  function applyImageTarget(url){
+    if (typeof imageTarget === 'string') {
+      exp[imageTarget] = url;
+      document.getElementById(SIMPLE_PREVIEW_EL[imageTarget]).src = huImg(url);
+    } else if (imageTarget && imageTarget.list) {
+      exp[imageTarget.list][imageTarget.index].image = url;
+      imageTarget.list === 'categories' ? renderCategories() : renderDestinations();
+    }
+  }
+
+  document.querySelectorAll('[data-upload-target]').forEach(btn => btn.addEventListener('click', () => {
+    imageTarget = btn.dataset.uploadTarget;
+    document.getElementById('expUploadInput').click();
+  }));
+  document.getElementById('expUploadInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file || !imageTarget) return;
+    try {
+      const url = await huUploadImage(file);
+      applyImageTarget(url);
+      huToast('Image uploaded');
+    } catch (err) {
+      huToast(err.message, { error: true });
+    }
+  });
+
+  document.querySelectorAll('[data-library-target]').forEach(btn => btn.addEventListener('click', () => openLibrary(btn.dataset.libraryTarget)));
+
+  function openLibrary(target){
+    imageTarget = target;
+    const grid = document.getElementById('expMediaGrid');
+    grid.innerHTML = MEDIA_LIBRARY.map(src => `
+      <div class="gm-card media-pick" data-src="${src}" style="cursor:pointer;">
+        <img src="${src}" alt="">
+      </div>`).join('');
+    grid.querySelectorAll('.media-pick').forEach(card => {
+      card.addEventListener('click', () => {
+        applyImageTarget(huStripImg(card.dataset.src));
+        huCloseModal('expMediaModal');
+      });
+    });
+    huOpenModal('expMediaModal');
+  }
+
+  document.getElementById('expForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    exp.heroEyebrow = document.getElementById('eHeroEyebrow').value.trim();
+    exp.heroHeading = document.getElementById('eHeroHeading').value.trim();
+    exp.introText = document.getElementById('eIntro').value.trim();
+    exp.localEyebrow = document.getElementById('eLocalEyebrow').value.trim();
+    exp.localHeading = document.getElementById('eLocalHeading').value.trim();
+    exp.localText = document.getElementById('eLocalText').value.trim();
+    exp.conciergeEyebrow = document.getElementById('eConciergeEyebrow').value.trim();
+    exp.conciergeButtonText = document.getElementById('eConciergeButton').value.trim();
+    exp.conciergeHeading = document.getElementById('eConciergeHeading').value.trim();
+    exp.conciergeText = document.getElementById('eConciergeText').value.trim();
+    exp.ctaEyebrow = document.getElementById('eCtaEyebrow').value.trim();
+    exp.ctaButtonText = document.getElementById('eCtaButton').value.trim();
+    exp.ctaHeading = document.getElementById('eCtaHeading').value.trim();
+    exp.ctaText = document.getElementById('eCtaText').value.trim();
+    try {
+      await huSaveExperiences(exp);
+      huToast('Experiences page saved');
+    } catch (err) {
+      huToast(err.message, { error: true });
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  (async () => {
+    await huRequireAuth();
+    huRenderShell('experiences', '<span class="cur">Experiences Page</span>');
+    const [navData, expData] = await Promise.all([huFetchAll(), huFetchExperiences()]);
+    huUpdateNavCounts(navData);
+    exp = expData;
+    fillForm();
+  })();
+</script>
+</body>
+</html>

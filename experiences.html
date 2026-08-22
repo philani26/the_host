@@ -38,8 +38,8 @@
     <div class="hero-media"><img src="images/16.jpeg" alt="A curated Host with the Utmost travel experience" data-hero-key="experiences"></div>
     <div class="container">
       <div class="hero-content">
-        <span class="eyebrow">What We Offer</span>
-        <h1>Experience it all, <em>with the utmost.</em></h1>
+        <span class="eyebrow" id="exp-hero-eyebrow">What We Offer</span>
+        <h1 id="exp-hero-heading">Experience it all, <em>with the utmost.</em></h1>
       </div>
     </div>
   </section>
@@ -47,15 +47,15 @@
   <section style="padding-bottom:40px;">
     <div class="container">
       <div class="section-head" data-reveal>
-        <p style="font-size:1.15rem;">However you choose to travel with us — across the world, across the country, or across town — every experience is curated with the same intention, warmth and attention to detail.</p>
+        <p style="font-size:1.15rem;" id="exp-intro">However you choose to travel with us — across the world, across the country, or across town — every experience is curated with the same intention, warmth and attention to detail.</p>
       </div>
     </div>
   </section>
 
-  <!-- 4 EXPERIENCE CATEGORIES -->
+  <!-- EXPERIENCE CATEGORIES -->
   <section style="padding-top:0;">
     <div class="container">
-      <div class="grid-2" style="gap:28px;" data-reveal>
+      <div class="grid-2" style="gap:28px;" data-reveal id="exp-categories-grid">
 
         <article class="trip-card">
           <div class="trip-media" style="height:260px;">
@@ -109,11 +109,11 @@
   <section id="local" class="local-section">
     <div class="container">
       <div class="mega-head" data-reveal>
-        <span class="eyebrow center">Closer to Home</span>
-        <h2>Local Experiences</h2>
-        <p>Beautiful escapes across South Africa and its neighbours — for the weekends when jet lag isn't an option, but a soft landing still is.</p>
+        <span class="eyebrow center" id="exp-local-eyebrow">Closer to Home</span>
+        <h2 id="exp-local-heading">Local Experiences</h2>
+        <p id="exp-local-text">Beautiful escapes across South Africa and its neighbours — for the weekends when jet lag isn't an option, but a soft landing still is.</p>
       </div>
-      <div class="dest-grid" data-reveal-group>
+      <div class="dest-grid" data-reveal-group id="exp-destinations-grid">
         <div class="dest-card"><img src="images/13.jpeg" alt="Mpumalanga landscape" loading="lazy"><span class="dest-tag">Local Escape</span><span class="dest-label">Mpumalanga</span></div>
         <div class="dest-card"><img src="images/18.jpeg" alt="Kruger National Park safari" loading="lazy"><span class="dest-tag">Local Escape</span><span class="dest-label">Kruger National Park</span></div>
         <div class="dest-card"><img src="images/21.jpeg" alt="The Bridge of Time entrance near Hartbeespoort" loading="lazy"><span class="dest-tag">Local Escape</span><span class="dest-label">Hartbeespoort</span></div>
@@ -137,9 +137,9 @@
     <div class="container">
       <div class="grid-2" style="align-items:center; gap:56px;">
         <div data-reveal>
-          <span class="eyebrow">Travel Concierge</span>
-          <h2 style="font-size:2.1rem;">We handle the details. You just pack.</h2>
-          <p style="color:var(--espresso-70);">From visas to itineraries, our concierge service takes the admin off your plate — so every trip, whether booked with us or planned on your own, feels effortless from the very first step.</p>
+          <span class="eyebrow" id="exp-concierge-eyebrow">Travel Concierge</span>
+          <h2 style="font-size:2.1rem;" id="exp-concierge-heading">We handle the details. You just pack.</h2>
+          <p style="color:var(--espresso-70);" id="exp-concierge-text">From visas to itineraries, our concierge service takes the admin off your plate — so every trip, whether booked with us or planned on your own, feels effortless from the very first step.</p>
 
           <div style="margin-top:34px; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-card); background:var(--paper);">
             <div style="display:flex; justify-content:space-between; padding:18px 26px; background:var(--espresso); color:#fff; font-size:12.5px; text-transform:uppercase; letter-spacing:.12em; font-weight:600;">
@@ -161,10 +161,10 @@
             </div>
           </div>
 
-          <a href="trips.html#enquire" class="btn btn-primary" style="margin-top:30px;">Enquire About Concierge Services</a>
+          <a href="trips.html#enquire" class="btn btn-primary" style="margin-top:30px;" id="exp-concierge-button">Enquire About Concierge Services</a>
         </div>
         <div data-reveal>
-          <img src="images/11.jpeg" alt="A beautifully arranged travel detail handled by our concierge team" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <img id="exp-concierge-img" src="images/11.jpeg" alt="A beautifully arranged travel detail handled by our concierge team" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
         </div>
       </div>
     </div>
@@ -174,11 +174,11 @@
   <section>
     <div class="container">
       <div class="cta-band" data-reveal>
-        <div class="bg"><img src="images/9.jpeg" alt=""></div>
-        <span class="eyebrow center">Curated For You</span>
-        <h2>Not sure which experience is right for you?</h2>
-        <p>Send us an enquiry and we'll help you find the trip, escape or retreat that fits your season of life.</p>
-        <a href="trips.html#enquire" class="btn btn-light">Start an Enquiry</a>
+        <div class="bg"><img id="exp-cta-img" src="images/9.jpeg" alt=""></div>
+        <span class="eyebrow center" id="exp-cta-eyebrow">Curated For You</span>
+        <h2 id="exp-cta-heading">Not sure which experience is right for you?</h2>
+        <p id="exp-cta-text">Send us an enquiry and we'll help you find the trip, escape or retreat that fits your season of life.</p>
+        <a href="trips.html#enquire" class="btn btn-light" id="exp-cta-button">Start an Enquiry</a>
       </div>
     </div>
   </section>
@@ -244,5 +244,56 @@
 <script src="js/firestore-rest.js"></script>
 <script src="js/firebase-public.js"></script>
 <script src="js/main.js"></script>
+<script>
+  (async () => {
+    try {
+      const exp = await fetchExperiencesContent();
+      const setText = (id, val) => { if (val) document.getElementById(id).textContent = val; };
+      const setImg = (id, val) => { if (val) document.getElementById(id).src = val; };
+
+      setText('exp-hero-eyebrow', exp.heroEyebrow);
+      setText('exp-hero-heading', exp.heroHeading);
+      setText('exp-intro', exp.introText);
+
+      if (Array.isArray(exp.categories) && exp.categories.length) {
+        document.getElementById('exp-categories-grid').innerHTML = exp.categories.map((c, i) => `
+          <article class="trip-card">
+            <div class="trip-media" style="height:260px;">
+              <img src="${c.image || 'images/1.jpeg'}" alt="${c.heading || ''}">
+              <span class="trip-tag">${c.tag || String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <div class="trip-body">
+              <h3>${c.heading || ''}</h3>
+              <p style="color:var(--espresso-70); margin-bottom:0;">${c.text || ''}</p>
+            </div>
+          </article>`).join('');
+      }
+
+      setText('exp-local-eyebrow', exp.localEyebrow);
+      setText('exp-local-heading', exp.localHeading);
+      setText('exp-local-text', exp.localText);
+
+      if (Array.isArray(exp.destinations) && exp.destinations.length) {
+        document.getElementById('exp-destinations-grid').innerHTML = exp.destinations.map(d => `
+          <div class="dest-card"><img src="${d.image || 'images/1.jpeg'}" alt="${d.label || ''}" loading="lazy"><span class="dest-tag">${d.tag || ''}</span><span class="dest-label">${d.label || ''}</span></div>`).join('');
+      }
+
+      setText('exp-concierge-eyebrow', exp.conciergeEyebrow);
+      setText('exp-concierge-heading', exp.conciergeHeading);
+      setText('exp-concierge-text', exp.conciergeText);
+      setText('exp-concierge-button', exp.conciergeButtonText);
+      setImg('exp-concierge-img', exp.conciergeImage);
+
+      setText('exp-cta-eyebrow', exp.ctaEyebrow);
+      setText('exp-cta-heading', exp.ctaHeading);
+      setText('exp-cta-text', exp.ctaText);
+      setText('exp-cta-button', exp.ctaButtonText);
+      setImg('exp-cta-img', exp.ctaImage);
+
+      HU.initReveal(document.getElementById('exp-categories-grid'));
+      HU.initReveal(document.getElementById('exp-destinations-grid'));
+    } catch (err) { console.error('Failed to load experiences content:', err); }
+  })();
+</script>
 </body>
 </html>
