@@ -15,29 +15,29 @@
   <div class="admin-main">
     <div id="shellTopbar"></div>
 
-    <div class="admin-content admin-content-narrow">
+    <div class="admin-content">
       <div style="margin-bottom:22px;">
         <h1 style="font-size:1.6rem; margin-bottom:4px;">Experiences Page</h1>
         <p style="color:var(--espresso-45); margin:0;">The categories, local escapes, concierge and closing sections shown on the Experiences page.</p>
       </div>
 
       <form id="expForm">
-        <div class="panel">
-          <div class="panel-head"><div><h3>Hero &amp; Intro</h3></div></div>
-          <div class="panel-body">
-            <div class="aform-grid">
-              <div class="afield"><label for="eHeroEyebrow">Hero Label</label><input type="text" id="eHeroEyebrow"></div>
-              <div class="afield full"><label for="eHeroHeading">Hero Heading</label><input type="text" id="eHeroHeading"></div>
-              <div class="afield full"><label for="eIntro">Intro Paragraph</label><textarea id="eIntro"></textarea></div>
+        <div class="aform-grid" style="align-items:start;">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Hero &amp; Intro</h3></div></div>
+            <div class="panel-body">
+              <div class="afield" style="margin-bottom:16px;"><label for="eHeroEyebrow">Hero Label</label><input type="text" id="eHeroEyebrow"></div>
+              <div class="afield" style="margin-bottom:16px;"><label for="eHeroHeading">Hero Heading</label><input type="text" id="eHeroHeading"></div>
+              <div class="afield"><label for="eIntro">Intro Paragraph</label><textarea id="eIntro"></textarea></div>
             </div>
           </div>
-        </div>
 
-        <div class="panel">
-          <div class="panel-head"><div><h3>Experience Categories</h3><p>The 4-card grid near the top of the page</p></div></div>
-          <div class="panel-body">
-            <div id="categoriesList"></div>
-            <button type="button" class="repeater-add" id="addCategoryBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add category</button>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Experience Categories</h3><p>The 4-card grid near the top of the page</p></div></div>
+            <div class="panel-body">
+              <div id="categoriesList" class="aform-grid"></div>
+              <button type="button" class="repeater-add" id="addCategoryBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add category</button>
+            </div>
           </div>
         </div>
 
@@ -55,7 +55,7 @@
         <div class="panel">
           <div class="panel-head"><div><h3>Local Destinations</h3><p>The photo grid of local escapes</p></div></div>
           <div class="panel-body">
-            <div id="destinationsList"></div>
+            <div id="destinationsList" class="aform-grid"></div>
             <button type="button" class="repeater-add" id="addDestBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add destination</button>
           </div>
         </div>
@@ -200,18 +200,16 @@
 
   function renderCategories(){
     document.getElementById('categoriesList').innerHTML = exp.categories.map((c, i) => `
-      <div style="border:1px solid var(--admin-border); border-radius:12px; padding:16px; margin-bottom:14px;">
+      <div style="border:1px solid var(--admin-border); border-radius:12px; padding:16px;">
         <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
           <img src="${huImg(c.image)}" alt="" style="width:80px; height:56px; object-fit:cover; border-radius:8px; border:1px solid var(--admin-border); background:var(--admin-bg);">
           <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-cat-upload="${i}">Upload</button>
           <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-cat-library="${i}">Library</button>
           <button type="button" class="abtn abtn-danger" style="padding:6px 10px; font-size:12px; margin-left:auto;" data-cat-remove="${i}">Remove</button>
         </div>
-        <div class="aform-grid">
-          <div class="afield"><label>Tag</label><input type="text" data-cat-tag="${i}" value="${(c.tag||'').replace(/"/g,'&quot;')}" placeholder="e.g. 01 · International Travel"></div>
-          <div class="afield"><label>Heading</label><input type="text" data-cat-heading="${i}" value="${(c.heading||'').replace(/"/g,'&quot;')}"></div>
-          <div class="afield full"><label>Text</label><textarea data-cat-text="${i}">${c.text||''}</textarea></div>
-        </div>
+        <div class="afield" style="margin-bottom:12px;"><label>Tag</label><input type="text" data-cat-tag="${i}" value="${(c.tag||'').replace(/"/g,'&quot;')}" placeholder="e.g. 01 · International Travel"></div>
+        <div class="afield" style="margin-bottom:12px;"><label>Heading</label><input type="text" data-cat-heading="${i}" value="${(c.heading||'').replace(/"/g,'&quot;')}"></div>
+        <div class="afield"><label>Text</label><textarea data-cat-text="${i}">${c.text||''}</textarea></div>
       </div>`).join('');
 
     document.querySelectorAll('[data-cat-upload]').forEach(btn => btn.addEventListener('click', () => {
@@ -230,7 +228,7 @@
 
   function renderDestinations(){
     document.getElementById('destinationsList').innerHTML = exp.destinations.map((d, i) => `
-      <div style="border:1px solid var(--admin-border); border-radius:12px; padding:16px; margin-bottom:14px;">
+      <div style="border:1px solid var(--admin-border); border-radius:12px; padding:16px;">
         <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
           <img src="${huImg(d.image)}" alt="" style="width:80px; height:56px; object-fit:cover; border-radius:8px; border:1px solid var(--admin-border); background:var(--admin-bg);">
           <button type="button" class="abtn abtn-outline" style="padding:6px 10px; font-size:12px;" data-dest-upload="${i}">Upload</button>
