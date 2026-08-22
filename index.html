@@ -305,13 +305,13 @@
           ${t.showCountdown ? `<div class="trip-countdown" data-countdown="${t.dateStart}"></div>` : ''}
         </div>
         <div class="trip-body">
+          ${t.tagline ? `<span class="eyebrow" style="font-size:11px; margin-bottom:6px;">${t.tagline}</span>` : ''}
           <h3>${t.destination}</h3>
           <div class="trip-dates">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
             ${fmtDateRange(t.dateStart, t.dateEnd)} · Deposit ${fmtCurrency(t.deposit)}
           </div>
           <div class="trip-foot">
-            <span class="pill rose">${t.tagline || ''}</span>
             <a href="trips.html#${slug}" class="btn btn-outline btn-sm">Details</a>
           </div>
         </div>

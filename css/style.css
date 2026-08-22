@@ -296,7 +296,7 @@ section{ padding:96px 0; }
   font-size:13.5px; color:var(--espresso-45); letter-spacing:.02em;
 }
 .trip-dates svg{ width:15px; height:15px; flex:none; color:var(--terracotta); }
-.trip-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:10px; border-top:1px solid var(--border-soft); }
+.trip-foot{ margin-top:auto; display:flex; align-items:center; justify-content:flex-end; padding-top:10px; border-top:1px solid var(--border-soft); }
 .trip-price{ font-family:var(--font-display); font-size:1.35rem; color:var(--terracotta-dark); }
 .trip-price small{ font-family:var(--font-body); font-size:12px; color:var(--espresso-45); display:block; font-weight:400; }
 
