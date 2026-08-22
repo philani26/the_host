@@ -37,7 +37,14 @@
 
   class RestDocument {
     constructor(store, collection, id){ this.store = store; this.collection = collection; this.id = id; }
-    get(){ return this.store.request('GET', this.path()).then(response => ({ exists: !!response.fields, id: this.id, data: () => decodeFields(response.fields || {}) })); }
+    get(){
+      return this.store.request('GET', this.path())
+        .then(response => ({ exists: !!response.fields, id: this.id, data: () => decodeFields(response.fields || {}) }))
+        .catch(err => {
+          if (err.notFound) return { exists: false, id: this.id, data: () => ({}) };
+          throw err;
+        });
+    }
     set(data, options){ return this.store.commit([{ type: 'set', path: this.path(), data, merge: !!(options && options.merge) }]); }
     update(data){ return this.store.commit([{ type: 'update', path: this.path(), data }]); }
     delete(){ return this.store.request('DELETE', this.path()); }
@@ -118,7 +125,9 @@
       const response = await fetch(`${this.base}/${path}?key=${this.config.apiKey}`, { method, headers: await this.headers(), body: body ? JSON.stringify(body) : undefined });
       if (!response.ok) {
         const error = await response.json().catch(() => ({}));
-        throw new Error(error.error?.message || `Firestore request failed (${response.status})`);
+        const err = new Error(error.error?.message || `Firestore request failed (${response.status})`);
+        if (response.status === 404) err.notFound = true;
+        throw err;
       }
       return response.status === 204 ? {} : response.json();
     }
