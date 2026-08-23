@@ -191,6 +191,20 @@ async function huFetchExperiences(){
 }
 async function huSaveExperiences(payload){ await huFirestoreRequest(() => db.collection('settings').doc('experiences').set(payload, { merge: true })); }
 
+/* --- Media library (the "Choose From Library" stock photo picker) --- */
+const HU_DEFAULT_MEDIA_LIBRARY = [1,2,3,4,5,6,7,8,9,10,11,13,15,16,17,18,19,20,21,22,23,24].map(n => `images/${n}.jpeg`);
+async function huFetchMediaLibrary(){
+  const doc = await huFirestoreRequest(() => db.collection('settings').doc('mediaLibrary').get());
+  const images = doc.exists ? doc.data().images : null;
+  return (Array.isArray(images) && images.length) ? images : HU_DEFAULT_MEDIA_LIBRARY;
+}
+async function huRemoveFromMediaLibrary(path){
+  const current = await huFetchMediaLibrary();
+  const updated = current.filter(src => src !== path);
+  await huFirestoreRequest(() => db.collection('settings').doc('mediaLibrary').set({ images: updated }));
+  return updated;
+}
+
 /* ---------------- Shared shell (sidebar + topbar) ---------------- */
 const HU_NAV = [
   { key:'dashboard', href:'dashboard.html', label:'Dashboard', group:'Overview', icon:'<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="12" width="8" height="9" rx="1.5"/><rect x="3" y="15" width="8" height="6" rx="1.5"/>' },
