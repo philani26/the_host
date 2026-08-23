@@ -126,6 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* Trip type filter tabs — delegated */
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.trip-filter');
+    if (!btn) return;
+    const type = btn.dataset.tripFilter;
+    document.querySelectorAll('.trip-section').forEach(sec => {
+      const show = type === 'all' || sec.dataset.tripType === type;
+      sec.classList.toggle('hide', !show);
+    });
+  });
+
   /* Lightbox gallery — delegated, re-reads group membership at click time */
   const lightbox = document.getElementById('lightbox');
   if (lightbox) {

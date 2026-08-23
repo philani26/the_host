@@ -63,6 +63,17 @@
     </div>
   </section>
 
+  <!-- Trip type filter -->
+  <section style="padding:0 0 8px;">
+    <div class="container">
+      <div class="gallery-filters" data-reveal>
+        <button class="gallery-filter trip-filter active" data-trip-filter="all">All Trips</button>
+        <button class="gallery-filter trip-filter" data-trip-filter="international">International</button>
+        <button class="gallery-filter trip-filter" data-trip-filter="local">Local Escapes</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Quick jump strip -->
   <section style="padding:0 0 40px;">
     <div class="container">
@@ -226,7 +237,7 @@
     const waText = encodeURIComponent(`Hi! I'd love to join the ${t.destination} trip (${fmtLongDateRange(t.dateStart, t.dateEnd)}).`);
 
     return `
-    <section id="${slug}" style="padding-top:20px;">
+    <section id="${slug}" class="trip-section" data-trip-type="${t.tripType || 'international'}" style="padding-top:20px;">
       <div class="container">
         <div class="trip-detail" data-reveal>
           <div class="trip-detail-top">

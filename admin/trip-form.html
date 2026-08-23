@@ -21,10 +21,16 @@
           <h1 id="formTitle" style="font-size:1.6rem; margin-bottom:4px;">Add New Trip</h1>
           <p style="color:var(--espresso-45); margin:0;">Fill in the trip details exactly as they should appear on the site.</p>
         </div>
-        <div class="segmented" id="statusSeg">
-          <input type="radio" name="status" id="stDraft" value="draft"><label for="stDraft">Draft</label>
-          <input type="radio" name="status" id="stPublished" value="published" checked><label for="stPublished">Published</label>
-          <input type="radio" name="status" id="stArchived" value="archived"><label for="stArchived">Archived</label>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <div class="segmented" id="tripTypeSeg">
+            <input type="radio" name="tripType" id="ttInternational" value="international" checked><label for="ttInternational">International</label>
+            <input type="radio" name="tripType" id="ttLocal" value="local"><label for="ttLocal">Local</label>
+          </div>
+          <div class="segmented" id="statusSeg">
+            <input type="radio" name="status" id="stDraft" value="draft"><label for="stDraft">Draft</label>
+            <input type="radio" name="status" id="stPublished" value="published" checked><label for="stPublished">Published</label>
+            <input type="radio" name="status" id="stArchived" value="archived"><label for="stArchived">Archived</label>
+          </div>
         </div>
       </div>
 
@@ -155,6 +161,7 @@
 
   let state = {
     id: null, destination:'', tagline:'', dateStart:'', dateEnd:'', price:'', deposit:'', status:'published',
+    tripType: 'international',
     hero:'', gallery:[], included:[''], excluded:[''], paymentPlan:[''], showCountdown: false
   };
 
@@ -167,6 +174,7 @@
     document.getElementById('fPrice').value = state.price;
     document.getElementById('fDeposit').value = state.deposit;
     document.getElementById(state.status === 'draft' ? 'stDraft' : state.status === 'archived' ? 'stArchived' : 'stPublished').checked = true;
+    document.getElementById(state.tripType === 'local' ? 'ttLocal' : 'ttInternational').checked = true;
     document.getElementById('fShowCountdown').checked = !!state.showCountdown;
     document.getElementById('heroPreview').src = state.hero ? huImg(state.hero) : '../images/1.jpeg';
     renderGalleryPicks();
@@ -341,6 +349,7 @@
     state.price = Number(document.getElementById('fPrice').value);
     state.deposit = Number(document.getElementById('fDeposit').value);
     state.status = document.querySelector('input[name="status"]:checked').value;
+    state.tripType = document.querySelector('input[name="tripType"]:checked').value;
     state.showCountdown = document.getElementById('fShowCountdown').checked;
     state.included = readRepeater('includedList').filter(v => v.trim());
     state.excluded = readRepeater('excludedList').filter(v => v.trim());

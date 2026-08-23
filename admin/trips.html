@@ -40,6 +40,11 @@
               <option value="draft">Draft</option>
               <option value="archived">Archived</option>
             </select>
+            <select class="select-filter" id="tripTypeFilter">
+              <option value="all">All types</option>
+              <option value="international">International</option>
+              <option value="local">Local</option>
+            </select>
           </div>
           <div id="bulkBar" style="display:none; gap:8px;" class="toolbar">
             <span style="font-size:13px; color:var(--espresso-45);"><span id="bulkCount">0</span> selected</span>
@@ -55,6 +60,7 @@
                 <tr>
                   <th class="cell-checkbox"><input type="checkbox" id="selectAll"></th>
                   <th>Destination</th>
+                  <th>Type</th>
                   <th>Dates</th>
                   <th>Price</th>
                   <th>Deposit</th>
@@ -98,8 +104,10 @@
   function render(){
     const q = document.getElementById('tripSearch').value.trim().toLowerCase();
     const statusF = document.getElementById('tripStatusFilter').value;
+    const typeF = document.getElementById('tripTypeFilter').value;
     const rows = data.trips.filter(t =>
       (statusF === 'all' || t.status === statusF) &&
+      (typeF === 'all' || (t.tripType || 'international') === typeF) &&
       (!q || t.destination.toLowerCase().includes(q) || t.tagline.toLowerCase().includes(q))
     );
 
@@ -112,6 +120,7 @@
             <div><div class="row-title-main">${t.destination}</div><div class="row-title-sub">${t.tagline}</div></div>
           </div>
         </td>
+        <td>${(t.tripType || 'international') === 'local' ? 'Local' : 'International'}</td>
         <td>${huFmtDateRange(t.dateStart, t.dateEnd)}</td>
         <td>${huFmtCurrency(t.price)}</td>
         <td>${huFmtCurrency(t.deposit)}</td>
@@ -144,6 +153,7 @@
 
   document.getElementById('tripSearch').addEventListener('input', render);
   document.getElementById('tripStatusFilter').addEventListener('change', render);
+  document.getElementById('tripTypeFilter').addEventListener('change', render);
 
   document.getElementById('selectAll').addEventListener('change', (e) => {
     document.querySelectorAll('.rowCheck').forEach(cb => { cb.checked = e.target.checked; });

@@ -682,6 +682,7 @@ section{ padding:96px 0; }
 .gallery-filter.active{ background:var(--terracotta); border-color:var(--terracotta); color:#fff; }
 .gallery-item{ transition:opacity .3s ease, transform .3s ease; }
 .gallery-item.hide{ display:none; }
+.trip-section.hide{ display:none; }
 .gallery-item .m-cat{
   position:absolute; bottom:14px; left:14px; z-index:1;
   background:rgba(255,255,255,.92); color:var(--terracotta-dark);
