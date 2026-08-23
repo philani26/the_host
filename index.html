@@ -67,7 +67,8 @@
   <section class="hero">
     <div class="hero-media">
       <!-- Photo: Unsplash (free commercial license), via unsplash.com/photos/7JWXbeBB4gY -->
-      <img src="images/hero-home.jpg" alt="Three women cheering with arms raised on a cliff overlooking the ocean at sunset" style="object-position:center 15%;" data-hero-key="home">
+      <img alt="Three women cheering with arms raised on a cliff overlooking the ocean at sunset" style="object-position:center 15%;" data-hero-key="home" data-hero-fallback="images/hero-home.jpg">
+      <script>(function(){var i=document.currentScript.previousElementSibling,c;try{c=JSON.parse(localStorage.getItem('hu_hero_cache')||'{}')[i.dataset.heroKey];}catch(e){}i.src=c||i.dataset.heroFallback;})();</script>
     </div>
     <div class="container">
       <div class="hero-content">

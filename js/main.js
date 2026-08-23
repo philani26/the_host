@@ -304,6 +304,7 @@ function applySiteSettings(settings){
   if (heroImg && settings.heroImages) {
     const url = settings.heroImages[heroImg.dataset.heroKey];
     if (url) heroImg.src = url;
+    try { localStorage.setItem('hu_hero_cache', JSON.stringify(settings.heroImages)); } catch (e) {}
   }
 
   const feesList = document.getElementById('concierge-fees-list');

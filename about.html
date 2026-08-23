@@ -46,7 +46,8 @@
 <main id="main">
 
   <section class="page-hero">
-    <div class="hero-media"><img src="images/13.jpeg" alt="Founder moment from a Host with the Utmost gathering" data-hero-key="about"></div>
+    <div class="hero-media"><img alt="Founder moment from a Host with the Utmost gathering" data-hero-key="about" data-hero-fallback="images/13.jpeg">
+      <script>(function(){var i=document.currentScript.previousElementSibling,c;try{c=JSON.parse(localStorage.getItem('hu_hero_cache')||'{}')[i.dataset.heroKey];}catch(e){}i.src=c||i.dataset.heroFallback;})();</script></div>
     <div class="container">
       <div class="hero-content">
         <span class="eyebrow" id="about-hero-eyebrow">Our Story</span>

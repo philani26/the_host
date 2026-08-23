@@ -46,7 +46,8 @@
 <main id="main">
 
   <section class="page-hero" style="min-height:44vh;">
-    <div class="hero-media"><img src="images/1.jpeg" alt="Get in touch with The Host with the Utmost" data-hero-key="contact"></div>
+    <div class="hero-media"><img alt="Get in touch with The Host with the Utmost" data-hero-key="contact" data-hero-fallback="images/1.jpeg">
+      <script>(function(){var i=document.currentScript.previousElementSibling,c;try{c=JSON.parse(localStorage.getItem('hu_hero_cache')||'{}')[i.dataset.heroKey];}catch(e){}i.src=c||i.dataset.heroFallback;})();</script></div>
     <div class="container">
       <div class="hero-content">
         <span class="eyebrow">Let's Talk</span>
