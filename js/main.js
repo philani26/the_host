@@ -131,10 +131,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = e.target.closest('.trip-filter');
     if (!btn) return;
     const type = btn.dataset.tripFilter;
-    document.querySelectorAll('.trip-section').forEach(sec => {
-      const show = type === 'all' || sec.dataset.tripType === type;
-      sec.classList.toggle('hide', !show);
+    document.querySelectorAll('[data-trip-type]').forEach(el => {
+      const show = type === 'all' || el.dataset.tripType === type;
+      el.classList.toggle('hide', !show);
     });
+    const emptyMsg = document.getElementById('tripFilterEmpty');
+    const container = document.getElementById('tripsContainer');
+    if (emptyMsg && container) {
+      const hasVisible = !!container.querySelector('[data-trip-type]:not(.hide)');
+      emptyMsg.style.display = hasVisible ? 'none' : '';
+    }
   });
 
   /* Lightbox gallery — delegated, re-reads group membership at click time */

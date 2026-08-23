@@ -92,6 +92,11 @@
       </div>
     </section>
   </div>
+  <section id="tripFilterEmpty" style="display:none; padding-top:20px;">
+    <div class="container">
+      <p style="text-align:center; color:var(--espresso-45);">No trips match this filter yet — check back soon.</p>
+    </div>
+  </section>
 
   <!-- ENQUIRY FORM -->
   <section id="enquire" style="background:var(--cream);">
@@ -304,7 +309,7 @@
     }
 
     container.innerHTML = trips.map(tripDetailHtml).join('');
-    jumpStrip.innerHTML = trips.map(t => `<a href="#${slugify(t.destination)}" class="pill rose" style="cursor:pointer;">${t.destination} · ${fmtDateRange(t.dateStart, t.dateEnd)}</a>`).join('');
+    jumpStrip.innerHTML = trips.map(t => `<a href="#${slugify(t.destination)}" class="pill rose" data-trip-type="${t.tripType || 'international'}" style="cursor:pointer;">${t.destination} · ${fmtDateRange(t.dateStart, t.dateEnd)}</a>`).join('');
     tripOptions.innerHTML = trips.map(t => `<option>${t.destination} (${fmtLongDateRange(t.dateStart, t.dateEnd)})</option>`).join('');
 
     HU.initReveal(container);
