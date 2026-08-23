@@ -60,6 +60,11 @@ async function fetchExperiencesContent(){
   return doc.exists ? doc.data() : {};
 }
 
+async function fetchHomeContent(){
+  const doc = await publicDb.collection('settings').doc('home').get();
+  return doc.exists ? doc.data() : {};
+}
+
 /* ---------------- Small formatting helpers (mirrors admin.js) ---------------- */
 function fmtDateRange(startISO, endISO){
   const opts = { day:'numeric', month:'short', year:'numeric' };

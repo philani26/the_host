@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Page | Host with the Utmost Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="../images/logo-mark.jpg">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-page="home">
+
+<div class="admin-shell">
+  <div id="shellSidebar"></div>
+  <div class="admin-main">
+    <div id="shellTopbar"></div>
+
+    <div class="admin-content">
+      <div style="margin-bottom:22px;">
+        <h1 style="font-size:1.6rem; margin-bottom:4px;">Home Page</h1>
+        <p style="color:var(--espresso-45); margin:0;">Editable sections shown on the homepage.</p>
+      </div>
+
+      <form id="homeForm">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Escapes Teaser</h3><p>The dark banner below Featured Trips. Reuse it for local escapes or reframe it for an international push — heading, text, tags and the button all update together.</p></div></div>
+          <div class="panel-body">
+            <div class="aform-grid">
+              <div class="afield"><label for="hLocalEyebrow">Label</label><input type="text" id="hLocalEyebrow" placeholder="e.g. Closer to Home"></div>
+              <div class="afield"><label for="hLocalHeading">Heading</label><input type="text" id="hLocalHeading" placeholder="e.g. Local Escapes &amp; Retreats"></div>
+              <div class="afield full"><label for="hLocalText">Text</label><textarea id="hLocalText"></textarea></div>
+              <div class="afield"><label for="hLocalButtonText">Button Text</label><input type="text" id="hLocalButtonText" placeholder="e.g. Explore Local Experiences"></div>
+              <div class="afield"><label for="hLocalButtonLink">Button Link</label><input type="text" id="hLocalButtonLink" placeholder="e.g. experiences.html#local"></div>
+            </div>
+            <div class="afield" style="margin-top:16px;">
+              <label>Image</label>
+              <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
+                <img id="localImagePreview" src="" alt="" style="width:100px; height:70px; object-fit:cover; border-radius:10px; border:1px solid var(--admin-border); background:var(--admin-bg);">
+                <button type="button" class="abtn abtn-outline" data-upload-target="localImage">Upload Image</button>
+                <button type="button" class="abtn abtn-outline" data-library-target="localImage">Choose From Library</button>
+              </div>
+            </div>
+            <div class="afield" style="margin-top:16px;">
+              <label>Destination Tags <span class="hint">Only the first 3 show, the rest collapse into "+N more"</span></label>
+              <div class="repeater" id="localTagsList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="form-actions-bar">
+            <span style="font-size:12.5px; color:var(--espresso-45);">Shown live on the Home page.</span>
+            <button type="submit" class="abtn abtn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+              Save Home Page
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="homeUploadInput" accept="image/*" style="display:none;">
+
+<!-- Media library picker -->
+<div class="modal-overlay" id="homeMediaModal">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-head">
+      <h3>Choose Image</h3>
+      <button class="modal-close" onclick="huCloseModal('homeMediaModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="gallery-manager-grid" id="homeMediaGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="../js/firestore-rest.js"></script>
+<script src="../js/storage-rest.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  let MEDIA_LIBRARY = [];
+
+  const HOME_DEFAULTS = {
+    localEyebrow: 'Closer to Home',
+    localHeading: 'Local Escapes & Retreats',
+    localText: "You don't need a passport to feel far away. From Kruger to the Drakensberg, Hartbeespoort to Cape Town — our local escapes bring the same intention and warmth to weekends spent closer to home.",
+    localImage: 'images/21.jpeg',
+    localButtonText: 'Explore Local Experiences',
+    localButtonLink: 'experiences.html#local',
+    localTags: ['Kruger National Park', 'Drakensberg', 'Cape Town', 'Hartbeespoort', 'Durban', 'Lesotho', 'Mpumalanga']
+  };
+
+  let home = {};
+
+  function fillForm(){
+    home = { ...HOME_DEFAULTS, ...home };
+    document.getElementById('hLocalEyebrow').value = home.localEyebrow;
+    document.getElementById('hLocalHeading').value = home.localHeading;
+    document.getElementById('hLocalText').value = home.localText;
+    document.getElementById('hLocalButtonText').value = home.localButtonText;
+    document.getElementById('hLocalButtonLink').value = home.localButtonLink;
+    document.getElementById('localImagePreview').src = huImg(home.localImage);
+    renderTags();
+  }
+
+  function renderTags(){
+    document.getElementById('localTagsList').innerHTML = home.localTags.map((tag, i) => `
+      <div class="repeater-row" style="--ri:${i};">
+        <span class="ri-index">${i + 1}</span>
+        <input type="text" value="${(tag || '').replace(/"/g,'&quot;')}" data-tag="${i}" placeholder="e.g. Cape Town" style="flex:1;">
+        <button type="button" data-tag-remove="${i}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>`).join('') + `
+      <button type="button" class="repeater-add" id="addTagBtn"><span class="plus-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span>Add tag</button>`;
+
+    document.getElementById('addTagBtn').addEventListener('click', () => {
+      home.localTags.push('');
+      renderTags();
+    });
+    document.querySelectorAll('[data-tag]').forEach(inp => inp.addEventListener('input', () => home.localTags[Number(inp.dataset.tag)] = inp.value));
+    document.querySelectorAll('[data-tag-remove]').forEach(btn => btn.addEventListener('click', () => {
+      home.localTags.splice(Number(btn.dataset.tagRemove), 1);
+      renderTags();
+    }));
+  }
+
+  let imageTarget = null;
+  const SIMPLE_PREVIEW_EL = { localImage: 'localImagePreview' };
+
+  function applyImageTarget(url){
+    home[imageTarget] = url;
+    document.getElementById(SIMPLE_PREVIEW_EL[imageTarget]).src = huImg(url);
+  }
+
+  document.querySelectorAll('[data-upload-target]').forEach(btn => btn.addEventListener('click', () => {
+    imageTarget = btn.dataset.uploadTarget;
+    document.getElementById('homeUploadInput').click();
+  }));
+  document.getElementById('homeUploadInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file || !imageTarget) return;
+    try {
+      const url = await huUploadImage(file);
+      applyImageTarget(url);
+      huToast('Image uploaded');
+    } catch (err) {
+      huToast(err.message, { error: true });
+    }
+  });
+
+  document.querySelectorAll('[data-library-target]').forEach(btn => btn.addEventListener('click', () => openLibrary(btn.dataset.libraryTarget)));
+
+  function renderHomeMediaGrid(){
+    const grid = document.getElementById('homeMediaGrid');
+    grid.innerHTML = MEDIA_LIBRARY.map(src => `
+      <div class="gm-card media-pick" data-src="${src}" style="cursor:pointer;">
+        <img src="${src}" alt="">
+        <button type="button" class="gm-del" data-remove-src="${src}" title="Remove from library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>`).join('');
+    grid.querySelectorAll('.media-pick').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('[data-remove-src]')) return;
+        applyImageTarget(huStripImg(card.dataset.src));
+        huCloseModal('homeMediaModal');
+      });
+    });
+    grid.querySelectorAll('[data-remove-src]').forEach(btn => btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!(await huConfirm('Remove this image from your library? It will no longer be selectable, but anything already using it is unaffected.'))) return;
+      MEDIA_LIBRARY = (await huRemoveFromMediaLibrary(huStripImg(btn.dataset.removeSrc))).map(huImg);
+      renderHomeMediaGrid();
+      huToast('Removed from library');
+    }));
+  }
+
+  function openLibrary(target){
+    imageTarget = target;
+    renderHomeMediaGrid();
+    huOpenModal('homeMediaModal');
+  }
+
+  document.getElementById('homeForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    home.localEyebrow = document.getElementById('hLocalEyebrow').value.trim();
+    home.localHeading = document.getElementById('hLocalHeading').value.trim();
+    home.localText = document.getElementById('hLocalText').value.trim();
+    home.localButtonText = document.getElementById('hLocalButtonText').value.trim();
+    home.localButtonLink = document.getElementById('hLocalButtonLink').value.trim();
+    home.localTags = home.localTags.map(t => t.trim()).filter(Boolean);
+    try {
+      await huSaveHome(home);
+      huToast('Home page saved');
+    } catch (err) {
+      huToast(err.message, { error: true });
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  (async () => {
+    await huRequireAuth();
+    huRenderShell('home', '<span class="cur">Home Page</span>');
+    const [navData, homeData, libraryData] = await Promise.all([huFetchAll(), huFetchHome(), huFetchMediaLibrary()]);
+    huUpdateNavCounts(navData);
+    home = homeData;
+    MEDIA_LIBRARY = libraryData.map(huImg);
+    fillForm();
+  })();
+</script>
+</body>
+</html>

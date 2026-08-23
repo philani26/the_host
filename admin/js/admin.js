@@ -191,6 +191,13 @@ async function huFetchExperiences(){
 }
 async function huSaveExperiences(payload){ await huFirestoreRequest(() => db.collection('settings').doc('experiences').set(payload, { merge: true })); }
 
+/* --- Home page content --- */
+async function huFetchHome(){
+  const doc = await huFirestoreRequest(() => db.collection('settings').doc('home').get());
+  return doc.exists ? doc.data() : {};
+}
+async function huSaveHome(payload){ await huFirestoreRequest(() => db.collection('settings').doc('home').set(payload, { merge: true })); }
+
 /* --- Media library (the "Choose From Library" stock photo picker) --- */
 const HU_DEFAULT_MEDIA_LIBRARY = [1,2,3,4,5,6,7,8,9,10,11,13,15,16,17,18,19,20,21,22,23,24].map(n => `images/${n}.jpeg`);
 async function huFetchMediaLibrary(){
@@ -208,6 +215,7 @@ async function huRemoveFromMediaLibrary(path){
 /* ---------------- Shared shell (sidebar + topbar) ---------------- */
 const HU_NAV = [
   { key:'dashboard', href:'dashboard.html', label:'Dashboard', group:'Overview', icon:'<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="12" width="8" height="9" rx="1.5"/><rect x="3" y="15" width="8" height="6" rx="1.5"/>' },
+  { key:'home', href:'home.html', label:'Home Page', group:'Content', icon:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>' },
   { key:'trips', href:'trips.html', label:'Trips', group:'Content', icon:'<path d="M3 11l18-7-7 18-2-8-8-2z"/>', countKey:'trips' },
   { key:'testimonials', href:'testimonials.html', label:'Testimonials', group:'Content', icon:'<path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/>', countKey:'testimonials' },
   { key:'gallery', href:'gallery.html', label:'Gallery', group:'Content', icon:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5-11 11"/>', countKey:'gallery' },

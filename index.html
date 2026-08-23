@@ -126,19 +126,19 @@
     <div class="container">
       <div class="split-feature" data-reveal>
         <div class="sf-media">
-          <img src="images/21.jpeg" alt="Guests walking through the Bridge of Time on a local South African escape">
+          <img src="images/21.jpeg" alt="Guests walking through the Bridge of Time on a local South African escape" id="home-local-img">
         </div>
         <div class="sf-body">
-          <span class="eyebrow">Closer to Home</span>
-          <h2>Local Escapes &amp; Retreats</h2>
-          <p>You don't need a passport to feel far away. From Kruger to the Drakensberg, Hartbeespoort to Cape Town — our local escapes bring the same intention and warmth to weekends spent closer to home.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 28px;">
+          <span class="eyebrow" id="home-local-eyebrow">Closer to Home</span>
+          <h2 id="home-local-heading">Local Escapes &amp; Retreats</h2>
+          <p id="home-local-text">You don't need a passport to feel far away. From Kruger to the Drakensberg, Hartbeespoort to Cape Town — our local escapes bring the same intention and warmth to weekends spent closer to home.</p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 28px;" id="home-local-tags">
             <span class="pill" style="background:rgba(255,255,255,.12); color:#F8DCEF;">Kruger National Park</span>
             <span class="pill" style="background:rgba(255,255,255,.12); color:#F8DCEF;">Drakensberg</span>
             <span class="pill" style="background:rgba(255,255,255,.12); color:#F8DCEF;">Cape Town</span>
             <span class="pill" style="background:rgba(255,255,255,.12); color:#F8DCEF;">+ 4 more</span>
           </div>
-          <a href="experiences.html#local" class="btn btn-light">Explore Local Experiences</a>
+          <a href="experiences.html#local" class="btn btn-light" id="home-local-button">Explore Local Experiences</a>
         </div>
       </div>
     </div>
@@ -349,6 +349,23 @@
         ? testis.map(testiCardHtml).join('')
         : '<p style="color:var(--espresso-45);">Stories from our travellers are on their way.</p>';
     } catch (err) { console.error('Failed to load testimonials:', err); }
+
+    try {
+      const home = await fetchHomeContent();
+      if (home.localEyebrow) document.getElementById('home-local-eyebrow').textContent = home.localEyebrow;
+      if (home.localHeading) document.getElementById('home-local-heading').textContent = home.localHeading;
+      if (home.localText) document.getElementById('home-local-text').textContent = home.localText;
+      if (home.localImage) document.getElementById('home-local-img').src = home.localImage;
+      if (Array.isArray(home.localTags) && home.localTags.length) {
+        const shown = home.localTags.slice(0, 3);
+        const extra = home.localTags.length - shown.length;
+        document.getElementById('home-local-tags').innerHTML = shown.map(tag =>
+          `<span class="pill" style="background:rgba(255,255,255,.12); color:#F8DCEF;">${tag}</span>`
+        ).join('') + (extra > 0 ? `<span class="pill" style="background:rgba(255,255,255,.12); color:#F8DCEF;">+ ${extra} more</span>` : '');
+      }
+      if (home.localButtonText) document.getElementById('home-local-button').textContent = home.localButtonText;
+      if (home.localButtonLink) document.getElementById('home-local-button').href = home.localButtonLink;
+    } catch (err) { console.error('Failed to load home content:', err); }
   })();
 
   function initLocationGreeting(){
