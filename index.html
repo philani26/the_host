@@ -153,7 +153,7 @@
         <h2>Real women. Real connection.</h2>
         <p>A glimpse into the laughter, toasts and friendships made along the way — the heart of every Host with the Utmost trip.</p>
       </div>
-      <div class="masonry" data-reveal data-lightbox-group>
+      <div class="masonry" data-reveal data-lightbox-group id="communityMasonry">
         <div class="m-item" data-full="images/22.jpeg"><img src="images/22.jpeg" loading="lazy" alt="A group of Host with the Utmost women together at Valley of Waves"></div>
         <div class="m-item" data-full="images/17.jpeg"><img src="images/17.jpeg" loading="lazy" alt="Guest smiling and holding a personalised welcome gift"></div>
         <div class="m-item" data-full="images/23.jpeg"><img src="images/23.jpeg" loading="lazy" alt="Friends laughing together on a Host with the Utmost getaway"></div>
@@ -367,6 +367,15 @@
       if (home.localButtonText) document.getElementById('home-local-button').textContent = home.localButtonText;
       if (home.localButtonLink) document.getElementById('home-local-button').href = home.localButtonLink;
     } catch (err) { console.error('Failed to load home content:', err); }
+
+    try {
+      const images = await fetchGalleryImages();
+      const community = images.filter(g => g.category === 'community').slice(0, 6);
+      if (community.length) {
+        document.getElementById('communityMasonry').innerHTML = community.map(g => `
+          <div class="m-item" data-full="${g.src}"><img src="${g.src}" loading="lazy" alt="Community moment from a Host with the Utmost trip"></div>`).join('');
+      }
+    } catch (err) { console.error('Failed to load community photos:', err); }
   })();
 
   function initLocationGreeting(){
