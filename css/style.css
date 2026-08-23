@@ -210,6 +210,15 @@ section{ padding:96px 0; }
 @keyframes heroKenBurns{ from{ transform:scale(1); } to{ transform:scale(1.09); } }
 
 .hero-content{ position:relative; z-index:1; max-width:680px; }
+.location-greeting{
+  display:none; align-items:center; gap:8px;
+  font-size:13px; font-weight:500; color:#fff;
+  background:rgba(255,255,255,.15); backdrop-filter:blur(6px);
+  padding:9px 18px; border-radius:100px; margin-bottom:20px;
+  opacity:0; transform:translateY(-8px);
+  transition:opacity .5s ease, transform .5s ease;
+}
+.location-greeting.show{ display:inline-flex; opacity:1; transform:translateY(0); }
 .hero .eyebrow{ color:var(--rose-soft); }
 .hero .eyebrow::before{ background:var(--rose-soft); }
 .hero h1{

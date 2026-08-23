@@ -71,6 +71,7 @@
     </div>
     <div class="container">
       <div class="hero-content">
+        <div id="locationGreeting" class="location-greeting"></div>
         <span class="eyebrow">A Global Community of Women Travelling Together</span>
         <h1>A soft place to land, <em>wherever the journey takes you.</em></h1>
         <p class="lead">Beautifully curated group trips, local escapes and retreats — designed with intention, hosted with warmth, and shared with women who feel like home.</p>
@@ -349,6 +350,25 @@
         : '<p style="color:var(--espresso-45);">Stories from our travellers are on their way.</p>';
     } catch (err) { console.error('Failed to load testimonials:', err); }
   })();
+
+  function initLocationGreeting(){
+    const el = document.getElementById('locationGreeting');
+    if (!el || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      try {
+        const { latitude, longitude } = pos.coords;
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`);
+        const data = await res.json();
+        const addr = data.address || {};
+        const place = addr.city || addr.town || addr.village || addr.suburb || addr.county || addr.state;
+        if (place) {
+          el.textContent = `Hi there, traveller from ${place}!`;
+          el.classList.add('show');
+        }
+      } catch (err) { console.error('Reverse geocoding failed:', err); }
+    }, () => {}, { timeout: 8000 });
+  }
+  initLocationGreeting();
 </script>
 </body>
 </html>
