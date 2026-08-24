@@ -133,7 +133,7 @@
         <p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">Loading testimonials…</p>
       </div>
 
-      <div class="masonry" style="margin-top:56px;" data-reveal data-lightbox-group>
+      <div class="masonry" style="margin-top:56px;" data-reveal data-lightbox-group id="aboutCommunityMasonry">
         <div class="m-item" data-full="images/22.jpeg"><img src="images/22.jpeg" loading="lazy" alt="Nine Host with the Utmost women together at Valley of Waves"></div>
         <div class="m-item" data-full="images/23.jpeg"><img src="images/23.jpeg" loading="lazy" alt="Friends laughing together on a getaway"></div>
         <div class="m-item" data-full="images/10.jpeg"><img src="images/10.jpeg" loading="lazy" alt="Community gathering moment"></div>
@@ -262,6 +262,15 @@
         </div>`).join('') : '<p style="grid-column:1/-1; text-align:center; color:var(--espresso-45);">Stories from our travellers are on their way.</p>';
       HU.initReveal(grid);
     } catch (err) { console.error('Failed to load testimonials:', err); }
+
+    try {
+      const images = await fetchGalleryImages();
+      const community = images.filter(g => g.category === 'community');
+      if (community.length) {
+        document.getElementById('aboutCommunityMasonry').innerHTML = community.map(g => `
+          <div class="m-item" data-full="${g.src}"><img src="${g.src}" loading="lazy" alt="Community moment from a Host with the Utmost trip"></div>`).join('');
+      }
+    } catch (err) { console.error('Failed to load community photos:', err); }
   })();
 </script>
 </body>
