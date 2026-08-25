@@ -214,9 +214,11 @@
         <h2>Stories from our travellers</h2>
       </div>
       <div class="testi-wrap" data-reveal>
+        <button class="testi-nav testi-prev" type="button" aria-label="Previous testimonial">&#8249;</button>
         <div class="testi-track" id="homeTestiTrack">
           <p style="color:var(--espresso-45);">Loading testimonials…</p>
         </div>
+        <button class="testi-nav testi-next" type="button" aria-label="Next testimonial">&#8250;</button>
       </div>
     </div>
   </section>
@@ -349,6 +351,7 @@
       track.innerHTML = testis.length
         ? testis.map(testiCardHtml).join('')
         : '<p style="color:var(--espresso-45);">Stories from our travellers are on their way.</p>';
+      HU.initTestiCarousel();
     } catch (err) { console.error('Failed to load testimonials:', err); }
 
     try {

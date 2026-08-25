@@ -93,6 +93,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.HU.initCountdowns = initCountdowns;
 
+  /* Testimonials carousel — edge fades + nav arrows, re-callable after dynamic content renders */
+  function updateTestiEdges(wrap) {
+    const track = wrap.querySelector('.testi-track');
+    if (!track) return;
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    wrap.classList.toggle('at-start', track.scrollLeft <= 4);
+    wrap.classList.toggle('at-end', maxScroll <= 4 || track.scrollLeft >= maxScroll - 4);
+  }
+  function initTestiCarousel(root = document) {
+    root.querySelectorAll('.testi-wrap').forEach(wrap => {
+      const track = wrap.querySelector('.testi-track');
+      if (!track) return;
+      updateTestiEdges(wrap);
+      if (track.dataset.testiInit) return;
+      track.dataset.testiInit = '1';
+      track.addEventListener('scroll', () => updateTestiEdges(wrap), { passive: true });
+      window.addEventListener('resize', () => updateTestiEdges(wrap));
+    });
+  }
+  window.HU.initTestiCarousel = initTestiCarousel;
+  initTestiCarousel();
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.testi-nav');
+    if (!btn) return;
+    const wrap = btn.closest('.testi-wrap');
+    const track = wrap && wrap.querySelector('.testi-track');
+    if (!track) return;
+    const card = track.querySelector('.testi-card');
+    const step = card ? card.offsetWidth + 26 : track.clientWidth * 0.8;
+    track.scrollBy({ left: btn.classList.contains('testi-next') ? step : -step, behavior: 'smooth' });
+  });
+
   /* Subtle hero parallax (rAF-throttled, skipped for reduced-motion) */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const parallaxImgs = document.querySelectorAll('.hero-media img, .page-hero .hero-media img');
