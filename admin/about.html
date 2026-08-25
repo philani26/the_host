@@ -166,38 +166,10 @@
 <script>
   let MEDIA_LIBRARY = [];
 
-  const ABOUT_DEFAULTS = {
-    heroEyebrow: 'Our Story',
-    heroHeading: 'Built on warmth. Grown into a community.',
-    storyEyebrow: 'About Us',
-    storyHeading: 'Travel, hosted with the utmost care.',
-    storyP1: "The Host with the Utmost began with a simple belief: that travel is better shared, and that every woman deserves to feel cared for — from the moment she says \"I'm in\" to the moment she lands back home, already planning the next trip.",
-    storyP2: 'What started as a small circle of women gathering for tastings, weekend escapes and shared celebrations has grown into a global community — one that spans borders, backgrounds and generations, bound by a love of intentional travel and genuine connection.',
-    storyP3: 'We curate every experience — from international group trips to local staycations — with the same question in mind: how do we make her feel held? The answer shows up in a personalised welcome gift, a thoughtfully paced itinerary, a hand to hold at the airport, and a community that already feels like family before you\'ve even boarded.',
-    storyImage: 'images/9.jpeg',
-    vision: 'A global community of women travelling together — where borders soften, friendships form, and every woman has a soft place to land, anywhere in the world.',
-    mission: "To make travel accessible, intentional and deeply connected — through curated trips, flexible payment plans, and a concierge that handles the details so you don't have to.",
-    feeling: 'Warm. Luxurious. Welcoming. Feminine. Adventurous. Every touchpoint is designed to feel like an embrace, not a transaction.',
-    founderName: 'Promise Thomo',
-    founderBio: "The Host with the Utmost was born from Promise's own love of gathering people — turning ordinary weekends into cherished memories, and strangers into a sisterhood. After years of hosting friends, family and colleagues with meticulous care, the natural next step was to open that same warmth to women everywhere.",
-    founderQuote: "I wanted to build the trip I always wished I could find — beautiful, safe, generously planned, and full of women who leave as friends. That's the heart of everything we do here.",
-    founderImage: 'images/2.jpeg',
-    visionHeading: 'Vision',
-    missionHeading: 'Mission',
-    feelingHeading: 'Brand Feeling',
-    founderEyebrow: 'Meet the Founder',
-    communityEyebrow: 'Social Proof',
-    communityHeading: 'Trusted by women who travel with intention',
-    ctaEyebrow: 'Join Us',
-    ctaHeading: 'Come travel with women who feel like home.',
-    ctaCopy: "Explore our upcoming trips or reach out — we'd love to host you.",
-    ctaButton: 'View Upcoming Trips'
-  };
-
   let about = {};
 
   function fillForm(){
-    about = { ...ABOUT_DEFAULTS, ...about };
+    about = { ...HU_ABOUT_DEFAULTS, ...about };
     document.getElementById('aHeroEyebrow').value = about.heroEyebrow;
     document.getElementById('aHeroHeading').value = about.heroHeading;
     document.getElementById('aStoryEyebrow').value = about.storyEyebrow;

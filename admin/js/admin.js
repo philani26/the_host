@@ -184,6 +184,34 @@ async function huFetchAbout(){
 }
 async function huSaveAbout(payload){ await huFirestoreRequest(() => db.collection('settings').doc('about').set(payload, { merge: true })); }
 
+const HU_ABOUT_DEFAULTS = {
+  heroEyebrow: 'Our Story',
+  heroHeading: 'Built on warmth. Grown into a community.',
+  storyEyebrow: 'About Us',
+  storyHeading: 'Travel, hosted with the utmost care.',
+  storyP1: "The Host with the Utmost began with a simple belief: that travel is better shared, and that every woman deserves to feel cared for — from the moment she says \"I'm in\" to the moment she lands back home, already planning the next trip.",
+  storyP2: 'What started as a small circle of women gathering for tastings, weekend escapes and shared celebrations has grown into a global community — one that spans borders, backgrounds and generations, bound by a love of intentional travel and genuine connection.',
+  storyP3: 'We curate every experience — from international group trips to local staycations — with the same question in mind: how do we make her feel held? The answer shows up in a personalised welcome gift, a thoughtfully paced itinerary, a hand to hold at the airport, and a community that already feels like family before you\'ve even boarded.',
+  storyImage: 'images/9.jpeg',
+  vision: 'A global community of women travelling together — where borders soften, friendships form, and every woman has a soft place to land, anywhere in the world.',
+  mission: "To make travel accessible, intentional and deeply connected — through curated trips, flexible payment plans, and a concierge that handles the details so you don't have to.",
+  feeling: 'Warm. Luxurious. Welcoming. Feminine. Adventurous. Every touchpoint is designed to feel like an embrace, not a transaction.',
+  founderName: 'Promise Thomo',
+  founderBio: "The Host with the Utmost was born from Promise's own love of gathering people — turning ordinary weekends into cherished memories, and strangers into a sisterhood. After years of hosting friends, family and colleagues with meticulous care, the natural next step was to open that same warmth to women everywhere.",
+  founderQuote: "I wanted to build the trip I always wished I could find — beautiful, safe, generously planned, and full of women who leave as friends. That's the heart of everything we do here.",
+  founderImage: 'images/2.jpeg',
+  visionHeading: 'Vision',
+  missionHeading: 'Mission',
+  feelingHeading: 'Brand Feeling',
+  founderEyebrow: 'Meet the Founder',
+  communityEyebrow: 'Social Proof',
+  communityHeading: 'Trusted by women who travel with intention',
+  ctaEyebrow: 'Join Us',
+  ctaHeading: 'Come travel with women who feel like home.',
+  ctaCopy: "Explore our upcoming trips or reach out — we'd love to host you.",
+  ctaButton: 'View Upcoming Trips'
+};
+
 /* --- Experiences page content --- */
 async function huFetchExperiences(){
   const doc = await huFirestoreRequest(() => db.collection('settings').doc('experiences').get());
@@ -191,12 +219,57 @@ async function huFetchExperiences(){
 }
 async function huSaveExperiences(payload){ await huFirestoreRequest(() => db.collection('settings').doc('experiences').set(payload, { merge: true })); }
 
+const HU_EXPERIENCES_DEFAULTS = {
+  heroEyebrow: 'What We Offer',
+  heroHeading: 'Experience it all, with the utmost.',
+  introText: 'However you choose to travel with us — across the world, across the country, or across town — every experience is curated with the same intention, warmth and attention to detail.',
+  categories: [
+    { tag: '01 · International Travel', heading: 'International Travel', text: 'Curated group trips to destinations across Africa and beyond — thoughtfully planned itineraries, trusted local partners, and a community of women to share it all with.', image: 'images/18.jpeg' },
+    { tag: '02 · Local Escapes', heading: 'Local Escapes', text: "Weekend getaways, scenic road trips and local experiences that prove you don't need a passport to feel far away — just good company and a beautiful destination.", image: 'images/13.jpeg' },
+    { tag: '03 · Staycations & Retreats', heading: 'Staycations & Retreats', text: 'Beautiful local escapes designed for rest, connection and a little luxury — think slow mornings, tastings, and spaces made for exhaling.', image: 'images/24.jpeg' },
+    { tag: '04 · Events & Experiences', heading: 'Events & Experiences', text: 'Social gatherings, tastings and celebrations that bring the community together — the moments between the trips, where the friendships really grow.', image: 'images/17.jpeg' }
+  ],
+  localEyebrow: 'Closer to Home',
+  localHeading: 'Local Experiences',
+  localText: "Beautiful escapes across South Africa and its neighbours — for the weekends when jet lag isn't an option, but a soft landing still is.",
+  destinations: [
+    { image: 'images/13.jpeg', tag: 'Local Escape', label: 'Mpumalanga' },
+    { image: 'images/18.jpeg', tag: 'Local Escape', label: 'Kruger National Park' },
+    { image: 'images/21.jpeg', tag: 'Local Escape', label: 'Hartbeespoort' },
+    { image: 'images/6.jpeg', tag: 'Local Escape', label: 'Drakensberg' },
+    { image: 'images/7.jpeg', tag: 'Local Escape', label: 'Durban' },
+    { image: 'images/9.jpeg', tag: 'Local Escape', label: 'Cape Town' },
+    { image: 'images/8.jpeg', tag: 'Local Escape', label: 'Lesotho' },
+    { image: 'images/24.jpeg', tag: 'Retreat', label: 'Retreats & Staycations' }
+  ],
+  conciergeEyebrow: 'Travel Concierge',
+  conciergeHeading: 'We handle the details. You just pack.',
+  conciergeText: 'From visas to itineraries, our concierge service takes the admin off your plate — so every trip, whether booked with us or planned on your own, feels effortless from the very first step.',
+  conciergeButtonText: 'Enquire About Concierge Services',
+  conciergeImage: 'images/11.jpeg',
+  ctaEyebrow: 'Curated For You',
+  ctaHeading: 'Not sure which experience is right for you?',
+  ctaText: "Send us an enquiry and we'll help you find the trip, escape or retreat that fits your season of life.",
+  ctaButtonText: 'Start an Enquiry',
+  ctaImage: 'images/9.jpeg'
+};
+
 /* --- Home page content --- */
 async function huFetchHome(){
   const doc = await huFirestoreRequest(() => db.collection('settings').doc('home').get());
   return doc.exists ? doc.data() : {};
 }
 async function huSaveHome(payload){ await huFirestoreRequest(() => db.collection('settings').doc('home').set(payload, { merge: true })); }
+
+const HU_HOME_DEFAULTS = {
+  localEyebrow: 'Closer to Home',
+  localHeading: 'Local Escapes & Retreats',
+  localText: "You don't need a passport to feel far away. From Kruger to the Drakensberg, Hartbeespoort to Cape Town — our local escapes bring the same intention and warmth to weekends spent closer to home.",
+  localImage: 'images/21.jpeg',
+  localButtonText: 'Explore Local Experiences',
+  localButtonLink: 'experiences.html#local',
+  localTags: ['Kruger National Park', 'Drakensberg', 'Cape Town', 'Hartbeespoort', 'Durban', 'Lesotho', 'Mpumalanga']
+};
 
 /* --- Media library (the "Choose From Library" stock photo picker) --- */
 const HU_DEFAULT_MEDIA_LIBRARY = [1,2,3,4,5,6,7,8,9,10,11,13,15,16,17,18,19,20,21,22,23,24].map(n => `images/${n}.jpeg`);

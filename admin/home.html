@@ -86,20 +86,10 @@
 <script>
   let MEDIA_LIBRARY = [];
 
-  const HOME_DEFAULTS = {
-    localEyebrow: 'Closer to Home',
-    localHeading: 'Local Escapes & Retreats',
-    localText: "You don't need a passport to feel far away. From Kruger to the Drakensberg, Hartbeespoort to Cape Town — our local escapes bring the same intention and warmth to weekends spent closer to home.",
-    localImage: 'images/21.jpeg',
-    localButtonText: 'Explore Local Experiences',
-    localButtonLink: 'experiences.html#local',
-    localTags: ['Kruger National Park', 'Drakensberg', 'Cape Town', 'Hartbeespoort', 'Durban', 'Lesotho', 'Mpumalanga']
-  };
-
   let home = {};
 
   function fillForm(){
-    home = { ...HOME_DEFAULTS, ...home };
+    home = { ...HU_HOME_DEFAULTS, ...home };
     document.getElementById('hLocalEyebrow').value = home.localEyebrow;
     document.getElementById('hLocalHeading').value = home.localHeading;
     document.getElementById('hLocalText').value = home.localText;

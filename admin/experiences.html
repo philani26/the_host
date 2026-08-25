@@ -139,45 +139,10 @@
 <script>
   let MEDIA_LIBRARY = [];
 
-  const EXP_DEFAULTS = {
-    heroEyebrow: 'What We Offer',
-    heroHeading: 'Experience it all, with the utmost.',
-    introText: 'However you choose to travel with us — across the world, across the country, or across town — every experience is curated with the same intention, warmth and attention to detail.',
-    categories: [
-      { tag: '01 · International Travel', heading: 'International Travel', text: 'Curated group trips to destinations across Africa and beyond — thoughtfully planned itineraries, trusted local partners, and a community of women to share it all with.', image: 'images/18.jpeg' },
-      { tag: '02 · Local Escapes', heading: 'Local Escapes', text: "Weekend getaways, scenic road trips and local experiences that prove you don't need a passport to feel far away — just good company and a beautiful destination.", image: 'images/13.jpeg' },
-      { tag: '03 · Staycations & Retreats', heading: 'Staycations & Retreats', text: 'Beautiful local escapes designed for rest, connection and a little luxury — think slow mornings, tastings, and spaces made for exhaling.', image: 'images/24.jpeg' },
-      { tag: '04 · Events & Experiences', heading: 'Events & Experiences', text: 'Social gatherings, tastings and celebrations that bring the community together — the moments between the trips, where the friendships really grow.', image: 'images/17.jpeg' }
-    ],
-    localEyebrow: 'Closer to Home',
-    localHeading: 'Local Experiences',
-    localText: "Beautiful escapes across South Africa and its neighbours — for the weekends when jet lag isn't an option, but a soft landing still is.",
-    destinations: [
-      { image: 'images/13.jpeg', tag: 'Local Escape', label: 'Mpumalanga' },
-      { image: 'images/18.jpeg', tag: 'Local Escape', label: 'Kruger National Park' },
-      { image: 'images/21.jpeg', tag: 'Local Escape', label: 'Hartbeespoort' },
-      { image: 'images/6.jpeg', tag: 'Local Escape', label: 'Drakensberg' },
-      { image: 'images/7.jpeg', tag: 'Local Escape', label: 'Durban' },
-      { image: 'images/9.jpeg', tag: 'Local Escape', label: 'Cape Town' },
-      { image: 'images/8.jpeg', tag: 'Local Escape', label: 'Lesotho' },
-      { image: 'images/24.jpeg', tag: 'Retreat', label: 'Retreats & Staycations' }
-    ],
-    conciergeEyebrow: 'Travel Concierge',
-    conciergeHeading: 'We handle the details. You just pack.',
-    conciergeText: 'From visas to itineraries, our concierge service takes the admin off your plate — so every trip, whether booked with us or planned on your own, feels effortless from the very first step.',
-    conciergeButtonText: 'Enquire About Concierge Services',
-    conciergeImage: 'images/11.jpeg',
-    ctaEyebrow: 'Curated For You',
-    ctaHeading: 'Not sure which experience is right for you?',
-    ctaText: "Send us an enquiry and we'll help you find the trip, escape or retreat that fits your season of life.",
-    ctaButtonText: 'Start an Enquiry',
-    ctaImage: 'images/9.jpeg'
-  };
-
   let exp = {};
 
   function fillForm(){
-    exp = { ...EXP_DEFAULTS, ...exp };
+    exp = { ...HU_EXPERIENCES_DEFAULTS, ...exp };
     document.getElementById('eHeroEyebrow').value = exp.heroEyebrow;
     document.getElementById('eHeroHeading').value = exp.heroHeading;
     document.getElementById('eIntro').value = exp.introText;
