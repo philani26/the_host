@@ -43,6 +43,27 @@
 </header>
 <div class="nav-backdrop" id="navBackdrop"></div>
 
+<script>
+  var HU_EXP_FALLBACK_IMG = 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-1.jpeg?alt=media';
+  function huRenderExpCategories(categories) {
+    if (!Array.isArray(categories) || !categories.length) return;
+    document.getElementById('exp-categories-grid').innerHTML = categories.map(function(c, i) {
+      return '<article class="trip-card"><div class="trip-media" style="height:260px;">'
+        + '<img src="' + (c.image || HU_EXP_FALLBACK_IMG) + '" alt="' + (c.heading || '') + '">'
+        + '<span class="trip-tag">' + (c.tag || String(i + 1).padStart(2, '0')) + '</span></div>'
+        + '<div class="trip-body"><h3>' + (c.heading || '') + '</h3>'
+        + '<p style="color:var(--espresso-70); margin-bottom:0;">' + (c.text || '') + '</p></div></article>';
+    }).join('');
+  }
+  function huRenderExpDestinations(destinations) {
+    if (!Array.isArray(destinations) || !destinations.length) return;
+    document.getElementById('exp-destinations-grid').innerHTML = destinations.map(function(d) {
+      return '<div class="dest-card"><img src="' + (d.image || HU_EXP_FALLBACK_IMG) + '" alt="' + (d.label || '') + '" loading="lazy">'
+        + '<span class="dest-tag">' + (d.tag || '') + '</span><span class="dest-label">' + (d.label || '') + '</span></div>';
+    }).join('');
+  }
+</script>
+
 <main id="main">
 
   <section class="page-hero">
@@ -114,6 +135,12 @@
         </article>
 
       </div>
+      <script>(function(){
+        try {
+          var c = JSON.parse(localStorage.getItem('hu_experiences_cache') || 'null');
+          if (c && Array.isArray(c.categories) && c.categories.length) huRenderExpCategories(c.categories);
+        } catch (e) {}
+      })();</script>
     </div>
   </section>
 
@@ -135,6 +162,12 @@
         <div class="dest-card"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-8.jpeg?alt=media" alt="Lesotho highlands" loading="lazy"><span class="dest-tag">Local Escape</span><span class="dest-label">Lesotho</span></div>
         <div class="dest-card"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-24.jpeg?alt=media" alt="Guests lounging poolside on a retreat" loading="lazy"><span class="dest-tag">Retreat</span><span class="dest-label">Retreats &amp; Staycations</span></div>
       </div>
+      <script>(function(){
+        try {
+          var c = JSON.parse(localStorage.getItem('hu_experiences_cache') || 'null');
+          if (c && Array.isArray(c.destinations) && c.destinations.length) huRenderExpDestinations(c.destinations);
+        } catch (e) {}
+      })();</script>
       <div class="text-center" style="margin-top:44px;" data-reveal>
         <a href="https://wa.me/27734426770?text=Hi!%20I'd%20love%20to%20know%20more%20about%20your%20local%20escapes." class="wa-inline" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.19 0 4.25.85 5.8 2.4a8.2 8.2 0 0 1 2.42 5.84c0 4.55-3.71 8.25-8.25 8.25a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.13.82.84-3.05-.2-.32a8.18 8.18 0 0 1-1.26-4.37c0-4.55 3.71-8.24 8.27-8.24zm-4.55 4.7c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.16 1.7 2.65 4.19 3.6 2.07.79 2.49.63 2.94.59.45-.04 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28-.24-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.77.96-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.42h-.47z"/></svg>
@@ -176,7 +209,8 @@
           <a href="trips.html#enquire" class="btn btn-primary" style="margin-top:30px;" id="exp-concierge-button">Enquire About Concierge Services</a>
         </div>
         <div data-reveal>
-          <img id="exp-concierge-img" src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-11.jpeg?alt=media" alt="A beautifully arranged travel detail handled by our concierge team" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <img id="exp-concierge-img" data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-11.jpeg?alt=media" alt="A beautifully arranged travel detail handled by our concierge team" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <script>(function(){var i=document.getElementById('exp-concierge-img'),c;try{c=JSON.parse(localStorage.getItem('hu_experiences_cache')||'null');}catch(e){}i.src=(c&&c.conciergeImage)||i.dataset.fallback;})();</script>
         </div>
       </div>
     </div>
@@ -186,7 +220,8 @@
   <section>
     <div class="container">
       <div class="cta-band" data-reveal>
-        <div class="bg"><img id="exp-cta-img" src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-9.jpeg?alt=media" alt=""></div>
+        <div class="bg"><img id="exp-cta-img" data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-9.jpeg?alt=media" alt="">
+          <script>(function(){var i=document.getElementById('exp-cta-img'),c;try{c=JSON.parse(localStorage.getItem('hu_experiences_cache')||'null');}catch(e){}i.src=(c&&c.ctaImage)||i.dataset.fallback;})();</script></div>
         <span class="eyebrow center" id="exp-cta-eyebrow">Curated For You</span>
         <h2 id="exp-cta-heading">Not sure which experience is right for you?</h2>
         <p id="exp-cta-text">Send us an enquiry and we'll help you find the trip, escape or retreat that fits your season of life.</p>
@@ -267,28 +302,13 @@
       setText('exp-hero-heading', exp.heroHeading);
       setText('exp-intro', exp.introText);
 
-      if (Array.isArray(exp.categories) && exp.categories.length) {
-        document.getElementById('exp-categories-grid').innerHTML = exp.categories.map((c, i) => `
-          <article class="trip-card">
-            <div class="trip-media" style="height:260px;">
-              <img src="${c.image || 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-1.jpeg?alt=media'}" alt="${c.heading || ''}">
-              <span class="trip-tag">${c.tag || String(i + 1).padStart(2, '0')}</span>
-            </div>
-            <div class="trip-body">
-              <h3>${c.heading || ''}</h3>
-              <p style="color:var(--espresso-70); margin-bottom:0;">${c.text || ''}</p>
-            </div>
-          </article>`).join('');
-      }
+      huRenderExpCategories(exp.categories);
 
       setText('exp-local-eyebrow', exp.localEyebrow);
       setText('exp-local-heading', exp.localHeading);
       setText('exp-local-text', exp.localText);
 
-      if (Array.isArray(exp.destinations) && exp.destinations.length) {
-        document.getElementById('exp-destinations-grid').innerHTML = exp.destinations.map(d => `
-          <div class="dest-card"><img src="${d.image || 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-1.jpeg?alt=media'}" alt="${d.label || ''}" loading="lazy"><span class="dest-tag">${d.tag || ''}</span><span class="dest-label">${d.label || ''}</span></div>`).join('');
-      }
+      huRenderExpDestinations(exp.destinations);
 
       setText('exp-concierge-eyebrow', exp.conciergeEyebrow);
       setText('exp-concierge-heading', exp.conciergeHeading);
@@ -304,6 +324,7 @@
 
       HU.initReveal(document.getElementById('exp-categories-grid'));
       HU.initReveal(document.getElementById('exp-destinations-grid'));
+      try { localStorage.setItem('hu_experiences_cache', JSON.stringify(exp)); } catch (e) {}
     } catch (err) { console.error('Failed to load experiences content:', err); }
   })();
 </script>

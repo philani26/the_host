@@ -68,7 +68,8 @@
           <p id="about-story-p3">We curate every experience — from international group trips to local staycations — with the same question in mind: <em class="script">how do we make her feel held?</em> The answer shows up in a personalised welcome gift, a thoughtfully paced itinerary, a hand to hold at the airport, and a community that already feels like family before you've even boarded.</p>
         </div>
         <div data-reveal style="position:relative;">
-          <img id="about-story-img" src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-9.jpeg?alt=media" alt="Founder welcoming a guest at a Host with the Utmost tasting experience" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <img id="about-story-img" data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-9.jpeg?alt=media" alt="Founder welcoming a guest at a Host with the Utmost tasting experience" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <script>(function(){var i=document.getElementById('about-story-img'),c;try{c=JSON.parse(localStorage.getItem('hu_about_cache')||'null');}catch(e){}i.src=(c&&c.storyImage)||i.dataset.fallback;})();</script>
         </div>
       </div>
     </div>
@@ -108,7 +109,8 @@
     <div class="container">
       <div class="grid-2" style="align-items:center; gap:60px;">
         <div data-reveal style="order:2;" class="order-flip">
-          <img id="about-founder-img" src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-2.jpeg?alt=media" alt="Promise Thomo, founder of The Host with the Utmost, at a Cape Winelands tasting" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <img id="about-founder-img" data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-2.jpeg?alt=media" alt="Promise Thomo, founder of The Host with the Utmost, at a Cape Winelands tasting" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-soft);">
+          <script>(function(){var i=document.getElementById('about-founder-img'),c;try{c=JSON.parse(localStorage.getItem('hu_about_cache')||'null');}catch(e){}i.src=(c&&c.founderImage)||i.dataset.fallback;})();</script>
         </div>
         <div data-reveal>
           <span class="eyebrow" id="about-founder-eyebrow">Meet the Founder</span>
@@ -134,13 +136,28 @@
       </div>
 
       <div class="masonry" style="margin-top:56px;" data-reveal data-lightbox-group id="aboutCommunityMasonry">
-        <div class="m-item" data-full="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-22.jpeg?alt=media"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-22.jpeg?alt=media" loading="lazy" alt="Nine Host with the Utmost women together at Valley of Waves"></div>
-        <div class="m-item" data-full="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-23.jpeg?alt=media"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-23.jpeg?alt=media" loading="lazy" alt="Friends laughing together on a getaway"></div>
-        <div class="m-item" data-full="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-10.jpeg?alt=media"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-10.jpeg?alt=media" loading="lazy" alt="Community gathering moment"></div>
-        <div class="m-item" data-full="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-24.jpeg?alt=media"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-24.jpeg?alt=media" loading="lazy" alt="Guests relaxing poolside on a retreat"></div>
-        <div class="m-item" data-full="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-21.jpeg?alt=media"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-21.jpeg?alt=media" loading="lazy" alt="Guests walking through the Bridge of Time"></div>
-        <div class="m-item" data-full="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-16.jpeg?alt=media"><img src="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-16.jpeg?alt=media" loading="lazy" alt="Luxury travel detail"></div>
+        <div class="m-item"><img data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-22.jpeg?alt=media" loading="lazy" alt="Nine Host with the Utmost women together at Valley of Waves"></div>
+        <div class="m-item"><img data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-23.jpeg?alt=media" loading="lazy" alt="Friends laughing together on a getaway"></div>
+        <div class="m-item"><img data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-10.jpeg?alt=media" loading="lazy" alt="Community gathering moment"></div>
+        <div class="m-item"><img data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-24.jpeg?alt=media" loading="lazy" alt="Guests relaxing poolside on a retreat"></div>
+        <div class="m-item"><img data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-21.jpeg?alt=media" loading="lazy" alt="Guests walking through the Bridge of Time"></div>
+        <div class="m-item"><img data-fallback="https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-16.jpeg?alt=media" loading="lazy" alt="Luxury travel detail"></div>
       </div>
+      <script>(function(){
+        var box = document.getElementById('aboutCommunityMasonry');
+        var cached;
+        try { cached = JSON.parse(localStorage.getItem('hu_community_cache') || 'null'); } catch (e) {}
+        if (cached && cached.length) {
+          box.innerHTML = cached.map(function(src){
+            return '<div class="m-item" data-full="' + src + '"><img src="' + src + '" loading="lazy" alt="Community moment from a Host with the Utmost trip"></div>';
+          }).join('');
+        } else {
+          box.querySelectorAll('img[data-fallback]').forEach(function(img){
+            img.src = img.dataset.fallback;
+            img.closest('.m-item').dataset.full = img.dataset.fallback;
+          });
+        }
+      })();</script>
     </div>
   </section>
 
@@ -250,6 +267,7 @@
       if (about.ctaHeading) document.getElementById('about-cta-heading').textContent = about.ctaHeading;
       if (about.ctaCopy) document.getElementById('about-cta-copy').textContent = about.ctaCopy;
       if (about.ctaButton) document.getElementById('about-cta-button').textContent = about.ctaButton;
+      try { localStorage.setItem('hu_about_cache', JSON.stringify(about)); } catch (e) {}
     } catch (err) { console.error('Failed to load about content:', err); }
     try {
       const testis = await fetchPublishedTestimonials();
@@ -269,6 +287,7 @@
       if (community.length) {
         document.getElementById('aboutCommunityMasonry').innerHTML = community.map(g => `
           <div class="m-item" data-full="${g.src}"><img src="${g.src}" loading="lazy" alt="Community moment from a Host with the Utmost trip"></div>`).join('');
+        try { localStorage.setItem('hu_community_cache', JSON.stringify(community.map(g => g.src))); } catch (e) {}
       }
     } catch (err) { console.error('Failed to load community photos:', err); }
   })();
