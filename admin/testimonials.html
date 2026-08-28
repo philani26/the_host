@@ -106,7 +106,7 @@
 <script>
   let data = { testimonials: [] };
   let MEDIA_LIBRARY = [];
-  let currentAvatar = 'images/17.jpeg';
+  let currentAvatar = 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-17.jpeg?alt=media';
 
   function stars(n){ return '★'.repeat(n) + '☆'.repeat(5-n); }
 
@@ -152,7 +152,7 @@
     document.getElementById('tLoc').value = t ? t.location : '';
     document.getElementById('tRating').value = t ? t.rating : 5;
     document.getElementById('tStatus').value = t ? t.status : 'published';
-    currentAvatar = t ? t.avatar : 'images/17.jpeg';
+    currentAvatar = t ? t.avatar : 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-17.jpeg?alt=media';
     document.getElementById('tAvatarPreview').src = huImg(currentAvatar);
     huOpenModal('testiModal');
   }

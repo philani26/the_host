@@ -176,7 +176,7 @@
     document.getElementById(state.status === 'draft' ? 'stDraft' : state.status === 'archived' ? 'stArchived' : 'stPublished').checked = true;
     document.getElementById(state.tripType === 'local' ? 'ttLocal' : 'ttInternational').checked = true;
     document.getElementById('fShowCountdown').checked = !!state.showCountdown;
-    document.getElementById('heroPreview').src = state.hero ? huImg(state.hero) : '../images/1.jpeg';
+    document.getElementById('heroPreview').src = state.hero ? huImg(state.hero) : 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-1.jpeg?alt=media';
     renderGalleryPicks();
     renderRepeater('includedList', state.included);
     renderRepeater('excludedList', state.excluded);
@@ -354,7 +354,7 @@
     state.included = readRepeater('includedList').filter(v => v.trim());
     state.excluded = readRepeater('excludedList').filter(v => v.trim());
     state.paymentPlan = readRepeater('paymentList').filter(v => v.trim());
-    if (!state.hero) state.hero = state.gallery[0] || 'images/1.jpeg';
+    if (!state.hero) state.hero = state.gallery[0] || 'https://firebasestorage.googleapis.com/v0/b/utmost-trips-aaae0.firebasestorage.app/o/uploads%2Fdefault-1.jpeg?alt=media';
 
     const payload = { ...state };
     delete payload.id;
